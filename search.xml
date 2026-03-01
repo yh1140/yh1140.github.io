@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>我的第一篇博客</title>
+      <link href="/2026/03/01/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
+      <url>/2026/03/01/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
+      
+        <content type="html"><![CDATA[<p>这是我的第一篇博客正文内容。</p><div class="note flat info flat"><p>这是一条提示信息：欢迎来到我的个人博客，这是一只孤独野狼的领地。 </p></div>]]></content>
+      
+      
+      <categories>
+          
+          <category> 个人日志 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 野狼 </tag>
+            
+            <tag> 随笔 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/2026/03/01/hello-world/"/>
       <url>/2026/03/01/hello-world/</url>
