@@ -1,0 +1,332 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>孤独の野狼的博客 | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="###基本概念####route	路由 #router	路由器-将一个网段的数据转发到另一个网段 网络世界的立交桥分流器和邮局调度员。它的核心任务只有两个：维护地图（路由表） 转发数据包（寻址） ##核心功能路由器工作在 OSI 模型的第三层（网络层），其功能可以概括为以下三点 路径选择（寻址）：当一个 IP 包到达时，路由器会查看目的 IP 地址，查阅自己的“地图”（路由表），决定该把它发往哪个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="孤独の野狼的博客">
+<meta property="og:url" content="https://yh1140.github.io/2026/03/02/2.25_%E8%B7%AF%E7%94%B1%E5%99%A8%20(1)/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="###基本概念####route	路由 #router	路由器-将一个网段的数据转发到另一个网段 网络世界的立交桥分流器和邮局调度员。它的核心任务只有两个：维护地图（路由表） 转发数据包（寻址） ##核心功能路由器工作在 OSI 模型的第三层（网络层），其功能可以概括为以下三点 路径选择（寻址）：当一个 IP 包到达时，路由器会查看目的 IP 地址，查阅自己的“地图”（路由表），决定该把它发往哪个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-03-02T08:14:21.486Z">
+<meta property="article:modified_time" content="2026-03-02T08:14:09.234Z">
+<meta property="article:author" content="孤独の野狼">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://yh1140.github.io/2026/03/02/2.25_%E8%B7%AF%E7%94%B1%E5%99%A8%20(1)/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-03-02T08:14:21.486Z",
+  "dateModified": "2026-03-02T08:14:09.234Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/03/02/2.25_%E8%B7%AF%E7%94%B1%E5%99%A8%20(1)/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '孤独の野狼的博客',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">孤独の野狼的博客</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-02T08:14:21.486Z" title="发表于 2026-03-02 16:14:21">2026-03-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-02T08:14:09.234Z" title="更新于 2026-03-02 16:14:09">2026-03-02</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="基本概念"><a href="#基本概念" class="headerlink" title="###基本概念###"></a>###基本概念###</h1><p>#route	路由</p>
+<p>#router	路由器-将一个网段的数据转发到另一个网段</p>
+<h1 id="网络世界的立交桥分流器和邮局调度员。它的核心任务只有两个："><a href="#网络世界的立交桥分流器和邮局调度员。它的核心任务只有两个：" class="headerlink" title="网络世界的立交桥分流器和邮局调度员。它的核心任务只有两个："></a>网络世界的<strong>立交桥分流器</strong>和<strong>邮局调度员</strong>。它的核心任务只有两个：</h1><p><strong>维护地图（路由表）</strong></p>
+<p><strong>转发数据包（寻址）</strong></p>
+<h2 id="核心功能"><a href="#核心功能" class="headerlink" title="##核心功能"></a>##核心功能</h2><h1 id="路由器工作在-OSI-模型的第三层（网络层），其功能可以概括为以下三点"><a href="#路由器工作在-OSI-模型的第三层（网络层），其功能可以概括为以下三点" class="headerlink" title="路由器工作在 OSI 模型的第三层（网络层），其功能可以概括为以下三点"></a>路由器工作在 <strong>OSI 模型的第三层（网络层）</strong>，其功能可以概括为以下三点</h1><ul>
+<li><strong>路径选择（寻址）</strong>：当一个 IP 包到达时，路由器会查看目的 IP 地址，查阅自己的“地图”（路由表），决定该把它发往哪个方向。</li>
+<li><strong>网络互连</strong>：路由器是连接不同网络的“桥梁”。它可以把家庭局域网（LAN）和互联网（WAN）连在一起，也可以连接两个完全不同的物理介质（如光纤和以太网）。</li>
+<li><strong>隔离广播风暴</strong>：与交换机不同，路由器不会转发广播包。这意味着它能把网络故障限制在局部，不至于让整个公司的网络瘫痪。</li>
+</ul>
+<h2 id="硬件构造"><a href="#硬件构造" class="headerlink" title="##硬件构造"></a>##硬件构造</h2><p>#本质是一个主机</p>
+<ul>
+<li><strong>处理器 (CPU)</strong>：负责运行路由协议、计算最优路径。</li>
+<li><strong>内存 (RAM&#x2F;ROM&#x2F;Flash)</strong>：存放操作系统（如 Cisco IOS）、运行中的路由表和缓存数据。</li>
+<li><strong>接口 (Interfaces)</strong>：</li>
+<li><strong>LAN 口</strong>：连接你的电脑、交换机。</li>
+<li><strong>WAN 口</strong>：连接宽带拨号猫（Modem）。</li>
+<li><strong>Console 口</strong>：给工程师调试用的串口。</li>
+</ul>
+<h2 id="路由表"><a href="#路由表" class="headerlink" title="##路由表"></a>##路由表</h2><details class="lake-collapse"><summary id="u23dadbd3"><span class="ne-text"> 路由表里有什么  </span></summary><p id="ua8fbb90e" class="ne-p"><span class="ne-text">如果你进入路由器的后台输入指令（如 </span><code class="ne-code"><span class="ne-text">show ip route</span></code><span class="ne-text">），你会看到一排类似代码的条目。一条标准的路由表项通常包含以下核心要素：</span></p><ul class="ne-ul"><li id="ue434a0bf" data-lake-index-type="0"><strong><span class="ne-text">目标网络/掩码 (Destination/Mask)</span></strong><span class="ne-text">：你要去的小区地址（例如 </span><code class="ne-code"><span class="ne-text">192.168.1.0/24</span></code><span class="ne-text">）。</span></li><li id="udd721549" data-lake-index-type="0"><strong><span class="ne-text">下一跳 (Next Hop)</span></strong><span class="ne-text">：要去那个小区，中间经过的下一个“车站” IP。</span></li><li id="u46c39cbf" data-lake-index-type="0"><strong><span class="ne-text">出接口 (Interface)</span></strong><span class="ne-text">：数据包应该从路由器的哪个物理端口“踢”出去（如 </span><code class="ne-code"><span class="ne-text">GigabitEthernet 0/1</span></code><span class="ne-text">）。</span></li><li id="u2aa76cc2" data-lake-index-type="0"><strong><span class="ne-text">管理距离 (Administrative Distance, AD)</span></strong><span class="ne-text">：</span><strong><span class="ne-text">可信度</span></strong><span class="ne-text">。如果两个来源都告诉路由器怎么走，它会选 AD 值小的（越小越靠谱）。</span></li><li id="u180def36" data-lake-index-type="0"><strong><span class="ne-text">度量值 (Metric)</span></strong><span class="ne-text">：</span><strong><span class="ne-text">开销</span></strong><span class="ne-text">。如果路一样靠谱，它会选路费最便宜（路径最短、网速最快）的一条。</span></li></ul></details>
+<details class="lake-collapse"><summary id="uddddc698"><span class="ne-text">路由表的路由类型</span></summary><h4 id="53d86173"><span class="ne-text">① 直连路由 (Connected Routes)</span></h4><ul class="ne-ul"><li id="ua61f7a0a" data-lake-index-type="0"><strong><span class="ne-text">来源</span></strong><span class="ne-text">：只要你给路由器的物理接口配上 IP 并接通电源，它就会自动生成这条路由。</span></li><li id="u7dcdf872" data-lake-index-type="0"><strong><span class="ne-text">特点</span></strong><span class="ne-text">：可信度最高（AD=0），因为它是路由器“亲眼看到”的邻居。</span></li><li id="u908c4c04" data-lake-index-type="0"><strong><span class="ne-text">场景</span></strong><span class="ne-text">：连接公司内部的不同部门。</span></li></ul><h4 id="e714dbaa"><span class="ne-text">② 静态路由 (Static Routes)</span></h4><ul class="ne-ul"><li id="ue7c3ab51" data-lake-index-type="0"><strong><span class="ne-text">来源</span></strong><span class="ne-text">：由网络管理员手工一条条敲进去的。</span></li><li id="u62bf2c9e" data-lake-index-type="0"><strong><span class="ne-text">特点</span></strong><span class="ne-text">：非常稳定且不占带宽。但它很“死板”，如果中间路断了，它不会自动绕路。</span></li><li id="u7f594187" data-lake-index-type="0"><strong><span class="ne-text">默认路由 (Default Route)</span></strong><span class="ne-text">：这是一种特殊的静态路由，写法通常是 </span><code class="ne-code"><span class="ne-text">0.0.0.0/0</span></code><span class="ne-text">。它的意思是：“</span><strong><span class="ne-text">如果你在表里找不到目的地，就把包全都扔给我。</span></strong><span class="ne-text">” 它是连接互联网的关键。</span></li></ul><h4 id="4de723a8"><span class="ne-text">③ 动态路由 (Dynamic Routes)</span></h4><ul class="ne-ul"><li id="u2c3aafba" data-lake-index-type="0"><strong><span class="ne-text">来源</span></strong><span class="ne-text">：路由器之间通过“聊天”（运行协议）互相交换地图。</span></li><li id="u5c352551" data-lake-index-type="0"><strong><span class="ne-text">特点</span></strong><span class="ne-text">：能自动适应网络变化。如果一条路断了，它们会自动商量出一条新路。</span></li><li id="u61bc9132" data-lake-index-type="0"><strong><span class="ne-text">常见协议</span></strong><span class="ne-text">：</span></li></ul><ul class="ne-list-wrap"><ul ne-level="1" class="ne-ul"><li id="u2a3bd97d" data-lake-index-type="0"><strong><span class="ne-text">OSPF</span></strong><span class="ne-text">：最流行的企业内网协议。它像“高德地图”，计算整张网的拓扑图，走带宽最快的路。</span></li><li id="ubd72d79d" data-lake-index-type="0"><strong><span class="ne-text">BGP</span></strong><span class="ne-text">：互联网的  “总管”。它负责不同国家、不同运营商（如电信、联通）之间的超大规模路由。</span></li></ul></ul></details>
+#优先级
+
+<p>直连路由-&gt;静态路由-&gt;动态路由-&gt;默认路由</p>
+<h1 id="工作原理"><a href="#工作原理" class="headerlink" title="###工作原理###"></a>###工作原理###</h1><h1 id="当一个-IP-包进入路由器，它会经历以下过程"><a href="#当一个-IP-包进入路由器，它会经历以下过程" class="headerlink" title="当一个 IP 包进入路由器，它会经历以下过程"></a>当一个 IP 包进入路由器，它会经历以下过程</h1><ul>
+<li><strong>解封装</strong>：拆掉二层“帧”的外壳，露出里面的 <strong>IP 包</strong>。</li>
+<li><strong>查表（最长匹配原则）</strong>：</li>
+<li>路由器查看目的 IP（例如 <code>159.64.25.100</code>）。</li>
+<li>在路由表中寻找最匹配的网段。</li>
+<li>如果找到，就转发；如果没找到，就扔给“<strong>默认网关</strong>”；如果连默认网关都没有，就丢弃并报错。</li>
+<li><strong>重新封装</strong>：根据下一跳的方向，给 IP 包换上新的“帧”外壳（新的目标 MAC 地址）。</li>
+<li><strong>转发</strong>：从相应的物理接口发出去。</li>
+</ul>
+<h1 id="动态路由"><a href="#动态路由" class="headerlink" title="###动态路由###"></a>###动态路由###</h1><h2 id="动态路由协议-作用范围分类"><a href="#动态路由协议-作用范围分类" class="headerlink" title="##动态路由协议-作用范围分类"></a>##动态路由协议-作用范围分类</h2><h3 id="IGP-内部网关协议"><a href="#IGP-内部网关协议" class="headerlink" title="IGP (内部网关协议)"></a>IGP (内部网关协议)</h3><h1 id="用于一个独立的自治系统（AS）内部，比如一个校园网、企业内网"><a href="#用于一个独立的自治系统（AS）内部，比如一个校园网、企业内网" class="headerlink" title="用于一个独立的自治系统（AS）内部，比如一个校园网、企业内网"></a>用于一个独立的自治系统（AS）内部，比如一个校园网、企业内网</h1><details class="lake-collapse"><summary id="ua81f9263"><span class="ne-text">代表</span></summary><ul class="ne-ul"><li id="u3ae01549" data-lake-index-type="0"><strong><span class="ne-text">RIP (路由信息协议)</span></strong><span class="ne-text">：元老级协议，按“跳数”算路，简单但慢，适合小型网络。</span></li><li id="u29f5a0d7" data-lake-index-type="0"><strong><span class="ne-text">OSPF (开放最短路径优先)</span></strong><span class="ne-text">：目前应用最广泛的协议，像“看地图”一样计算最优路径，收敛快，支持大规模网络。</span></li><li id="ud88822b7" data-lake-index-type="0"><strong><span class="ne-text">IS-IS (中间系统到中间系统)</span></strong><span class="ne-text">：常用于运营商骨干网，结构与 OSPF 类似，但扩展性更强。</span></li><li id="ucbbc0385" data-lake-index-type="0"><strong><span class="ne-text">EIGRP (增强型内部网关矢量路由协议)</span></strong><span class="ne-text">：思科私有协议（现已部分开放），结合了距离矢量和链路状态的优点。</span></li></ul></details>
+###  EGP (外部网关协议)  
+# 用于连接不同的自治系统  
+
+<details class="lake-collapse"><summary id="u9901d28a"><span class="ne-text">代表</span></summary><p id="u2428f32b" class="ne-p"><strong><span class="ne-text">BGP (边界网关协议)</span></strong><span class="ne-text">：互联网的“总调度师”。它不看重速度，而是看重路径的稳定性和策略（比如：不走某个国家的线路）  </span></p></details>
+## ##动态路由协议-工作算法分类
+###  距离矢量类 (Distance Vector)  
+<details class="lake-collapse"><summary id="ude69ef97"><span class="ne-text">概念</span></summary><p id="u66f62f57" class="ne-p"><span class="ne-text">#原理： 路由器并不掌握全网的拓扑结构，它只知道两个参数：</span><strong><span class="ne-text">方向（Vector）和距离（Distance）</span></strong><span class="ne-text">。  </span></p><ul class="ne-ul"><li id="u845bfc05" data-lake-index-type="0"><strong><span class="ne-text">传闻式路由</span></strong><span class="ne-text">：路由器定期将自己的整个路由表发送给直接相连的邻居。</span></li><li id="uf3427cbc" data-lake-index-type="0"><strong><span class="ne-text">邻居关系</span></strong><span class="ne-text">：它盲目相信邻居给出的信息。如果邻居说“去 A 网段走我这儿只要 2 跳”，它就会记录下来。</span></li></ul><p id="ud8fcecc1" class="ne-p"><span class="ne-text">#优缺点<br /></span><span class="ne-text">	</span></p><ul class="ne-ul"><li id="u8523c83f" data-lake-index-type="0"><strong><span class="ne-text">优点</span></strong><span class="ne-text">：配置简单，对 CPU 和内存的消耗极低。</span></li><li id="ue6953003" data-lake-index-type="0"><strong><span class="ne-text">缺点</span></strong><span class="ne-text">：</span></li></ul><ul class="ne-list-wrap"><ul ne-level="1" class="ne-ul"><li id="uccbdf1f2" data-lake-index-type="0"><strong><span class="ne-text">收敛慢</span></strong><span class="ne-text">：信息像“传话游戏”一样一站站传递，全网达成一致需要很长时间。</span></li><li id="u87985297" data-lake-index-type="0"><strong><span class="ne-text">容易产生环路</span></strong><span class="ne-text">：由于不掌握全局，容易出现 A 以为去目标走 B，B 以为走 A 的死循环。</span></li><li id="u07f93d2f" data-lake-index-type="0"><strong><span class="ne-text">跳数限制</span></strong><span class="ne-text">：为了防止无限循环，通常有最大跳数限制（如 RIP 的 15 跳）。</span></li></ul></ul></details>
+<details class="lake-collapse"><summary id="u6f991aa9"><span class="ne-text">代表</span></summary><p id="u763884b6" class="ne-p"><br></p></details>
+###  链路状态类 (Link State)  
+<details class="lake-collapse"><summary id="u39d247f2"><span class="ne-text">概念</span></summary><p id="u58a5f5b6" class="ne-p"><span class="ne-text">#原理： 每个路由器都会产生</span><strong><span class="ne-text">链路状态通告 (LSA)</span></strong><span class="ne-text">，说明自己连接了哪些接口、带宽是多少  </span></p><ul class="ne-ul"><li id="u674f1592" data-lake-index-type="0"><strong><span class="ne-text">同步地图</span></strong><span class="ne-text">：路由器将这些 LSA 广播给全网所有路由器，最终</span><strong><span class="ne-text">每个路由器手里都有一张一模一样的全网地图</span></strong><span class="ne-text">（LSDB，链路状态数据库）。</span></li><li id="uf397ec60" data-lake-index-type="0"><strong><span class="ne-text">自主计算</span></strong><span class="ne-text">：每台路由器以自己为根节点，利用 </span><strong><span class="ne-text">Dijkstra 算法（SPF，最短路径优先算法）</span></strong><span class="ne-text"> 计算出通往每个目的地的最短路径。</span></li></ul><p id="ub51c521f" class="ne-p"><span class="ne-text">#优缺点</span></p><ul class="ne-ul"><li id="u70009038" data-lake-index-type="0"><strong><span class="ne-text">优点</span></strong><span class="ne-text">：</span></li></ul><ul class="ne-list-wrap"><ul ne-level="1" class="ne-ul"><li id="u3f811375" data-lake-index-type="0"><strong><span class="ne-text">无环路</span></strong><span class="ne-text">：因为每个路由器都看得到全图，所以不会被错误的传闻误导。</span></li><li id="ubd63e377" data-lake-index-type="0"><strong><span class="ne-text">收敛极快</span></strong><span class="ne-text">：一旦网络变动，触发式更新迅速扩散，全网秒级感知。</span></li><li id="ubc630ec1" data-lake-index-type="0"><strong><span class="ne-text">选路精准</span></strong><span class="ne-text">：通常基于“开销（Cost，与带宽有关）”计算，而不是死板的跳数。</span></li></ul></ul><ul class="ne-ul"><li id="u49cd23b4" data-lake-index-type="0"><strong><span class="ne-text">缺点</span></strong><span class="ne-text">：算法复杂，对路由器的 CPU 和内存要求较高（但在现代设备上这已不是问题）。</span></li></ul></details>
+<details class="lake-collapse"><summary id="uc612e3c7"><span class="ne-text">代表</span></summary><p id="udd270c89" class="ne-p"><br></p></details>
+## ##动态路由工作流程
++ **发现邻居**：路由器启动后，发一个“Hello”包：嘿，旁边有人吗？
++ **建立关系**：邻居回应，双方交换基本的身份信息。
++ **同步地图**：双方交换自己知道的所有链路状态信息（LSA），确保大家的“全网地图”一模一样。
++ **计算路径**：每台路由器在脑子里跑一遍算法，选出最优路径存入路由表。
++ **实时维护**：如果有线路断了，第一时间通知全网，大家重新算路。
+
+<h2 id="rip配置实操"><a href="#rip配置实操" class="headerlink" title="##rip配置实操"></a>##rip配置实操</h2><!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772102572259-f7306e7a-4c25-4e76-9990-82155a689359.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在每一个路由器执行命令</span></span><br><span class="line"><span class="comment">#启动进程-使用 router rip 进入协议配置模式</span></span><br><span class="line">Router(config)# router rip</span><br><span class="line"><span class="comment">#指定版本</span></span><br><span class="line">Router(config-router)# version 2</span><br><span class="line"><span class="comment">#关闭自动汇总-RIPv2 默认会尝试把 192.168.10.0 汇总成 192.168.0.0 这种大的 A/B/C 类网段。这在多路由器的复杂拓扑中会导致路由错误，因此必须关闭</span></span><br><span class="line">Router(config-router)# no auto-summary</span><br><span class="line"><span class="comment">#宣告网络-宣告直接连接在路由器接口上的网段</span></span><br><span class="line">Router(config-router)# network 192.168.10.0</span><br><span class="line">Router(config-router)# network 192.168.100.0</span><br><span class="line"><span class="comment">#验证-在特权模式</span></span><br><span class="line">Router# show ip route</span><br></pre></td></tr></table></figure>
+
+<h1 id="RIP协议"><a href="#RIP协议" class="headerlink" title="###RIP协议###"></a>###RIP协议###</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yunjisuanchengzhanglu/p/16634826.html">链接</a></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="##概述"></a>##概述</h2><h1 id="RIP（Routing-Information-Protocol，路由信息协议）是网络中最经典、最简单的动态路由协议之一。"><a href="#RIP（Routing-Information-Protocol，路由信息协议）是网络中最经典、最简单的动态路由协议之一。" class="headerlink" title="RIP（Routing Information Protocol，路由信息协议）是网络中最经典、最简单的动态路由协议之一。"></a>RIP（Routing Information Protocol，路由信息协议）是网络中最经典、最简单的<strong>动态路由协议</strong>之一。</h1><p>#主要用于小型网络，其核心逻辑可以概括为一句话：<strong>“传声筒”式的距离矢量算法</strong></p>
+<p>**# 核心衡量标准：跳数 (Hop Count)  **</p>
+<ul>
+<li><strong>每经过一台路由器，跳数就加 1。</strong></li>
+<li><strong>最大跳数为 15。如果跳数达到 16，RIP 就认为目标网络不可达。</strong></li>
+<li><strong>这就限制了它只能用于小型网络</strong></li>
+</ul>
+<h2 id="工作原理-1"><a href="#工作原理-1" class="headerlink" title="##工作原理"></a>##工作原理</h2><!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772277121832-77b87739-f26b-42bb-b115-d6d387a1368d.png"></p>
+<p><font style="color:rgb(51, 51, 51);">1、RIP路由协议每隔30s向邻居发送整个路由表信息</font></p>
+<p><font style="color:rgb(51, 51, 51);">2、RIP路由协议以跳数作为度量值，根据跳数的多少来选择最佳路由</font></p>
+<p><font style="color:rgb(51, 51, 51);">3、最大跳数为15跳，16跳被标记为不可达</font></p>
+<p><font style="color:rgb(51, 51, 51);">4、经过一系列路由更新，网络中的每个路由器都具有一张完整的路由表的过程，称为收敛</font></p>
+<h2 id="三种计数器"><a href="#三种计数器" class="headerlink" title="##三种计数器"></a><font style="color:rgb(51, 51, 51);">##三种计数器</font></h2><p><font style="color:rgb(51, 51, 51);">1、周期更新计时器（update time）</font></p>
+<p><font style="color:rgb(51, 51, 51);">即路由器每隔30s从每个启动RIP协议的接口发送路由更新信息。</font></p>
+<p><font style="color:rgb(51, 51, 51);">2、路由老化计时器（age time）</font></p>
+<p><font style="color:rgb(51, 51, 51);">若一条路由在180s内没有收到更新，这条路由的跳数将记为16（即不可达状态）。</font></p>
+<p><font style="color:rgb(51, 51, 51);">3、垃圾收集计时器（garbage collection time）</font></p>
+<p><font style="color:rgb(51, 51, 51);">若该路由在被标记为16跳后，120s内还没有收到更新，则将这条路由从路由表中删除。</font></p>
+<h2 id="路由环路问题"><a href="#路由环路问题" class="headerlink" title="##路由环路问题"></a><font style="color:rgb(51, 51, 51);">##路由环路问题</font></h2><details class="lake-collapse"><summary id="u5d348d82"><span class="ne-text" style="font-size: 14px">环路产生</span></summary><p id="u57603887" class="ne-p"><span class="ne-text">假设有三台路由器：</span><strong><span class="ne-text">A --- B --- C</span></strong><span class="ne-text">。</span></p><ol class="ne-ol"><li id="u7cf65619" data-lake-index-type="0"><strong><span class="ne-text">正常状态：</span></strong><span class="ne-text"> C 告诉 B 它连接着网络 </span><code class="ne-code"><span class="ne-text">192.168.1.0</span></code><span class="ne-text">（跳数为 0），B 记录下该路径（跳数为 1），并传给 A（跳数为 2）。</span></li><li id="uf26c286c" data-lake-index-type="0"><strong><span class="ne-text">链路故障：</span></strong><span class="ne-text"> C 发现 </span><code class="ne-code"><span class="ne-text">192.168.1.0</span></code><span class="ne-text"> 断开了，它立即删除了这条路由。</span></li><li id="u38b28a86" data-lake-index-type="0"><strong><span class="ne-text">信息差错：</span></strong><span class="ne-text"> 在 C 还没来得及把坏消息告诉 B 之前，B 的定期更新时间到了。B 告诉 C：“嘿，我有去 </span><code class="ne-code"><span class="ne-text">192.168.1.0</span></code><span class="ne-text"> 的路，跳数是 1。”</span></li><li id="u800a456b" data-lake-index-type="0"><strong><span class="ne-text">死循环开始：</span></strong><span class="ne-text"> C 以为 B 有另一条路能通，于是更新路由表，记录跳数为 2。接着 A 又从 C 那里学到，跳数变成 3。</span></li><li id="ubbd6d98d" data-lake-index-type="0"><strong><span class="ne-text">计数到无穷大：</span></strong><span class="ne-text"> 这个错误信息在三者之间不断传递，跳数不断增加（1, 2, 3... 15），直到达到 </span><strong><span class="ne-text">16（不可达）</span></strong><span class="ne-text"> 才会停止。在这个过程中，发往该网络的数据包会一直在 A、B、C 之间转圈。</span></li></ol></details>
+<details class="lake-collapse"><summary id="u94e13db2"><span class="ne-text" style="font-size: 14px">解决方法</span></summary><p id="u724b1d12" class="ne-p"><span class="ne-text">为了防止这种“逻辑混乱”，RIP 设计了一套防御机制：</span></p><h4 id="0965b42b"><span class="ne-text">① 最大跳数 (Maximum Hop Count)</span></h4><ul class="ne-ul"><li id="uc8b36f73" data-lake-index-type="0"><strong><span class="ne-text">逻辑：</span></strong><span class="ne-text"> 规定跳数最大为 15，16 即为死亡。</span></li><li id="u47c08916" data-lake-index-type="0"><strong><span class="ne-text">作用：</span></strong><span class="ne-text"> 确保环路不会永远持续下去，最终会因为“数到 16”而终止。但它的缺点是收敛太慢，网络会瘫痪一段时间。</span></li></ul><h4 id="b33a5a6d"><span class="ne-text">② 水平分割 (Split Horizon)</span></h4><ul class="ne-ul"><li id="u81100c99" data-lake-index-type="0"><strong><span class="ne-text">逻辑：</span></strong><span class="ne-text"> “从哪个接口学到的路由，就不再从这个接口发回去。”</span></li><li id="u04fcf9f0" data-lake-index-type="0"><strong><span class="ne-text">作用：</span></strong><span class="ne-text"> 在上面的例子中，B 从 C 那里学到了网络信息，就不会再把这条信息传回给 C。这是防止环路</span><strong><span class="ne-text">最基本、最有效</span></strong><span class="ne-text">的方法。</span></li></ul><h4 id="cc8fd76a"><span class="ne-text">③ 毒性逆转 (Poison Reverse)</span></h4><ul class="ne-ul"><li id="uc6550a0f" data-lake-index-type="0"><strong><span class="ne-text">逻辑：</span></strong><span class="ne-text"> 当 A 发现某个网络断了，它不只是停止通告，而是直接告诉邻居 B：“那个网络现在的跳数是 16！”</span></li><li id="ucf0382c0" data-lake-index-type="0"><strong><span class="ne-text">作用：</span></strong><span class="ne-text"> 强行让邻居把坏消息“吃下去”，彻底切断邻居对该路径的幻想。</span></li></ul><h4 id="2434dd65"><span class="ne-text">④ 触发更新 (Triggered Update)</span></h4><ul class="ne-ul"><li id="u526cf3ce" data-lake-index-type="0"><strong><span class="ne-text">逻辑：</span></strong><span class="ne-text"> 不再死板地等待 30 秒周期。只要网络拓扑一变，路由器立即向外发送更新报文。</span></li><li id="u1f6838fc" data-lake-index-type="0"><strong><span class="ne-text">作用：</span></strong><span class="ne-text"> 抢在错误信息传播之前，把正确的故障信息发出去，大大缩短了产生环路的时间窗口。</span></li></ul></details>
+## ##有类路由和无类路由
+#<font style="color:rgb(51, 51, 51);">在进行路由信息传递时，是否包含子网掩码，可以把所有的路由协议分为两种</font>
+
+<p><strong><font style="color:rgb(51, 51, 51);">有类路由</font></strong><font style="color:rgb(51, 51, 51);">协议：他们在传递路由信息时，不携带子网掩码</font></p>
+<p><strong><font style="color:rgb(51, 51, 51);">无类路由</font></strong><font style="color:rgb(51, 51, 51);">协议：他们在传递路由信息时，携带子网掩码</font></p>
+<p>#<font style="color:rgb(51, 51, 51);">RIPv1是有类路由，RIPv2是无类路由。</font></p>
+<p><font style="color:rgb(51, 51, 51);">#使用无类路由协议，那么传递的路由信息时会包含子网掩码信息，就不会出现混乱情况</font></p>
+<h1 id="OSPF协议"><a href="#OSPF协议" class="headerlink" title="###OSPF协议###"></a>###OSPF协议###</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yunjisuanchengzhanglu/p/16638090.html">链接</a>  </p>
+<h1 id="OSPF（Open-Shortest-Path-First，开放最短路径优先）"><a href="#OSPF（Open-Shortest-Path-First，开放最短路径优先）" class="headerlink" title="OSPF（Open Shortest Path First，开放最短路径优先）"></a>OSPF（Open Shortest Path First，开放最短路径优先）</h1><p>#<font style="color:rgb(51, 51, 51);">RIP协议最多只能允许15跳，且完全根据跳数距离来选择最佳路径，不考虑带宽，这是不符合现代网络标准的。</font></p>
+<h2 id="自洽系统"><a href="#自洽系统" class="headerlink" title="##自洽系统"></a><font style="color:rgb(51, 51, 51);">##自洽系统</font></h2><p>#<font style="color:rgb(51, 51, 51);">自治系统（Autonomous System ）AS：一些路由器工作在同一个范围内，路由器之间可以相互通信且运行相同的路由协议，遵从相同的选路规则和依据，那么我们就称这些路由器工作在同一个自治系统内部。</font></p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772280304760-87b7bbea-bd2a-47ce-b09a-409234a83dc7.png"></p>
+<p><font style="color:rgb(51, 51, 51);">所谓的外部网关协议，其实就是用来连接不同的AS的</font></p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772280320959-ea05fa49-66ab-4562-8c97-045066ca5f9b.png"></p>
+<p>#<font style="color:rgb(51, 51, 51);">OSPF属于内部网关路由协议，所谓内部网关路由协议是指工作在企业内网中的协议，更准确的说是用于单一自治系统内的协议</font></p>
+<h2 id="OSPF基本概念"><a href="#OSPF基本概念" class="headerlink" title="##OSPF基本概念"></a><font style="color:rgb(51, 51, 51);">##OSPF基本概念</font></h2><p>①OSPF没有路由器个数的限制，被称之为叫做无限广大的路由协议</p>
+<p>②OSPF为了防止单点故障引发的问题影响整个网络，因此其引入了区域【Area】的概念</p>
+<p>③OSPF规定，每个区域中最多可以包含255台路由器，但是OSPF没有区域个数的限制</p>
+<p>④在OSPF中，区域0被称之为骨干区域，除区域0外，其它区域被称之为非骨干区域</p>
+<p>⑤非骨干区域必须能够通过一个ABR【Area BorderRouter】区域边界路由器】与骨干区域直接相连，若没有ABR负责联通骨干区域与非骨干区域，则该非骨干区域无法与骨干区域通讯<!-- 这是一张图片，ocr 内容为： --><br><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772282152408-c7d98088-3e50-472e-b6d9-85af037b34f3.png"></p>
+<p>⑥OSPF可以没有非骨干区域，所有路由器均工作在同一个区域0中（OSPF的单区域网络）</p>
+<p>⑦若一台路由器的所有接口均工作在同一个区域中，则该路由器被称之为内部路由器；若该区域为区域0，则该路由器还可以被称为骨干路由器</p>
+<p>⑧若一台路由器的不同接口属于不同的区域，则该路由器被称之为区域边界路由器（ABR）ABR的作用是用来在多个区域之间相互传递彼此的汇总路由信息的</p>
+<p>⑨OSPF区域的划分是在接口上的</p>
+<details class="lake-collapse"><summary id="uebb6f19f"><span class="ne-text">使用场景&amp;特点</span></summary><p id="u828ea4fd" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">#使用场景</span></p><p id="u68c4b2ae" class="ne-p" style="text-indent: 2em"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">网络规模：网络中的路由器个数在10台以上，中等或大规模的网络部署</span></p><p id="ucbd26dbf" class="ne-p" style="text-indent: 2em"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">网络拓扑结构：网络拓扑结构为网网状，并且任意两台路由器之间都有互通的功能。</span></p><p id="u38ac26fd" class="ne-p" style="text-indent: 2em"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">其他特殊需求：要求路由变化时能够快速收敛，要求路由协议自身的网络开销尽量降低</span></p><p id="ua66b0ce2" class="ne-p" style="text-indent: 2em"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">对路由器自身的要求：对路由器自身的CPU和内存性能要求较高，配置低的路由器不建议配置OSPF</span></p><p id="ua4f516c1" class="ne-p"><span class="ne-text" style="font-size: 14px">#特点</span></p><p id="u096848b8" class="ne-p" style="text-indent: 2em"><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772337450290-0579a533-df1b-403b-8539-d655069937d1.png" width="288" title="" crop="0,0,1,1" id="ud5638f5d" class="ne-image"></p></details>
+## ##OSPF工作原理
+#<font style="color:rgb(51, 51, 51);">OSPF协议是标准的链路状态路由协议</font>
+
+<h3 id="第一步：-建立邻居关系-Hello-阶段"><a href="#第一步：-建立邻居关系-Hello-阶段" class="headerlink" title="第一步： 建立邻居关系 (Hello 阶段)"></a>第一步： 建立邻居关系 (Hello 阶段)</h3><h1 id="路由器启动后，首先要寻找周围有哪些运行-OSPF-的邻居。"><a href="#路由器启动后，首先要寻找周围有哪些运行-OSPF-的邻居。" class="headerlink" title="路由器启动后，首先要寻找周围有哪些运行 OSPF 的邻居。"></a>路由器启动后，首先要寻找周围有哪些运行 OSPF 的邻居。</h1><ul>
+<li><strong>发送 Hello 报文：</strong> 路由器通过接口向外发送 Hello 包，包含自己的 <strong>Router ID (RID)</strong>。</li>
+<li><strong>参数匹配：</strong> 邻居之间必须在某些关键参数（如 Area ID、认证信息、时间间隔）上达成一致。</li>
+<li><strong>形成邻居表：</strong> 一旦握手成功，双方进入 <code>2-Way</code> 状态，确认彼此的存在。</li>
+</ul>
+<h3 id="第二步：同步链路状态数据库-LSDB-阶段"><a href="#第二步：同步链路状态数据库-LSDB-阶段" class="headerlink" title="第二步：同步链路状态数据库 (LSDB 阶段)"></a>第二步：同步链路状态数据库 (LSDB 阶段)</h3><p>#这是 OSPF 最核心的步骤。目标是让同一区域（Area）内的所有路由器拥有<strong>一模一样</strong>的地图。</p>
+<ul>
+<li><strong>LSA (链路状态通告)：</strong> 每台路由器都会产生 LSA，描述自己的接口 IP、掩码、开销以及连接了哪些邻居。</li>
+<li><strong>LSU (链路状态更新)：</strong> 路由器将 LSA 打包发送给邻居。</li>
+<li><strong>泛洪 (Flooding)：</strong> 收到新 LSA 的路由器会将其转发给除了来源接口以外的所有其他接口，确保全区域同步。</li>
+<li><strong>LSDB：</strong> 最终，所有 LSA 存储在链路状态数据库中。此时，每台路由器都看清了整个区域的拓扑结构。</li>
+</ul>
+<h3 id="第三步：计算最优路径-SPF-计算"><a href="#第三步：计算最优路径-SPF-计算" class="headerlink" title="第三步：计算最优路径 (SPF 计算)"></a>第三步：计算最优路径 (SPF 计算)</h3><p>#有了完整的地图（LSDB）后，路由器不再听信邻居的结论，而是自己动脑筋。</p>
+<ul>
+<li><strong>Dijkstra 算法：</strong> 路由器以自己为根节点，运行 SPF（最短路径优先）算法。</li>
+<li><strong>计算 Cost：</strong> 它是根据带宽计算开销，公式通常为 $Cost &#x3D; \frac{10^8}{Bandwidth}$。</li>
+<li><strong>生成路由表：</strong> 算法会计算出到达每个网段的路径中，总 Cost 值最小的那一条，并将其放入路由表。</li>
+</ul>
+<h3 id="邻接关系建立流程-状态"><a href="#邻接关系建立流程-状态" class="headerlink" title="邻接关系建立流程&amp;状态"></a>邻接关系建立流程&amp;状态</h3><p>#在整个工作原理中，路由器会经历多个状态的转变：</p>
+<ol>
+<li><strong>Down &#x2F; Attempt</strong>: 初始状态。</li>
+<li><strong>Init</strong>: 收到邻居的 Hello 包，但包里还没写我的名字。</li>
+<li><strong>2-Way</strong>: 双方都看到了对方，建立了邻居关系。</li>
+<li><strong>ExStart &#x2F; Exchange</strong>: 决定谁先发送“地图目录”（DBD 报文）。</li>
+<li><strong>Loading</strong>: 发现自己缺少的地图碎片，向邻居请求详细的 LSA。</li>
+<li><strong>Full</strong>: 数据库完全同步，这是 OSPF 正常工作的最终状态。</li>
+</ol>
+<details class="lake-collapse"><summary id="ub5583eee"><span class="ne-text">邻接关系建立流程</span></summary><p id="u60146c43" class="ne-p"><span class="ne-text">#</span><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">这其中一共用到了7种状态和5种报文</span></p><p id="u6419b1d9" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">如下图所示。RTA和RTB都处于down状态，down状态表明两个人谁也不认识谁，可以理解为OSPF还没配好。</span></p><p id="u914d3f04" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="u72070ae4" class="ne-p"><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772285237658-ba71030a-c596-4d1a-9dbb-0bcfd03529fb.png" width="742" title="" crop="0,0,1,1" id="uf3a90155" class="ne-image" style="color: rgb(51, 51, 51); font-size: 14px"></p><p id="ud9db679f" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="u33f59ddb" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">假设RTA的OSPF先配好了，于是RTA先给B发送了hello报文，相当于A给B打了个招呼说你好我是路由器A，在A给B发送的hello报文中包含了RTA自己的名字，RTB在收到hello报文之后将自己的状态变成了init状态。</span></p><p id="u7421f092" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="uc4247033" class="ne-p"><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772285237711-64cdabaa-099a-4c11-9d7a-0e09c061becd.png" width="742" title="" crop="0,0,1,1" id="u4fb108ef" class="ne-image" style="color: rgb(51, 51, 51); font-size: 14px"></p><p id="u86bf6406" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="ua2ffae59" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">然后B也会给A返回一个hello报文，里边包含了B的名字。A收到B的hello报文之后，也将自己的状态变为init状态。然后A在给B发送一个hello报文，里边包含了B的名字，相当于说你好我知道了你的名字是B。</span></p><p id="uf550242c" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="ub76e6665" class="ne-p"><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772285237681-92ea3736-a493-4f53-9383-e813994421aa.png" width="647" title="" crop="0,0,1,1" id="ue2afa5c8" class="ne-image" style="color: rgb(51, 51, 51); font-size: 14px"></p><p id="ue3c7b664" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="u23e108f3" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">此时B看到A的hello报文之中包含自己的名字，B会认为A肯定已经知道它的存在了。然后B将自己的状态转变为2-way双向状态。同时B也会给A发送第二个hello报文，里边包含了A的名字。A在收到这个报文之后也将自己的状态转为2-way双向状态。</span></p><p id="uf8ff8883" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="u1a4bfd13" class="ne-p"><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772285237700-cd430b0c-64a5-48dd-8cf9-b72297a6a954.png" width="769" title="" crop="0,0,1,1" id="u135384c0" class="ne-image" style="color: rgb(51, 51, 51); font-size: 14px"></p><p id="ufd211929" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="u6143665f" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">然后A会向B发送DBD数据库描述报文，该报文中是空的，啥也没有，B在收到这个空的报文之后将自己的状态转为exstart准启动状态。同时B也给A发送一个空的DBD数据库描述报文，A收到之后也将自己的状态转为exstart准启动状态。A和B发送空的DBD数据库描述报文的目的是为了协商主从关系，谁的路由器ID数值更大，谁就是主路由器。确保主从关系的目的是为了确认下一个包谁先给谁发，对于OSPF来讲，永远都是主先给从发。</span></p><p id="u75811b3d" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="u76e79a83" class="ne-p"><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772285237774-ad7a09f7-842f-498f-b120-ea3b53e65217.png" width="737" title="" crop="0,0,1,1" id="ubde05691" class="ne-image" style="color: rgb(51, 51, 51); font-size: 14px"></p><p id="uc68b11a8" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="ue8388d8d" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="ua9052973" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">假设A是主路由器，A会先给B发送第二个DBD报文，这个报文不在是空的，里边包含RTA直连网段的汇总信息，B在收到这个信息之后会将自己的状态从准启动状态转变为准交换状态，从这个状态开始B知道了它要准备开始和A交换路由信息了。同时B也会给A发送第二个DBD报文，里边包含RTB直连网段的汇总信息，A在收到这个信息之后会将自己的状态从准启动状态转变为准交换状态。到这为止，相对于两个人互换了目录。</span></p><p id="u4c6d5d79" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="u4a4dece4" class="ne-p"><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772285238578-91571a67-c16c-422f-a9d5-8eaa7664c7db.png" width="655" title="" crop="0,0,1,1" id="u1bc930ce" class="ne-image" style="color: rgb(51, 51, 51); font-size: 14px"></p><p id="u521d6bb2" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="u4a297dea" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">然后A会给B发送链路状态请求报文LSR，B在收到这个报文之后会给A回复链路状态更新报文LSU，A每收到一个更新，就会给B回复一个LSACK确认报文，确认我收到了你的更新。A在学习B的所有路由的时候，A的状态处在loading加载状态。B也会给A发送链路状态请求报文LSR，A在收到这个报文之后会给B回复链路状态更新报文LSU，同样B每收到一个更新，就会给A回复一个LSACK确认报文，确认我收到了你的更新。B在学习A的所有路由的时候，B的状态也处在loading加载状态。</span></p><p id="ud9e5331c" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="uc3a09eb8" class="ne-p"><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772285238631-fca9d6b3-7df2-4df0-9786-19fda6db954b.png" width="711" title="" crop="0,0,1,1" id="u2f20d4cb" class="ne-image" style="color: rgb(51, 51, 51); font-size: 14px"></p><p id="uc6e9d276" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="udcd4f115" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">最终当A学完了B的路由，B也学完了A的路由，A和B都进入full全毗邻状态，全毗邻状态表明两个路由器已经彻底的完成了邻接关系的建立。</span></p><p id="u2e6c9a54" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="ud07913d2" class="ne-p"><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772285238662-35ec26d5-60f8-4700-a06e-10e8b7ddb1a0.png" width="706" title="" crop="0,0,1,1" id="u95e2735f" class="ne-image" style="color: rgb(51, 51, 51); font-size: 14px"></p><p id="ued6a5361" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px"></span></p><p id="u217a9437" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">OSPF邻接关系需要满足的条件</span></p><p id="uac0d3bcd" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">那么是不是任意两个OSPF路由器都能建立邻接关系呢？当然不是，它需要满足一定的条件才可以。</span></p><p id="u8eec07a3" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">1、路由器必须在</span><strong><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">同一个区域</span></strong><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">中，OSPF不允许跨区域建立邻接关系</span></p><p id="ube0c4647" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">2、路由器相连的两个端口上必须配置</span><strong><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">相同的密钥</span></strong><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">，或者不配置</span></p><p id="u2ade9245" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">3、OSPF协议需要两个邻居路由器的hello和dead时间间隔相同，否则就不能成为邻居路由器</span></p></details>
+### RID
+#<font style="color:rgb(51, 51, 51);">在OSPF当中，要求每个路由器必须得有个名，这个名就是 router ID</font>
+
+<p>#<font style="color:rgb(51, 51, 51);"> 在 OSPF 的世界里，</font><strong>RID (Router ID)</strong><font style="color:rgb(51, 51, 51);"> 就是路由器的“身份证号”。它是一个 32 位的无符号整数，格式通常写成类似 IP 地址的点分十进制（例如 </font><code>&lt;font style=&quot;color:rgb(51, 51, 51);&quot;&gt;1.1.1.1&lt;/font&gt;</code><font style="color:rgb(51, 51, 51);">）  </font></p>
+<p><font style="color:rgb(51, 51, 51);"># 在 OSPF 区域内，每台路由器必须有一个</font><strong>全网唯一</strong><font style="color:rgb(51, 51, 51);">的 RID，否则邻居关系无法正常建立，拓扑计算也会出错<br></font></p>
+<details class="lake-collapse"><summary id="u7a240623"><span class="ne-text" style="font-size: 14px">router自动选取RID规则</span></summary><p id="u52cac2dd" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">1、若路由器上配置了环回（loopback）接口，则环回接口的地址就是该路由器的RID</span></p><p id="u246a4bef" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">环回接口是一个虚拟接口，一般有2个用途</span></p><p id="u3b775841" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">一个是可以用来给路由器命名，在为路由器命名时，一般配置为32位的子网掩码。</span></p><p id="u3fb41da3" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">另一个作用是用来模拟一个网段，或者模拟一个具体的主机地址，用来测试网络的连通性。</span></p><p id="u7091c32d" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">2、路由器上可以配置多个环回接口，如果路由器上有多个环回接口时，那么谁的IP数值最高，谁就是RID</span></p><p id="u8f48089a" class="ne-p"><span class="ne-text" style="color: rgb(51, 51, 51); font-size: 14px">3、如果没有环回接口，就在所有物理端口中选取一个数值最高的IP地址。</span></p></details>
+### 工作表
+#<font style="color:rgb(51, 51, 51);">运行OSPF路由协议的路由器内部要维护三张表。</font>
+
+<p><font style="color:rgb(51, 51, 51);">①邻接关系表</font></p>
+<p><font style="color:rgb(51, 51, 51);">列出每台路由器全部已经建立邻接关系的邻居路由器。所以邻接关系表里保存的是邻居路由器的RID</font></p>
+<p>②<font style="color:rgb(51, 51, 51);">链路状态数据库</font></p>
+<p><font style="color:rgb(51, 51, 51);">列出网络中其他路由器的信息，由此显示全网的网络拓扑结构</font></p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772283497844-a7b5a599-fdc2-4031-af93-4a6e298ad2e3.png"></p>
+<p>③<font style="color:rgb(51, 51, 51);">路由表</font></p>
+<p><font style="color:rgb(51, 51, 51);">列出通过SPF算法计算出的到达每个相连网络的最佳路径</font></p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772283824054-df000dc9-65b4-4cd5-bee0-85875a71c585.png"><!-- 这是一张图片，ocr 内容为： --><br><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772283852739-a8802c69-50f1-4542-b8a5-50902b63db8d.png"></p>
+<p>#<font style="color:rgb(51, 51, 51);">邻接接关系表中保存的是邻居的路由器ID，链路状态数据库中保存的是最全的路径，路由表中保存的是最佳的路径。 这三张表的关系不是独立的，他们之间有非常紧密的关系。有了第一个表才能得到第二个表，有了第二个表才能得到第三个表。</font></p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772284017693-abeb8b3a-66bf-489d-b1d4-84b25ad22769.png"></p>
+<h2 id="DR-BDR"><a href="#DR-BDR" class="headerlink" title="##DR&amp;BDR"></a>##DR&amp;BDR</h2><p>#<font style="color:rgb(51, 51, 51);">把D选为班长，也就是指定路由器DR，让其他的路由器只和班长建立邻接关系，而无需他们彼此之间建立邻接关系，从而大大降低了要建立邻接关系的数量</font></p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772337196378-028703c5-a588-4255-8913-13816e73aed2.png"></p>
+<p>#如果<font style="color:rgb(51, 51, 51);">指定路由器挂了，就需要选出一个班副来，即备份指定路由器BDR。。其他的路由器只和班长和班副即DR和BDR建立邻接关系。</font></p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772337304346-ff69f64e-7213-4b69-840b-51e64ffbe348.png"></p>
+<p>#<font style="color:rgb(51, 51, 51);">那么DR和BDR是怎么选择出来的呢？所有运行OSPF的路由器都有一个OSPF优先级，优先级最高的路由器会被选举为DR，如果OSPF优先级相同，则具有最高RID的路由器会被选为DR。优先级的取值范围为0-255，且默认值都为1。数值第二高的就被选为BDR。如果DR和BDR都挂了，那么会在剩下的路由器中重新选举</font></p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772337326839-0cdaeec6-1dbf-48e0-afdb-a180fcbdb2d7.png"></p>
+<h2 id="OSPF度量方法"><a href="#OSPF度量方法" class="headerlink" title="##OSPF度量方法"></a>##OSPF度量方法</h2><p><font style="color:rgb(51, 51, 51);">RIP根据跳数选择最佳路径，OSPF根据什么选择最佳路径呢？</font></p>
+<p><font style="color:rgb(51, 51, 51);">OSPF会选择带宽最大的路径作为最佳链路，根据值是cost值，cost&#x3D;10的8次方&#x2F;带宽，所以带宽越大cost值越小，cost值最小的会被选为最佳路径。一条链路上的所有cost值之和就是该链路的总cost值。如果两台链路带宽cost值完全一样，那么这两条路都会传输数据，因为OSPF支持等价负载均衡。</font></p>
+<!-- 这是一张图片，ocr 内容为： -->
+<p><img src="https://cdn.nlark.com/yuque/0/2026/png/33548039/1772337378338-3dd7fe2e-d567-4c0f-b99f-96826bc10a38.png"></p>
+<p><font style="color:rgb(51, 51, 51);"></font></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/03/02/2.25_%E8%B7%AF%E7%94%B1%E5%99%A8%20(1)/">https://yh1140.github.io/2026/03/02/2.25_%E8%B7%AF%E7%94%B1%E5%99%A8%20(1)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/02/2.25_%E8%B7%AF%E7%94%B1%E5%99%A8%20(2)/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">基本概念#route	路由 #router	路由器-将一个网段的数据转发到另一个网段 #网络世界的立交桥分流器和邮局调度员。它的核心任务只有两个： 维护地图（路由表） 转发数据包（寻址） 核心功能#路由器工作在 OSI 模型的第三层（网络层），其功能可以概括为以下三点    路径选择（寻址）：当一个 IP 包到达时，路由器会查看目的 IP 地址，查阅自己的“地图”（路由表），决定该把它发往哪个方向。 网络互连：路由器是连接不同网络的“桥梁”。它可以把家庭局域网（LAN）和互联网（WAN）连在一起，也可以连接两个完全不同的物理介质（如光纤和以太网）。 隔离广播风暴：与交换机不同，路由器不会转发广播包。这意味着它能把网络故障限制在局部，不至于让整个公司的网络瘫痪。  硬件构造#本质是一个主机  处理器 (CPU)：负责运行路由协议、计算最优路径。 内存 (RAM&#x2F;ROM&#x2F;Flash)：存放操作系统（如 Cisco IOS）、运行中的路由表和缓存数据。 接口 (Interfaces)： LAN 口：连接你的电脑、交换机。 WAN 口：连接宽带拨号猫（Modem）。 ...</div></div></div></a><a class="pagination-related" href="/2026/03/02/%E6%88%91%E7%9A%84%E7%AE%80%E5%8E%86/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">###技巧####薪资：可以写面议 #期望城市：可以写全国 #专业技能写一点大数据的 ###个人信息####姓名：禹宇阳宏 #期望职位：运维工程师&#x2F;SRE&#x2F;DBA #邮箱：yh1140798266@gmail.com #博客地址：https://yh1140.github.io/ #电话：18173375279 #籍贯：湘潭 #政治面貌：不是党员不要写 #期望薪资：面议 #微信号： ###教育经历####湖南农业大学 本科 #2022-2026 #专业：数据科学与大数据技术 #核心课程：数据结构，计算机网络，数据库与分布式存储，数据挖掘与深度学习，大数据分析与可视化等 #证书：四级证，鸿蒙开发证 #获奖： ###专业技能####Linux操作系统：深入理解** Linux 内核原理**，熟悉Linux基本命令，用户权限管理，文件系统，性能调优，使用过openEuler，Anolis OS，KylinOS等国产操作系统    #计算机网络：深入理解 TCP&#x2F;IP 四层模型及 OSI 七层模型，熟练使用 tcpdump、Wireshark 抓包分析，熟练...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649?spm_id_from=333.1387.0.0" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1140798266&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #1296db;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">###基本概念###</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E4%B8%96%E7%95%8C%E7%9A%84%E7%AB%8B%E4%BA%A4%E6%A1%A5%E5%88%86%E6%B5%81%E5%99%A8%E5%92%8C%E9%82%AE%E5%B1%80%E8%B0%83%E5%BA%A6%E5%91%98%E3%80%82%E5%AE%83%E7%9A%84%E6%A0%B8%E5%BF%83%E4%BB%BB%E5%8A%A1%E5%8F%AA%E6%9C%89%E4%B8%A4%E4%B8%AA%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">网络世界的立交桥分流器和邮局调度员。它的核心任务只有两个：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-number">2.1.</span> <span class="toc-text">##核心功能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%9C%A8-OSI-%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%AC%AC%E4%B8%89%E5%B1%82%EF%BC%88%E7%BD%91%E7%BB%9C%E5%B1%82%EF%BC%89%EF%BC%8C%E5%85%B6%E5%8A%9F%E8%83%BD%E5%8F%AF%E4%BB%A5%E6%A6%82%E6%8B%AC%E4%B8%BA%E4%BB%A5%E4%B8%8B%E4%B8%89%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">路由器工作在 OSI 模型的第三层（网络层），其功能可以概括为以下三点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E6%9E%84%E9%80%A0"><span class="toc-number">3.1.</span> <span class="toc-text">##硬件构造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">3.2.</span> <span class="toc-text">##路由表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#53d86173"><span class="toc-number">3.2.1.</span> <span class="toc-text">① 直连路由 (Connected Routes)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#e714dbaa"><span class="toc-number">3.2.2.</span> <span class="toc-text">② 静态路由 (Static Routes)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4de723a8"><span class="toc-number">3.2.3.</span> <span class="toc-text">③ 动态路由 (Dynamic Routes)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">###工作原理###</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%93%E4%B8%80%E4%B8%AA-IP-%E5%8C%85%E8%BF%9B%E5%85%A5%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%8C%E5%AE%83%E4%BC%9A%E7%BB%8F%E5%8E%86%E4%BB%A5%E4%B8%8B%E8%BF%87%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">当一个 IP 包进入路由器，它会经历以下过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">6.</span> <span class="toc-text">###动态路由###</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE-%E4%BD%9C%E7%94%A8%E8%8C%83%E5%9B%B4%E5%88%86%E7%B1%BB"><span class="toc-number">6.1.</span> <span class="toc-text">##动态路由协议-作用范围分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IGP-%E5%86%85%E9%83%A8%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AE"><span class="toc-number">6.1.1.</span> <span class="toc-text">IGP (内部网关协议)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E4%BA%8E%E4%B8%80%E4%B8%AA%E7%8B%AC%E7%AB%8B%E7%9A%84%E8%87%AA%E6%B2%BB%E7%B3%BB%E7%BB%9F%EF%BC%88AS%EF%BC%89%E5%86%85%E9%83%A8%EF%BC%8C%E6%AF%94%E5%A6%82%E4%B8%80%E4%B8%AA%E6%A0%A1%E5%9B%AD%E7%BD%91%E3%80%81%E4%BC%81%E4%B8%9A%E5%86%85%E7%BD%91"><span class="toc-number">7.</span> <span class="toc-text">用于一个独立的自治系统（AS）内部，比如一个校园网、企业内网</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rip%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%93%8D"><span class="toc-number">7.1.</span> <span class="toc-text">##rip配置实操</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RIP%E5%8D%8F%E8%AE%AE"><span class="toc-number">8.</span> <span class="toc-text">###RIP协议###</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">8.1.</span> <span class="toc-text">##概述</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RIP%EF%BC%88Routing-Information-Protocol%EF%BC%8C%E8%B7%AF%E7%94%B1%E4%BF%A1%E6%81%AF%E5%8D%8F%E8%AE%AE%EF%BC%89%E6%98%AF%E7%BD%91%E7%BB%9C%E4%B8%AD%E6%9C%80%E7%BB%8F%E5%85%B8%E3%80%81%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE%E4%B9%8B%E4%B8%80%E3%80%82"><span class="toc-number">9.</span> <span class="toc-text">RIP（Routing Information Protocol，路由信息协议）是网络中最经典、最简单的动态路由协议之一。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86-1"><span class="toc-number">9.1.</span> <span class="toc-text">##工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">9.2.</span> <span class="toc-text">##三种计数器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E7%8E%AF%E8%B7%AF%E9%97%AE%E9%A2%98"><span class="toc-number">9.3.</span> <span class="toc-text">##路由环路问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0965b42b"><span class="toc-number">9.3.1.</span> <span class="toc-text">① 最大跳数 (Maximum Hop Count)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b33a5a6d"><span class="toc-number">9.3.2.</span> <span class="toc-text">② 水平分割 (Split Horizon)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cc8fd76a"><span class="toc-number">9.3.3.</span> <span class="toc-text">③ 毒性逆转 (Poison Reverse)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2434dd65"><span class="toc-number">9.3.4.</span> <span class="toc-text">④ 触发更新 (Triggered Update)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OSPF%E5%8D%8F%E8%AE%AE"><span class="toc-number">10.</span> <span class="toc-text">###OSPF协议###</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OSPF%EF%BC%88Open-Shortest-Path-First%EF%BC%8C%E5%BC%80%E6%94%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E4%BC%98%E5%85%88%EF%BC%89"><span class="toc-number">11.</span> <span class="toc-text">OSPF（Open Shortest Path First，开放最短路径优先）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E6%B4%BD%E7%B3%BB%E7%BB%9F"><span class="toc-number">11.1.</span> <span class="toc-text">##自洽系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSPF%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">11.2.</span> <span class="toc-text">##OSPF基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A-%E5%BB%BA%E7%AB%8B%E9%82%BB%E5%B1%85%E5%85%B3%E7%B3%BB-Hello-%E9%98%B6%E6%AE%B5"><span class="toc-number">11.2.1.</span> <span class="toc-text">第一步： 建立邻居关系 (Hello 阶段)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E5%90%AF%E5%8A%A8%E5%90%8E%EF%BC%8C%E9%A6%96%E5%85%88%E8%A6%81%E5%AF%BB%E6%89%BE%E5%91%A8%E5%9B%B4%E6%9C%89%E5%93%AA%E4%BA%9B%E8%BF%90%E8%A1%8C-OSPF-%E7%9A%84%E9%82%BB%E5%B1%85%E3%80%82"><span class="toc-number">12.</span> <span class="toc-text">路由器启动后，首先要寻找周围有哪些运行 OSPF 的邻居。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%90%8C%E6%AD%A5%E9%93%BE%E8%B7%AF%E7%8A%B6%E6%80%81%E6%95%B0%E6%8D%AE%E5%BA%93-LSDB-%E9%98%B6%E6%AE%B5"><span class="toc-number">12.1.</span> <span class="toc-text">第二步：同步链路状态数据库 (LSDB 阶段)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%80%E4%BC%98%E8%B7%AF%E5%BE%84-SPF-%E8%AE%A1%E7%AE%97"><span class="toc-number">12.2.</span> <span class="toc-text">第三步：计算最优路径 (SPF 计算)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E6%8E%A5%E5%85%B3%E7%B3%BB%E5%BB%BA%E7%AB%8B%E6%B5%81%E7%A8%8B-%E7%8A%B6%E6%80%81"><span class="toc-number">12.3.</span> <span class="toc-text">邻接关系建立流程&amp;状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DR-BDR"><span class="toc-number">12.4.</span> <span class="toc-text">##DR&amp;BDR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSPF%E5%BA%A6%E9%87%8F%E6%96%B9%E6%B3%95"><span class="toc-number">12.5.</span> <span class="toc-text">##OSPF度量方法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/02/2.25_%E8%B7%AF%E7%94%B1%E5%99%A8%20(2)/" title="无标题">无标题</a><time datetime="2026-03-02T08:34:40.172Z" title="发表于 2026-03-02 16:34:40">2026-03-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/02/2.25_%E8%B7%AF%E7%94%B1%E5%99%A8%20(1)/" title="无标题">无标题</a><time datetime="2026-03-02T08:14:21.486Z" title="发表于 2026-03-02 16:14:21">2026-03-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/02/%E6%88%91%E7%9A%84%E7%AE%80%E5%8E%86/" title="无标题">无标题</a><time datetime="2026-03-02T08:12:20.570Z" title="发表于 2026-03-02 16:12:20">2026-03-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/01/%E7%AE%80%E5%8E%86%E6%8C%87%E5%AF%BC/" title="简历指导"><img src="/img/14.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简历指导"/></a><div class="content"><a class="title" href="/2026/03/01/%E7%AE%80%E5%8E%86%E6%8C%87%E5%AF%BC/" title="简历指导">简历指导</a><time datetime="2026-03-01T12:44:00.000Z" title="发表于 2026-03-01 20:44:00">2026-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/01/%E9%9D%A2%E8%AF%95%E4%BB%8B%E7%BB%8D/" title="面试介绍"><img src="/img/13.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面试介绍"/></a><div class="content"><a class="title" href="/2026/03/01/%E9%9D%A2%E8%AF%95%E4%BB%8B%E7%BB%8D/" title="面试介绍">面试介绍</a><time datetime="2026-03-01T12:29:00.000Z" title="发表于 2026-03-01 20:29:00">2026-03-01</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
