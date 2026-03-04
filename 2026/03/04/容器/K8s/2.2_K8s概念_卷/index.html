@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>孤独の野狼的博客 | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="卷的定义在 Kubernetes 中，卷的本质是一个目录，其中可能包含数据，Pod 中的容器可以访问该目录要系统地理解它，我们需要对比它与普通容器磁盘的区别：  持久性 (Persistence)：普通容器重启后，内部文件会丢失；卷可以超越容器生命周期，确保数据依然存在。  共享性 (Sharing)：一个 Pod 内的多个容器可以挂载同一个卷，实现数据互通。  抽象化 (Abstraction)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="孤独の野狼的博客">
+<meta property="og:url" content="https://yh1140.github.io/2026/03/04/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%8D%B7/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="卷的定义在 Kubernetes 中，卷的本质是一个目录，其中可能包含数据，Pod 中的容器可以访问该目录要系统地理解它，我们需要对比它与普通容器磁盘的区别：  持久性 (Persistence)：普通容器重启后，内部文件会丢失；卷可以超越容器生命周期，确保数据依然存在。  共享性 (Sharing)：一个 Pod 内的多个容器可以挂载同一个卷，实现数据互通。  抽象化 (Abstraction)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-03-04T08:26:22.073Z">
+<meta property="article:modified_time" content="2026-03-04T11:35:50.024Z">
+<meta property="article:author" content="孤独の野狼">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://yh1140.github.io/2026/03/04/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%8D%B7/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-03-04T08:26:22.073Z",
+  "dateModified": "2026-03-04T11:35:50.024Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/03/04/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%8D%B7/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '孤独の野狼的博客',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">孤独の野狼的博客</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-04T08:26:22.073Z" title="发表于 2026-03-04 16:26:22">2026-03-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-04T11:35:50.024Z" title="更新于 2026-03-04 19:35:50">2026-03-04</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="卷的定义"><a href="#卷的定义" class="headerlink" title="卷的定义"></a>卷的定义</h1><p>在 Kubernetes 中，卷的本质是<strong>一个目录</strong>，其中可能包含数据，Pod 中的容器可以访问该目录<br>要系统地理解它，我们需要对比它与普通容器磁盘的区别：</p>
+<ul>
+<li><strong>持久性 (Persistence)</strong>：普通容器重启后，内部文件会丢失；卷可以超越容器生命周期，确保数据依然存在。 </li>
+<li><strong>共享性 (Sharing)</strong>：一个 Pod 内的多个容器可以挂载同一个卷，实现数据互通。 </li>
+<li><strong>抽象化 (Abstraction)</strong>：运维工程师可以把底层的存储（如本地磁盘、NFS、网络存储）抽象成卷，让开发者无需关心具体的存储细节。<br>可以从三个方面深入学习K8s卷：</li>
+<li><strong>临时与本地存储 (Ephemeral &amp; Local)</strong> <ul>
+<li>探讨 <code>emptyDir</code>（随 Pod 消失）和 <code>hostPath</code>（直接挂载宿主机目录）。这是理解存储挂载的最快入口。</li>
+</ul>
+</li>
+<li><strong>持久化存储体系 (PV &amp; PVC)</strong> <ul>
+<li>学习运维中最核心的“声明式存储”。了解管理员如何预分配存储资源（PersistentVolume），以及用户如何申请资源（PersistentVolumeClaim）。</li>
+</ul>
+</li>
+<li><strong>高级存储管理 (StorageClass &amp; Dynamic Provisioning)</strong> <ul>
+<li>掌握自动化运维：如何让 K8s 在用户申请时，“自动”去云端或存储后端创建对应的磁盘，实现无人值守的存储分配。</li>
+</ul>
+</li>
+</ul>
+<h1 id="卷是如何工作的"><a href="#卷是如何工作的" class="headerlink" title="卷是如何工作的"></a>卷是如何工作的</h1><p>使用卷时, 在 <code>.spec.volumes</code> 字段中设置为 Pod 提供的卷，并在 <code>.spec.containers[*].volumeMounts</code> 字段中声明卷在容器中的挂载位置。</p>
+<p>当 Pod 被启动时，容器中的进程看到的文件系统视图是由它们的<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/glossary/?all=true#term-image">容器镜像</a> 的初始内容以及挂载在容器中的卷（如果定义了的话）所组成的。 其中根文件系统同容器镜像的内容相吻合。 任何在该文件系统下的写入操作，如果被允许的话，都会影响接下来容器中进程访问文件系统时所看到的内容。 卷被挂载在镜像中的<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#using-subpath">指定路径</a>下。 Pod 配置中的每个容器必须独立指定各个卷的挂载位置。</p>
+<p>卷不能挂载到其他卷之上（不过存在一种<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#using-subpath">使用 subPath</a> 的相关机制）， 也不能与其他卷有硬链接。</p>
+<h1 id="卷类型"><a href="#卷类型" class="headerlink" title="卷类型"></a>卷类型</h1><p>目前可用的卷有：</p>
+<h2 id="configMap"><a href="#configMap" class="headerlink" title="configMap"></a>configMap</h2><p>ConfigMap 是一种 K8s 资源对象，用于存储键值对数据。<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/"><code>configMap</code></a> 卷提供了向 Pod 注入配置数据的方法而 <strong>ConfigMap 卷</strong> 则是将这些数据转化为容器内的<strong>文件</strong>。</p>
+<ul>
+<li><strong>数据源</strong>：ConfigMap（包含一个或多个键值对）。</li>
+<li><strong>呈现形式</strong>：容器内的一个目录，每个“键”变成文件名，“值”变成文件内容<br>特性：</li>
+<li>动态更新<ul>
+<li>如果你通过 <code>kubectl edit configmap</code> 修改了配置，K8s 会在一段时间后（通常几十秒）自动更新容器内挂载的文件内容。<strong>注意：</strong> 如果你的程序不支持热加载配置，可能需要手动重启 Pod。</li>
+</ul>
+</li>
+<li>权限控制 (<code>defaultMode</code>)<ul>
+<li>你可以指定挂载出的文件权限。例如，出于安全考虑，你可以设置为只读</li>
+</ul>
+</li>
+<li>特定键挂载 (<code>items</code>)<ul>
+<li>如果不指定，ConfigMap 里所有的键都会变成文件。如果你只想挂载其中一个，可以使用 <code>items</code>：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config-vol</span></span><br><span class="line">      <span class="attr">configMap:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">log-config</span></span><br><span class="line">        <span class="attr">items:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">key:</span> <span class="string">log_level</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">log_level.conf</span></span><br></pre></td></tr></table></figure>
+<h1 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h1></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/03/04/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%8D%B7/">https://yh1140.github.io/2026/03/04/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%8D%B7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related  no-desc" href="/2026/03/04/Linux/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2"></div></div></div></a><a class="pagination-related" href="/2026/03/04/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">定义</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649?spm_id_from=333.1387.0.0" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1140798266&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #1296db;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%B7%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">卷的定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%B7%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="toc-number">2.</span> <span class="toc-text">卷是如何工作的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%B7%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">卷类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#configMap"><span class="toc-number">3.1.</span> <span class="toc-text">configMap</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D"><span class="toc-number">4.</span> <span class="toc-text">实操</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E5%B1%82/%E5%AE%9E%E9%AA%8C%EF%BC%9A%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%AE%9E%E7%8E%B0%20VLAN%20%E9%97%B4%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%B7%AF%E7%94%B1%E6%8E%A5%E5%85%A5%E9%85%8D%E7%BD%AE/" title="无标题">无标题</a><time datetime="2026-03-04T13:38:33.873Z" title="发表于 2026-03-04 21:38:33">2026-03-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/04/Linux/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="无标题">无标题</a><time datetime="2026-03-04T13:28:20.257Z" title="发表于 2026-03-04 21:28:20">2026-03-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/04/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%8D%B7/" title="无标题">无标题</a><time datetime="2026-03-04T08:26:22.073Z" title="发表于 2026-03-04 16:26:22">2026-03-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/04/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="无标题">无标题</a><time datetime="2026-03-04T06:47:35.672Z" title="发表于 2026-03-04 14:47:35">2026-03-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/02/%E4%B8%89%E5%88%9B/%E6%88%91%E7%9A%84%E7%AE%80%E5%8E%86/" title="无标题">无标题</a><time datetime="2026-03-02T08:12:20.570Z" title="发表于 2026-03-02 16:12:20">2026-03-02</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
