@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>6台工作主机的初始化配置 | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="建议采用“先样板，后克隆”的工业化标准流程，以确保所有主机环境的高度一致性 创建样板机 硬件参数优化 ：  CPU&#x2F;内存：分配 1 核 CPU，1GB~2GB 内存 。  网络模式：务必选择 VMnet1 (Host-Only) 模式，确保与外网物理隔离 。    系统初始化设置 ：  关闭 SELinux：   123sed -i &#x27;s&#x2F;SELINUX&#x3D;enforcing&#x2F;S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6台工作主机的初始化配置">
+<meta property="og:url" content="https://yh1140.github.io/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/6%E5%8F%B0%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="建议采用“先样板，后克隆”的工业化标准流程，以确保所有主机环境的高度一致性 创建样板机 硬件参数优化 ：  CPU&#x2F;内存：分配 1 核 CPU，1GB~2GB 内存 。  网络模式：务必选择 VMnet1 (Host-Only) 模式，确保与外网物理隔离 。    系统初始化设置 ：  关闭 SELinux：   123sed -i &#x27;s&#x2F;SELINUX&#x3D;enforcing&#x2F;S">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-03-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-10T11:42:26.639Z">
+<meta property="article:author" content="孤独の野狼">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "6台工作主机的初始化配置",
+  "url": "https://yh1140.github.io/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/6%E5%8F%B0%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-03-09T16:00:00.000Z",
+  "dateModified": "2026-03-10T11:42:26.639Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/6%E5%8F%B0%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '6台工作主机的初始化配置',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">6台工作主机的初始化配置</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">6台工作主机的初始化配置</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-10T11:42:26.639Z" title="更新于 2026-03-10 19:42:26">2026-03-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web%E7%BB%BC%E5%90%88%E9%9B%86%E7%BE%A4/">web综合集群</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>建议采用“<strong>先样板，后克隆</strong>”的工业化标准流程，以确保所有主机环境的高度一致性</p>
+<h1 id="创建样板机"><a href="#创建样板机" class="headerlink" title="创建样板机"></a>创建样板机</h1><ul>
+<li><p><strong>硬件参数优化</strong> ：</p>
+<ul>
+<li><p><strong>CPU&#x2F;内存</strong>：分配 1 核 CPU，1GB~2GB 内存 。</p>
+</li>
+<li><p><strong>网络模式</strong>：务必选择 <strong>VMnet1 (Host-Only)</strong> 模式，确保与外网物理隔离 。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>系统初始化设置</strong> ：</p>
+<ul>
+<li><p><strong>关闭 SELinux</strong>：</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;</span> /etc/selinux/config</span><br><span class="line"><span class="comment">#验证</span></span><br><span class="line">getenforce</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>关闭内置防火墙</strong>：执行 <code>systemctl stop firewalld</code> 并 <code>systemctl disable firewalld</code>（我们的流量由专门的 Firewall 节点负责） 。</p>
+</li>
+<li><p><strong>安装基础工具包</strong>：安装 <code>vim</code>, <code>net-tools</code>, <code>wget</code>, <code>bash-completion</code> 等常用工具 。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>配置完成后，克隆6台</p>
+<h1 id="工作主机通过跳板机（firewalld）连接xshell"><a href="#工作主机通过跳板机（firewalld）连接xshell" class="headerlink" title="工作主机通过跳板机（firewalld）连接xshell"></a>工作主机通过跳板机（firewalld）连接xshell</h1><h2 id="firewall配置"><a href="#firewall配置" class="headerlink" title="firewall配置"></a>firewall配置</h2><p>在xshell<strong>会话-属性</strong>中点击<strong>隧道-添加</strong><br>添加一条隧道<br><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/20260310163833610.png" alt="image.png"></p>
+<h3 id="工作主机配置"><a href="#工作主机配置" class="headerlink" title="工作主机配置"></a>工作主机配置</h3><p>在xshell<strong>会话-属性</strong>中点击<strong>代理-浏览-添加</strong><br><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/20260310163956056.png" alt="image.png"><br>在<strong>会话-连接</strong>中填内网ip地址即可xshell连接</p>
+<h1 id="工作主机逐一配置网络"><a href="#工作主机逐一配置网络" class="headerlink" title="工作主机逐一配置网络"></a>工作主机逐一配置网络</h1><h2 id="网络接口配置"><a href="#网络接口配置" class="headerlink" title="网络接口配置"></a>网络接口配置</h2><p>使用<code>nmcli</code>配置网络接口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#确认当前网卡名称</span></span><br><span class="line">nmcli device</span><br><span class="line"></span><br><span class="line"><span class="comment">#执行配置</span></span><br><span class="line"><span class="comment"># 1. 设置 IP 地址、子网掩码和网关 </span></span><br><span class="line">nmcli connection modify ens160 ipv4.addresses 192.168.31.3/24 ipv4.gateway 192.168.31.2 </span><br><span class="line"><span class="comment"># 2. 设置 DNS 服务器 </span></span><br><span class="line">nmcli connection modify ens160 ipv4.dns <span class="string">&quot;114.114.114.114&quot;</span> </span><br><span class="line"><span class="comment"># 3. 将获取 IP 的方式设置为“手动”(static/none) </span></span><br><span class="line">nmcli connection modify ens160 ipv4.method manual </span><br><span class="line"><span class="comment"># 4. 设置开机自启 </span></span><br><span class="line">nmcli connection modify ens160 connection.autoconnect <span class="built_in">yes</span> </span><br><span class="line"><span class="comment"># 5. 激活配置（立即生效） </span></span><br><span class="line">nmcli connection up ens160</span><br></pre></td></tr></table></figure>
+<h2 id="配置主机名"><a href="#配置主机名" class="headerlink" title="配置主机名"></a>配置主机名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname &lt;节点名称&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="7个本地主机连通性验证"><a href="#7个本地主机连通性验证" class="headerlink" title="7个本地主机连通性验证"></a>7个本地主机连通性验证</h1><h2 id="验证内网网关的的路由转发"><a href="#验证内网网关的的路由转发" class="headerlink" title="验证内网网关的的路由转发"></a>验证内网网关的的路由转发</h2><h2 id="验证管理中枢的穿透能力"><a href="#验证管理中枢的穿透能力" class="headerlink" title="验证管理中枢的穿透能力"></a>验证管理中枢的穿透能力</h2><h1 id="本地数据中心网络拓扑表"><a href="#本地数据中心网络拓扑表" class="headerlink" title="本地数据中心网络拓扑表"></a>本地数据中心网络拓扑表</h1><table>
+<thead>
+<tr>
+<th><strong>节点名称</strong></th>
+<th><strong>静态 IP</strong></th>
+<th><strong>网关 (Gateway)</strong></th>
+<th><strong>角色分工</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>LB1 (M)</strong></td>
+<td><code>192.168.31.3</code></td>
+<td><code>192.168.31.2</code></td>
+<td>负载均衡主节点（LVS）</td>
+</tr>
+<tr>
+<td><strong>LB2 (B)</strong></td>
+<td><code>192.168.31.4</code></td>
+<td><code>192.168.31.2</code></td>
+<td>负载均衡备节点（Keepalived）</td>
+</tr>
+<tr>
+<td><strong>Web1</strong></td>
+<td><code>192.168.31.5</code></td>
+<td><code>192.168.31.2</code></td>
+<td>Nginx 业务服务器 1</td>
+</tr>
+<tr>
+<td><strong>Web2</strong></td>
+<td><code>192.168.31.6</code></td>
+<td><code>192.168.31.2</code></td>
+<td>Nginx 业务服务器 2</td>
+</tr>
+<tr>
+<td><strong>NAS</strong></td>
+<td><code>192.168.31.7</code></td>
+<td><code>192.168.31.2</code></td>
+<td>NFS 共享存储中心</td>
+</tr>
+<tr>
+<td><strong>MySQL</strong></td>
+<td><code>192.168.31.8</code></td>
+<td><code>192.168.31.2</code></td>
+<td>MySQL 8.4 数据库集群</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/6%E5%8F%B0%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/">https://yh1140.github.io/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/6%E5%8F%B0%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%A1%B9%E7%9B%AE/">项目</a></div><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E6%8E%92%E6%9F%A5%EF%BC%9A%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ansible%E7%BD%91%E7%BB%9C%E9%93%BE%E8%B7%AF%E9%AA%8C%E8%AF%81/" title="排查：云服务器ansible网络链路验证"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">排查：云服务器ansible网络链路验证</div></div><div class="info-2"><div class="info-item-1">物理 -&gt; 隧道 -&gt; 路由 -&gt; 应用 ①验证“地对云”隧道（FRP 层）目标：确保云服务器能通过隧道“摸到”本地的 Firewall。 检查FRP 状态在本地 Firewall 执行 12systemctl status frpc#确保为active 云服务器执行 1netstat -tulnp | grep &lt;你的映射端口&gt; 在云服务器上尝试通过隧道登录本地 1ssh root@127.0.0.1 -p &lt;FRP映射端口&gt;  ②验证“云对内网”的穿透（SSH 代理层）目标：利用 Firewall 登录内网主机（如 Web1: 192.168.31.5） 测试ssh免密登录云服务器直接执行 12ssh root@192.168.31.2#出现firewall主机命令行 ③验证“Ansible 自动化”（应用层）目标：批量管理所有节点。 验证主机清单（Inventory）云服务器执行 12cat /etc/ansible/hosts#确保ip都是192.168.31.x 执行全群ping测试在云服务器执行 1ansible all -m...</div></div></div></a><a class="pagination-related" href="/2026/03/09/%E5%AE%B9%E5%99%A8/K8s/2.6_K8s%E6%A6%82%E5%BF%B5_pod/" title="K8s概念_pod"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">K8s概念_pod</div></div><div class="info-2"><div class="info-item-1">Pod的启动工作流指令到达阶段-master节点 用户请求：你通过 kubectl 发送 YAML 声明。  API Server 校验：API Server 接收请求，验证你的身份（RBAC）和 YAML 格式是否正确。  持久化存储：校验通过后，API Server 将 Pod 的元数据（Metadata）写入 Etcd 数据库。此时 Pod 的状态是 Pending。   控制与调度阶段-master节点 控制器检查 (Controller Manager)：Deployment 控制器发现预期的 Pod 副本数与实际不符，于是请求 API Server 创建一个新的 Pod 对象。  筛选节点 (Scheduler)：  预选 (Predicates)：排除掉资源不足（CPU&#x2F;内存不够）或标签不匹配的节点。  优选 (Priorities)：在剩下的节点中打分，选出最合适的。    绑定 (Binding)：Scheduler 将选中的节点名称（如 node1）写入 Pod 的 spec.nodeName 字段，并更新回 API Server。   接力到物理节...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E6%8E%92%E6%9F%A5%EF%BC%9A%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ansible%E7%BD%91%E7%BB%9C%E9%93%BE%E8%B7%AF%E9%AA%8C%E8%AF%81/" title="排查：云服务器ansible网络链路验证"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-10</div><div class="info-item-2">排查：云服务器ansible网络链路验证</div></div><div class="info-2"><div class="info-item-1">物理 -&gt; 隧道 -&gt; 路由 -&gt; 应用 ①验证“地对云”隧道（FRP 层）目标：确保云服务器能通过隧道“摸到”本地的 Firewall。 检查FRP 状态在本地 Firewall 执行 12systemctl status frpc#确保为active 云服务器执行 1netstat -tulnp | grep &lt;你的映射端口&gt; 在云服务器上尝试通过隧道登录本地 1ssh root@127.0.0.1 -p &lt;FRP映射端口&gt;  ②验证“云对内网”的穿透（SSH 代理层）目标：利用 Firewall 登录内网主机（如 Web1: 192.168.31.5） 测试ssh免密登录云服务器直接执行 12ssh root@192.168.31.2#出现firewall主机命令行 ③验证“Ansible 自动化”（应用层）目标：批量管理所有节点。 验证主机清单（Inventory）云服务器执行 12cat /etc/ansible/hosts#确保ip都是192.168.31.x 执行全群ping测试在云服务器执行 1ansible all -m...</div></div></div></a><a class="pagination-related" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/Firewall%20%E4%B8%BB%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="firewall部署"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-10</div><div class="info-item-2">firewall部署</div></div><div class="info-2"><div class="info-item-1">台机器非常关键，它不仅是内外网的隔离边界，还承担了 路由转发（Router）、地址转换（SNAT&#x2F;DNAT） 以及 内网网关 的职责 ①初始化设置主机名&amp;防火墙&amp;selinux设置1234567891011# 设置主机名hostnamectl set-hostname firewallsu# 临时并永久关闭 SELinuxsetenforce 0sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27; /etc/selinux/config# 关闭自带的 firewalld，我们将使用更底层的 iptables/nftables 脚本控制systemctl stop firewalldsystemctl disable firewalld ②网卡&amp;ip配置根据项目规划，这台机器需要两块网卡来连接两个不同的世界 ：  网卡 1 (ens224)：设置为 “NAT 模式”，模拟 WAN 口（外网） 。 网卡 2 (ens160)：设置为 “Host-Only” 模式，模拟 LAN 口（内网）我...</div></div></div></a><a class="pagination-related" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="云服务器初始化配置"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-10</div><div class="info-item-2">云服务器初始化配置</div></div><div class="info-2"><div class="info-item-1">火山云服务器（IP: 115.191.4.120）将承担堡垒机、Ansible 管理中心、Prometheus 监控和 Grafana 可视化的多重角色 基础环境配置设置主机名1hostnamectl set-hostname Cloud-Hub 更新系统并安装基础工具123dnf install -y epel-release  # 必须先安装 EPEL 源才能装 Ansible [cite: 214]dnf install -y vim net-tools wget bash-completion screen lrzsz [cite: 522, 523] 部署自动化中枢-Ansible安装软件1dnf install -y ansible 配置主机清单1vim /etc/ansible/hosts 添加内容 TOML12345678910111213141516[firewall]192.168.31.2[lb]192.168.31.3192.168.31.4[web]192.168.31.5192.168.31.6[nas]192.168.31.7[mysql]192.1...</div></div></div></a><a class="pagination-related" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84&%E7%8E%AF%E5%A2%83/" title="集群架构&amp;环境"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-10</div><div class="info-item-2">集群架构&amp;环境</div></div><div class="info-2"><div class="info-item-1">项目环境组件   类别 组件名称  说明    操作系统 Rocky Linux 9.4+  生产环境主流选择，内核更稳定   云服务器 火山云 公网 IP: 115.191.4.120 作为全局控制中心与堡垒机   数据库 MySQL 8.4 LTS  支持 MGR 高可用，性能大幅提升   Web 服务 Nginx 1.26+ 源码编译安装 稳定版，支持 HTTP&#x2F;3   负载均衡 LVS + Keepalived 内核级负载均衡 实现 VIP 故障秒级漂移   自动化 Ansible 2.17+ 基于 Python 开发 批量下发配置与安全策略   监控系统 Prometheus 3.0 时序数据库监控 负责全集群数据抓取   可视化 Grafana 11.x 展示监控仪表盘 导入 8919&#x2F;1860 中文模板   共享存储 NAS (NFS) 网络文件系统 核心网页源码共享中心   前置条件硬件资源 内存：宿主机（笔记本）建议 16GB 及以上。若所有 7 台虚拟机同时开启，建议每台分配 1GB-2GB 内存。 BIOS 设置：确保你的电脑 BIOS ...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649?spm_id_from=333.1387.0.0" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1140798266&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #1296db;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%A0%B7%E6%9D%BF%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">创建样板机</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E9%80%9A%E8%BF%87%E8%B7%B3%E6%9D%BF%E6%9C%BA%EF%BC%88firewalld%EF%BC%89%E8%BF%9E%E6%8E%A5xshell"><span class="toc-number">2.</span> <span class="toc-text">工作主机通过跳板机（firewalld）连接xshell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#firewall%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text">firewall配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.1.</span> <span class="toc-text">工作主机配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E9%80%90%E4%B8%80%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C"><span class="toc-number">3.</span> <span class="toc-text">工作主机逐一配置网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">网络接口配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="toc-number">3.2.</span> <span class="toc-text">配置主机名</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7%E4%B8%AA%E6%9C%AC%E5%9C%B0%E4%B8%BB%E6%9C%BA%E8%BF%9E%E9%80%9A%E6%80%A7%E9%AA%8C%E8%AF%81"><span class="toc-number">4.</span> <span class="toc-text">7个本地主机连通性验证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%86%85%E7%BD%91%E7%BD%91%E5%85%B3%E7%9A%84%E7%9A%84%E8%B7%AF%E7%94%B1%E8%BD%AC%E5%8F%91"><span class="toc-number">4.1.</span> <span class="toc-text">验证内网网关的的路由转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%AE%A1%E7%90%86%E4%B8%AD%E6%9E%A2%E7%9A%84%E7%A9%BF%E9%80%8F%E8%83%BD%E5%8A%9B"><span class="toc-number">4.2.</span> <span class="toc-text">验证管理中枢的穿透能力</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E8%A1%A8"><span class="toc-number">5.</span> <span class="toc-text">本地数据中心网络拓扑表</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/6%E5%8F%B0%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="6台工作主机的初始化配置">6台工作主机的初始化配置</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E6%8E%92%E6%9F%A5%EF%BC%9A%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ansible%E7%BD%91%E7%BB%9C%E9%93%BE%E8%B7%AF%E9%AA%8C%E8%AF%81/" title="排查：云服务器ansible网络链路验证">排查：云服务器ansible网络链路验证</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="云服务器初始化配置">云服务器初始化配置</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/Firewall%20%E4%B8%BB%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="firewall部署">firewall部署</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84&amp;%E7%8E%AF%E5%A2%83/" title="集群架构&amp;环境">集群架构&amp;环境</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

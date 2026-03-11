@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>K8s概念_探针 | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="摘要：  定义与基本概念探针是 Kubernetes 监控容器运行状态的“传感器”，它由 Kubelet 定期执行，根据探测结果决定是否重启容器或切断流量，从而实现服务的自动化健康管理。 探针分类 liveness探针：影响的是单个容器，如果检查失败，将杀死容器，根据pod的restartPolicy来操作。 readiness探针：影响的是整个pod，即如果pod中有多个容器，只要有一个容器的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8s概念_探针">
+<meta property="og:url" content="https://yh1140.github.io/2026/03/09/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_%E6%8E%A2%E9%92%88/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="摘要：  定义与基本概念探针是 Kubernetes 监控容器运行状态的“传感器”，它由 Kubelet 定期执行，根据探测结果决定是否重启容器或切断流量，从而实现服务的自动化健康管理。 探针分类 liveness探针：影响的是单个容器，如果检查失败，将杀死容器，根据pod的restartPolicy来操作。 readiness探针：影响的是整个pod，即如果pod中有多个容器，只要有一个容器的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-03-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-09T08:48:14.801Z">
+<meta property="article:author" content="孤独の野狼">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "K8s概念_探针",
+  "url": "https://yh1140.github.io/2026/03/09/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_%E6%8E%A2%E9%92%88/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-03-08T16:00:00.000Z",
+  "dateModified": "2026-03-09T08:48:14.801Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/03/09/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_%E6%8E%A2%E9%92%88/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'K8s概念_探针',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">K8s概念_探针</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">K8s概念_探针</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-08T16:00:00.000Z" title="发表于 2026-03-09 00:00:00">2026-03-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-09T08:48:14.801Z" title="更新于 2026-03-09 16:48:14">2026-03-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/K8s/">K8s</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p><strong>摘要</strong>：</p>
+</blockquote>
+<h1 id="定义与基本概念"><a href="#定义与基本概念" class="headerlink" title="定义与基本概念"></a>定义与基本概念</h1><p>探针是 Kubernetes 监控<strong>容器运行状态</strong>的“传感器”，它由 Kubelet <strong>定期</strong>执行，根据探测结果决定是否重启容器或切断流量，从而实现服务的自动化健康管理。</p>
+<h2 id="探针分类"><a href="#探针分类" class="headerlink" title="探针分类"></a>探针分类</h2><ul>
+<li><code>liveness探针</code>：影响的是单个容器，如果检查失败，将杀死容器，根据pod的restartPolicy来操作。</li>
+<li><code>readiness探针</code>：影响的是整个pod，即如果pod中有多个容器，只要有一个容器的readiness探针诊断失败，那么整个pod都会处于unready状态。</li>
+<li><code>startup探针</code>：指示容器中的应用是否已经启动。如果提供了启动探针(startup probe)，则禁用所有其他探针，直到它成功为止。如果启动探针失败，kubelet 将杀死容器，容器服从其重启策略进行重启。如果容器没有提供启动探针，则默认状态为成功Success。</li>
+</ul>
+<h2 id="探针的参数"><a href="#探针的参数" class="headerlink" title="探针的参数"></a>探针的参数</h2><table>
+<thead>
+<tr>
+<th><strong>参数名</strong></th>
+<th><strong>YAML 字段</strong></th>
+<th><strong>默认值</strong></th>
+<th><strong>定义与运维意义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>初始延迟</strong></td>
+<td><code>initialDelaySeconds</code></td>
+<td>0</td>
+<td><strong>容器启动后等多久</strong>才开始第一次探测。给应用留出启动时间。</td>
+</tr>
+<tr>
+<td><strong>探测间隔</strong></td>
+<td><code>periodSeconds</code></td>
+<td>10</td>
+<td><strong>探测的频率</strong>。越小感知故障越快，但对容器负载也越高。</td>
+</tr>
+<tr>
+<td><strong>超时时间</strong></td>
+<td><code>timeoutSeconds</code></td>
+<td>1</td>
+<td><strong>等待响应的时间</strong>。如果超过这个时间没返回，就算探测失败。</td>
+</tr>
+<tr>
+<td><strong>失败阈值</strong></td>
+<td><code>failureThreshold</code></td>
+<td>3</td>
+<td><strong>连续失败几次</strong>才真正判定为失败（重启容器或剔除流量）。</td>
+</tr>
+<tr>
+<td><strong>成功阈值</strong></td>
+<td><code>successThreshold</code></td>
+<td>1</td>
+<td><strong>连续成功几次</strong>才判定为恢复正常（通常保持默认值 1）。</td>
+</tr>
+<tr>
+<td><strong>终止宽限期</strong></td>
+<td><code>terminationGracePeriodSeconds</code></td>
+<td>30</td>
+<td>存活探针失败触发重启时，给容器留出的<strong>优雅退出时间</strong>。</td>
+</tr>
+</tbody></table>
+<ul>
+<li>initialDelaySeconds：容器启动后第一次执行探测是需要等待多少秒。</li>
+<li>periodSeconds：执行探测的频率。默认是10秒，最小1秒。</li>
+<li>timeoutSeconds：探测超时时间。默认1秒，最小1秒。</li>
+<li>successThreshold：探测失败后，最少连续探测成功多少次才被认定为成功。默认是1。对于liveness必须是1。最小值是1。</li>
+<li>failureThreshold：探测成功后，最少连续探测失败多少次才被认定为失败。默认是3。最小值是1。</li>
+</ul>
+<h2 id="探针的探测结果"><a href="#探针的探测结果" class="headerlink" title="探针的探测结果"></a>探针的探测结果</h2><ul>
+<li>Success：Container通过了检查。</li>
+<li>Failure：Container未通过检查。</li>
+<li>Unknown：未能执行检查，因此不采取任何措施。</li>
+</ul>
+<h1 id="三种探针"><a href="#三种探针" class="headerlink" title="三种探针"></a>三种探针</h1><h2 id="存活探针-Liveness-Probe"><a href="#存活探针-Liveness-Probe" class="headerlink" title="存活探针-Liveness Probe"></a>存活探针-Liveness Probe</h2><h3 id="必要性"><a href="#必要性" class="headerlink" title="必要性"></a>必要性</h3><p>在一个服务中，是存在进程在运行，但服务其实已经挂掉了，表现为端口监听失败、http请求失败等。所以需要存活探针</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><h2 id="就绪探针-Readiness-Probe"><a href="#就绪探针-Readiness-Probe" class="headerlink" title="就绪探针-Readiness Probe"></a>就绪探针-Readiness Probe</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><h2 id="启动探针-Startup-Probe"><a href="#启动探针-Startup-Probe" class="headerlink" title="启动探针-Startup Probe"></a>启动探针-Startup Probe</h2><p>Startup探针如果失败就不睡启动其它探针了</p>
+<h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><h1 id="探针的工作原理"><a href="#探针的工作原理" class="headerlink" title="探针的工作原理"></a>探针的工作原理</h1><h2 id="执行主体"><a href="#执行主体" class="headerlink" title="执行主体"></a>执行主体</h2><p>探针的执行者不是 Master 节点，而是 <strong>Kubelet</strong>。</p>
+<ul>
+<li><strong>本地化执行</strong>：每个 Node 节点上的 Kubelet 进程内部都有一个 <code>Probe Manager</code>。它根据 Pod Spec 中的配置，定时发起探测动作。</li>
+<li><strong>物理链路</strong>：Kubelet 直接与宿主机上的容器网络或 Namespace 通信。<ul>
+<li>如果是 <strong>HTTP&#x2F;TCP</strong>：Kubelet 直接访问容器的 IP 和端口。</li>
+<li>如果是 <strong>Exec</strong>：Kubelet 通过 <strong>CRI（Container Runtime Interface）</strong> 调用 <code>containerd</code>，在目标容器内执行命令。</li>
+</ul>
+</li>
+</ul>
+<h2 id="循环检测"><a href="#循环检测" class="headerlink" title="循环检测"></a>循环检测</h2><p>探针并不是执行一次就结束了，它是一个<strong>有状态的计数器</strong>。<br><strong>计数器机制</strong>：<br>Kubelet 会在内存中为每个探针记录两个计数器：</p>
+<ol>
+<li><strong>连续成功计数 (Success Count)</strong></li>
+<li><strong>连续失败计数 (Failure Count)</strong><br><strong>状态转换原理</strong>：</li>
+</ol>
+<ul>
+<li><strong>从正常到异常</strong>：只有当 <code>Failure Count</code> <strong>连续</strong>达到 <code>failureThreshold</code>（失败阈值）时，状态才会真正改变。</li>
+<li><strong>从异常到正常</strong>：只有当 <code>Success Count</code> <strong>连续</strong>达到 <code>successThreshold</code>（成功阈值）时，才认为恢复。<blockquote>
+<p><strong>注意</strong>：这种“连续计数”机制是为了<strong>容错</strong>。它可以防止因为一次偶发的网络抖动（Flapping）导致容器被误杀。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="探针联动"><a href="#探针联动" class="headerlink" title="探针联动"></a>探针联动</h2><p>Pod 启动后，三类探针在时间轴上的协作逻辑：</p>
+<h3 id="①启动保护（Startup-Probe）"><a href="#①启动保护（Startup-Probe）" class="headerlink" title="①启动保护（Startup Probe）"></a>①启动保护（Startup Probe）</h3><ul>
+<li><strong>锁死机制</strong>：在启动探针 <strong>成功&#x2F;彻底失败</strong> 之前，Liveness 和 Readiness 探针都会被<strong>强行挂起（停用）</strong>。</li>
+<li><strong>目的</strong>：保护慢启动应用，防止在初始化时被 Liveness 重启。</li>
+</ul>
+<h3 id="②-平滑上线（Readiness-Probe）"><a href="#②-平滑上线（Readiness-Probe）" class="headerlink" title="② 平滑上线（Readiness Probe）"></a>② 平滑上线（Readiness Probe）</h3><ul>
+<li><strong>原理</strong>：一旦启动探针通过，Readiness 开始<strong>高频</strong>工作。</li>
+<li><strong>联动 Service</strong>：<ul>
+<li>探测失败 $\rightarrow$ Kubelet 通知 API Server $\rightarrow$ Endpoint Controller 将该 Pod IP 从 <strong>Service 的 Endpoints</strong> 列表中移除。</li>
+<li><strong>结果</strong>：外部流量（如经过 Ingress 或 Service 的流量）不再流向该 Pod。</li>
+</ul>
+</li>
+</ul>
+<h3 id="③持续监控（Liveness-Probe）"><a href="#③持续监控（Liveness-Probe）" class="headerlink" title="③持续监控（Liveness Probe）"></a>③持续监控（Liveness Probe）</h3><ul>
+<li><strong>原理</strong>：与 Readiness 并行运行，但不影响流量分配。</li>
+<li><strong>联动自愈</strong>：<ul>
+<li>探测失败 $\rightarrow$ Kubelet 直接调用 Containerd 停止容器 $\rightarrow$ 根据 <code>restartPolicy</code> 重建新容器。</li>
+</ul>
+</li>
+</ul>
+<h1 id="四种探测方法"><a href="#四种探测方法" class="headerlink" title="四种探测方法"></a>四种探测方法</h1><p>每种探针，每个阶段，都可以使用这四种探测方法</p>
+<h2 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h2><p>进入pod内部执行命令，可以执行-&gt;pod是好的</p>
+<h2 id="httpget"><a href="#httpget" class="headerlink" title="httpget"></a>httpget</h2><p>通过http协议访问web服务，可以访问-&gt;pod是好的</p>
+<h2 id="tcpSocket"><a href="#tcpSocket" class="headerlink" title="tcpSocket"></a>tcpSocket</h2><p>访问ip+端口，可以访问-&gt;pod是好的</p>
+<h2 id="grpc"><a href="#grpc" class="headerlink" title="grpc"></a>grpc</h2><p>调用功能，有响应-&gt;pod是好的</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/03/09/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_%E6%8E%A2%E9%92%88/">https://yh1140.github.io/2026/03/09/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_%E6%8E%A2%E9%92%88/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/09/%E5%AE%B9%E5%99%A8/docker/Docker%E6%A6%82%E5%BF%B5_%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="Docker概念_命名空间"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Docker概念_命名空间</div></div><div class="info-2"><div class="info-item-1">Docker 并不是一种全新的虚拟化技术，它本质上是一个利用 Linux 内核特性实现的隔离进程。 Docker 之所以能让容器看起来像一个独立的操作系统，全靠 Namespaces（资源隔离） 和 Cgroups（资源限制） 这两项核心技术。 基本定义命名空间（Namespaces） 是 Linux 内核的一个特性，用于对内核资源进行物理隔离。  通俗解释：想象你在一栋办公楼里。命名空间就像是给每个团队分配了一个独立的办公室。虽然大家都在同一栋楼（同一个 Linux 内核）里，但 A 团队看不见 B 团队的桌面，也听不见他们的电话。  运维意义：它保证了容器 A 里的进程编号、网络配置、挂载点等，不会与容器 B 或宿主机发生冲突。   七大命名空间PID Namespace-进程隔离NET Namespace-网络隔离MNT Namdespace-挂载点隔离UTS Namdespace-主机名隔离IPC Namdespace-进程间通信隔离USER Namespace-用户隔离CGROUP Namdespace</div></div></div></a><a class="pagination-related" href="/2026/03/09/%E5%AE%B9%E5%99%A8/K8s/K8s%E5%AE%9E%E6%88%98_%E6%8E%A2%E9%92%88%E5%8A%9F%E8%83%BD%E5%AE%9E%E9%AA%8C-%E8%87%AA%E6%84%88%E5%92%8C%E6%B5%81%E9%87%8F%E7%AE%A1%E7%90%86/" title="K8s实战_探针"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">K8s实战_探针</div></div><div class="info-2"><div class="info-item-1">实验环境实验目标 观察 Startup Probe 如何保护慢启动应用。  验证 Readiness Probe 失败时，Service 如何自动切断流量（不重启容器）。  验证 Liveness Probe 失败时，Kubelet 如何强制重启容器。   脚本准备容器模拟逻辑模拟三个阶段  启动中：前 20 秒，文件不存在（此时 startupProbe 会失败）。 正常运行：20 秒后，创建 /tmp/started（此时 startupProbe 成功，接力给后续探针）。 状态模拟：通过检查是否存在 /tmp/overload 或 /tmp/deadlock 来改变探测结果。  编辑advanced-probe-lab.yaml12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364apiVersion: v1kind: Podmetadata:  name: probe-lab-pod  la...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/09/%E5%AE%B9%E5%99%A8/docker/Docker%E6%A6%82%E5%BF%B5_%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="Docker概念_命名空间"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-09</div><div class="info-item-2">Docker概念_命名空间</div></div><div class="info-2"><div class="info-item-1">Docker 并不是一种全新的虚拟化技术，它本质上是一个利用 Linux 内核特性实现的隔离进程。 Docker 之所以能让容器看起来像一个独立的操作系统，全靠 Namespaces（资源隔离） 和 Cgroups（资源限制） 这两项核心技术。 基本定义命名空间（Namespaces） 是 Linux 内核的一个特性，用于对内核资源进行物理隔离。  通俗解释：想象你在一栋办公楼里。命名空间就像是给每个团队分配了一个独立的办公室。虽然大家都在同一栋楼（同一个 Linux 内核）里，但 A 团队看不见 B 团队的桌面，也听不见他们的电话。  运维意义：它保证了容器 A 里的进程编号、网络配置、挂载点等，不会与容器 B 或宿主机发生冲突。   七大命名空间PID Namespace-进程隔离NET Namespace-网络隔离MNT Namdespace-挂载点隔离UTS Namdespace-主机名隔离IPC Namdespace-进程间通信隔离USER Namespace-用户隔离CGROUP Namdespace</div></div></div></a><a class="pagination-related" href="/2026/02/06/%E5%AE%B9%E5%99%A8/K8s/2.6_K8s%E6%A6%82%E5%BF%B5_Pod%E7%8A%B6%E6%80%81/" title="K8s概念_Pod状态"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-06</div><div class="info-item-2">K8s概念_Pod状态</div></div><div class="info-2"><div class="info-item-1"> 摘要：本文记录了执行 ‘kubectl get pods’ 时会出现的STATUS类别，并说明应该如何根据STATUS进行排错  阶段阶段是 Pod 在其生命周期中所处的简单、高层面的总结。它是 kubectl get pod 中 STATUS 列的基础。根据 K8s 官方定义，阶段只有以下 5 种： Pending-挂起Running-运行Succeeded-成功Failed-失败Unknown-未知状态当你在 kubectl get pod 看到的内容不是上面那 5 个单词时，你看到的是 Reason（原因） 或 Condition（状况）。这些信息能更直接地告诉你“为什么”不在 Running 阶段 镜像类 ImagePullBackOff: 镜像拉取反复失败，K8s 正在等待重试。  ErrImagePull: 尝试拉取镜像时报错（通常是因为你的“渡渡鸟”镜像站地址写错或认证失败）。   配置与资源类 CreateContainerConfigError: ConfigMap 或 Secret 找不到，容器无法读取配置。  InvalidImageName: 镜像名格式...</div></div></div></a><a class="pagination-related" href="/2026/02/08/%E5%AE%B9%E5%99%A8/K8s/2.8_K8s%E6%A6%82%E5%BF%B5_PV&PVC/" title="K8s概念_PV&amp;PVC"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-08</div><div class="info-item-2">K8s概念_PV&amp;PVC</div></div><div class="info-2"><div class="info-item-1">基本定义在生产环境中，容器是“瞬态”的（随毁随建），但数据必须是“持久”的。PV  和 PVC 就是 K8s 为了解耦“存储资源提供者”和“存储资源使用者”而设计的核心抽象。 持久卷（PersistentVolume，PV）是集群中的一块存储，可以由管理员事先制备， 或者使用存储类（Storage Class）来动态制备。 持久卷是集群资源，就像节点也是集群资源一样。PV 持久卷和普通的 Volume 一样， 也是使用卷插件来实现的，只是它们拥有独立于任何使用 PV 的 Pod 的生命周期。 此 API 对象中记述了存储的实现细节，无论其背后是 NFS、iSCSI 还是特定于云平台的存储系统。 持久卷申领（PersistentVolumeClaim，PVC）表达的是用户对存储的请求，概念上与 Pod 类似。 Pod 会耗用节点资源，而 PVC 申领会耗用 PV 资源。Pod 可以请求特定数量的资源（CPU 和内存）。同样 PVC 申领也可以请求特定的大小和访问模式 （例如，可以挂载为 ReadWriteOnce、ReadOnlyMany、ReadWriteMany 或 ReadW...</div></div></div></a><a class="pagination-related" href="/2026/02/07/%E5%AE%B9%E5%99%A8/K8s/2.7_K8s%E6%A6%82%E5%BF%B5_configmap/" title="K8s概念_configmap"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-07</div><div class="info-item-2">K8s概念_configmap</div></div><div class="info-2"><div class="info-item-1">基本定义在 Kubernetes 官方文档中，ConfigMap 是一种 API 对象，用于将非机密数据保存到键值对中。  解耦（Decoupling）：这是它的灵魂。它让你的容器镜像保持“纯净”。镜像里只跑代码，不存配置。 配置即数据：你可以把 ConfigMap 看作是一个内置在 K8s 集群里的“小数据库”或“分布式配置中心”。  结构通过 kubectl get cm &lt;name&gt; -o yaml 看到的内容通常由以下几部分组成：    组成部分 说明 运维关注点    metadata 名称、命名空间、标签 必须与 Pod 在同一个 Namespace，否则 Pod 找不到它。   data 存储 UTF-8 文本字符串 适合 nginx.conf、application.properties。   binaryData 存储二进制数据（Base64 编码） 适合存放小的图标、证书（虽然证书建议放 Secret）。   immutable 是否不可变（可选字段） v1.35 运维利器。设为 true 后，禁止修改，能降低 API Server 压力并防止误操...</div></div></div></a><a class="pagination-related" href="/2026/03/07/MySQL/MySQL_%E6%97%A5%E5%BF%97/" title="MySQL_日志"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-07</div><div class="info-item-2">MySQL_日志</div></div><div class="info-2"><div class="info-item-1">日志种类错误日志error_log慢查询日志slow query_log一般查询日志general_log事务日志Redo_Log实现崩溃恢复和事务持久性 回滚日志undo_log二进制日志bin_log以二进制存储在磁盘中，数据备份恢复或主从数据同步 </div></div></div></a><a class="pagination-related" href="/2026/01/07/MySQL/%E9%94%81%E6%9C%BA%E5%88%B6/" title="MySQL_锁机制"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-07</div><div class="info-item-2">MySQL_锁机制</div></div><div class="info-2"><div class="info-item-1">分类按颗粒度分类表级锁行级锁页面锁按锁的属性分类共享锁排他锁意向锁</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649?spm_id_from=333.1387.0.0" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1140798266&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #1296db;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">定义与基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E9%92%88%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text">探针分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E9%92%88%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">探针的参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E9%92%88%E7%9A%84%E6%8E%A2%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="toc-number">1.3.</span> <span class="toc-text">探针的探测结果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E6%8E%A2%E9%92%88"><span class="toc-number">2.</span> <span class="toc-text">三种探针</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E6%B4%BB%E6%8E%A2%E9%92%88-Liveness-Probe"><span class="toc-number">2.1.</span> <span class="toc-text">存活探针-Liveness Probe</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%85%E8%A6%81%E6%80%A7"><span class="toc-number">2.1.1.</span> <span class="toc-text">必要性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.2.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%B1%E7%BB%AA%E6%8E%A2%E9%92%88-Readiness-Probe"><span class="toc-number">2.2.</span> <span class="toc-text">就绪探针-Readiness Probe</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%8E%A2%E9%92%88-Startup-Probe"><span class="toc-number">2.3.</span> <span class="toc-text">启动探针-Startup Probe</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-2"><span class="toc-number">2.3.1.</span> <span class="toc-text">原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A2%E9%92%88%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">探针的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E4%B8%BB%E4%BD%93"><span class="toc-number">3.1.</span> <span class="toc-text">执行主体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E6%A3%80%E6%B5%8B"><span class="toc-number">3.2.</span> <span class="toc-text">循环检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E9%92%88%E8%81%94%E5%8A%A8"><span class="toc-number">3.3.</span> <span class="toc-text">探针联动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%91%A0%E5%90%AF%E5%8A%A8%E4%BF%9D%E6%8A%A4%EF%BC%88Startup-Probe%EF%BC%89"><span class="toc-number">3.3.1.</span> <span class="toc-text">①启动保护（Startup Probe）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%91%A1-%E5%B9%B3%E6%BB%91%E4%B8%8A%E7%BA%BF%EF%BC%88Readiness-Probe%EF%BC%89"><span class="toc-number">3.3.2.</span> <span class="toc-text">② 平滑上线（Readiness Probe）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%91%A2%E6%8C%81%E7%BB%AD%E7%9B%91%E6%8E%A7%EF%BC%88Liveness-Probe%EF%BC%89"><span class="toc-number">3.3.3.</span> <span class="toc-text">③持续监控（Liveness Probe）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E7%A7%8D%E6%8E%A2%E6%B5%8B%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">四种探测方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#exec"><span class="toc-number">4.1.</span> <span class="toc-text">exec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#httpget"><span class="toc-number">4.2.</span> <span class="toc-text">httpget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcpSocket"><span class="toc-number">4.3.</span> <span class="toc-text">tcpSocket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grpc"><span class="toc-number">4.4.</span> <span class="toc-text">grpc</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/6%E5%8F%B0%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="6台工作主机的初始化配置">6台工作主机的初始化配置</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E6%8E%92%E6%9F%A5%EF%BC%9A%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ansible%E7%BD%91%E7%BB%9C%E9%93%BE%E8%B7%AF%E9%AA%8C%E8%AF%81/" title="排查：云服务器ansible网络链路验证">排查：云服务器ansible网络链路验证</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="云服务器初始化配置">云服务器初始化配置</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/Firewall%20%E4%B8%BB%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="firewall部署">firewall部署</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84&amp;%E7%8E%AF%E5%A2%83/" title="集群架构&amp;环境">集群架构&amp;环境</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

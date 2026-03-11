@@ -1,0 +1,255 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>K8s概念_configmap | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="基本定义在 Kubernetes 官方文档中，ConfigMap 是一种 API 对象，用于将非机密数据保存到键值对中。  解耦（Decoupling）：这是它的灵魂。它让你的容器镜像保持“纯净”。镜像里只跑代码，不存配置。 配置即数据：你可以把 ConfigMap 看作是一个内置在 K8s 集群里的“小数据库”或“分布式配置中心”。  结构通过 kubectl get cm &lt;name&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8s概念_configmap">
+<meta property="og:url" content="https://yh1140.github.io/2026/02/07/%E5%AE%B9%E5%99%A8/K8s/2.7_K8s%E6%A6%82%E5%BF%B5_configmap/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="基本定义在 Kubernetes 官方文档中，ConfigMap 是一种 API 对象，用于将非机密数据保存到键值对中。  解耦（Decoupling）：这是它的灵魂。它让你的容器镜像保持“纯净”。镜像里只跑代码，不存配置。 配置即数据：你可以把 ConfigMap 看作是一个内置在 K8s 集群里的“小数据库”或“分布式配置中心”。  结构通过 kubectl get cm &lt;name&amp;g">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-02-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-06T08:28:04.261Z">
+<meta property="article:author" content="孤独の野狼">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "K8s概念_configmap",
+  "url": "https://yh1140.github.io/2026/02/07/%E5%AE%B9%E5%99%A8/K8s/2.7_K8s%E6%A6%82%E5%BF%B5_configmap/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-02-06T16:00:00.000Z",
+  "dateModified": "2026-03-06T08:28:04.261Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/02/07/%E5%AE%B9%E5%99%A8/K8s/2.7_K8s%E6%A6%82%E5%BF%B5_configmap/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'K8s概念_configmap',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">K8s概念_configmap</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">K8s概念_configmap</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-02-06T16:00:00.000Z" title="发表于 2026-02-07 00:00:00">2026-02-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-06T08:28:04.261Z" title="更新于 2026-03-06 16:28:04">2026-03-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/K8s/">K8s</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h1><p>在 Kubernetes 官方文档中，<strong>ConfigMap</strong> 是一种 API 对象，用于将<strong>非机密数据</strong>保存到键值对中。</p>
+<ul>
+<li><strong>解耦（Decoupling）</strong>：这是它的灵魂。它让你的容器镜像保持“纯净”。镜像里只跑代码，不存配置。</li>
+<li><strong>配置即数据</strong>：你可以把 ConfigMap 看作是一个内置在 K8s 集群里的“小数据库”或“分布式配置中心”。</li>
+</ul>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>通过 <code>kubectl get cm &lt;name&gt; -o yaml</code> 看到的内容通常由以下几部分组成：</p>
+<table>
+<thead>
+<tr>
+<th><strong>组成部分</strong></th>
+<th><strong>说明</strong></th>
+<th><strong>运维关注点</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>metadata</code></strong></td>
+<td>名称、命名空间、标签</td>
+<td>必须与 Pod 在同一个 <strong>Namespace</strong>，否则 Pod 找不到它。</td>
+</tr>
+<tr>
+<td><strong><code>data</code></strong></td>
+<td>存储 UTF-8 文本字符串</td>
+<td>适合 <code>nginx.conf</code>、<code>application.properties</code>。</td>
+</tr>
+<tr>
+<td><strong><code>binaryData</code></strong></td>
+<td>存储二进制数据（Base64 编码）</td>
+<td>适合存放小的图标、证书（虽然证书建议放 Secret）。</td>
+</tr>
+<tr>
+<td><strong><code>immutable</code></strong></td>
+<td>是否不可变（可选字段）</td>
+<td><strong>v1.35 运维利器</strong>。设为 <code>true</code> 后，禁止修改，能降低 API Server 压力并防止误操作。</td>
+</tr>
+</tbody></table>
+<h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><ul>
+<li><strong>大小限制</strong>：单个 ConfigMap 的大小不能超过 <strong>1MiB</strong>。如果你想把超大的日志文件或数据集塞进去，etcd 会报错。</li>
+<li><strong>空间隔离</strong>：ConfigMap 是 <strong>Namespace 隔离</strong>的。<code>default</code> 命名空间的 Pod 无法直接读取 <code>kube-system</code> 下的 ConfigMap。</li>
+<li><strong>非加密性</strong>：它仅仅是明文存储。<strong>绝对不要</strong>把数据库密码、API Key 存在这里（那是 Secret 的活儿）。</li>
+<li><strong>引用机制</strong>：Pod 引用 ConfigMap 有两种“姿势”：<ul>
+<li><strong>作为环境变量</strong>：Pod 启动时加载，修改 CM 后 Pod 不会自动更新变量。</li>
+<li><strong>作为挂载卷 (Volume)</strong>：以文件形式映射进容器，支持<strong>热更新</strong>（会有一定延迟）。</li>
+</ul>
+</li>
+</ul>
+<h1 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h1><h1 id="制作configmap"><a href="#制作configmap" class="headerlink" title="制作configmap"></a>制作configmap</h1><p>制作 ConfigMap（简称 CM）主要有四种常用方式。<br>根据配置源（是命令行参数、单个文件还是整个目录）选择最快捷的方法</p>
+<h2 id="命令行直接创建-快速测试"><a href="#命令行直接创建-快速测试" class="headerlink" title="命令行直接创建-快速测试"></a>命令行直接创建-快速测试</h2><p>这种方式不需要准备文件，适合存放简单的键值对，比如数据库 IP、日志级别<br> 命令格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap &lt;cm名称&gt; --from-literal=key1=value1 --from-literal=key2=value2</span><br></pre></td></tr></table></figure>
+
+<p>例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap cluster-info \</span><br><span class="line">  --from-literal=master-ip=192.168.10.152 \</span><br><span class="line">  --from-literal=node1-ip=192.168.10.153 \</span><br><span class="line">  --from-literal=<span class="built_in">env</span>=dev</span><br></pre></td></tr></table></figure>
+<h2 id="从单个文件创建-常用"><a href="#从单个文件创建-常用" class="headerlink" title="从单个文件创建-常用"></a>从单个文件创建-常用</h2><p>当你已经有现成的配置文件（如 <code>nginx.conf</code> 或 <code>redis.conf</code>）时，直接用此方式将文件内容塞进 CM。<br>命令格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap &lt;cm名称&gt; --from-file=&lt;文件路径&gt;</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设你当前目录下有个 nginx.conf</span></span><br><span class="line">kubectl create configmap nginx-config --from-file=nginx.conf</span><br><span class="line"><span class="comment">#注：创建后，CM 里的 Key 默认就是文件名 `nginx.conf`，Value 就是文件内容。</span></span><br></pre></td></tr></table></figure>
+<h2 id="从整个目录创建-批量导入常用"><a href="#从整个目录创建-批量导入常用" class="headerlink" title="从整个目录创建-批量导入常用"></a>从整个目录创建-批量导入常用</h2><p>如果你的应用有一整套配置文件（比如 <code>/etc/my-app/conf.d/</code> 下有 5 个文件），可以一次性导入。<br>命令格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap &lt;cm名称&gt; --from-file=&lt;目录路径&gt;</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设 configs/ 目录下有多个 .properties 文件</span></span><br><span class="line">kubectl create configmap app-all-configs --from-file=./configs/</span><br><span class="line"><span class="comment">#注：K8s 会遍历目录下所有文件，文件名作为 Key，内容作为 Value。</span></span><br></pre></td></tr></table></figure>
+<h2 id="通过YAML文件创建-申明式"><a href="#通过YAML文件创建-申明式" class="headerlink" title="通过YAML文件创建-申明式"></a>通过YAML文件创建-申明式</h2><p>作为运维，最终所有的配置都应该“代码化”。你会编写一个 YAML 文件，然后使用 <code>kubectl apply -f</code> 来部署。<br><strong>编写 <code>my-config.yaml</code></strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ConfigMap</span><br><span class="line">metadata:</span><br><span class="line">  name: game-config</span><br><span class="line">  namespace: default</span><br><span class="line">data:</span><br><span class="line">  <span class="comment"># 这里定义你的配置数据</span></span><br><span class="line">  ui_color: <span class="string">&quot;blue&quot;</span></span><br><span class="line">  allow_retry: <span class="string">&quot;true&quot;</span></span><br><span class="line">  player_initial_lives: <span class="string">&quot;3&quot;</span></span><br></pre></td></tr></table></figure>
+<p>执行创建</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f my-config.yaml</span><br></pre></td></tr></table></figure>
+
+<h2 id="验证与排错"><a href="#验证与排错" class="headerlink" title="验证与排错"></a>验证与排错</h2><p>制作完后，第一时间运行以下命令确认数据是否正确：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get cm &lt;cm名称&gt; -o yaml</span><br></pre></td></tr></table></figure>
+<p>如果修改了运行中的CM，记得备份</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get cm &lt;cm名称&gt; -o yaml &gt; backup-&lt;cm名称&gt;.yaml</span><br></pre></td></tr></table></figure>
+<p>CM 的名称必须是合法的 DNS 子域名（只能包含数字、小写字母、减号 <code>-</code> 和点 <code>.</code>）</p>
+<h1 id="使用configmap配置pod"><a href="#使用configmap配置pod" class="headerlink" title="使用configmap配置pod"></a>使用configmap配置pod</h1><p>在 Kubernetes v1.35 的运维实战中，使用 ConfigMap 配置 Pod 主要有<strong>三大路径</strong>。<br>可以想象 ConfigMap 是一个“配置源”，而 Pod 是“消费端”，它们之间通过不同的“管道”连接。</p>
+<h2 id="路径一：作为环境变量-Environment-Variables"><a href="#路径一：作为环境变量-Environment-Variables" class="headerlink" title="路径一：作为环境变量 (Environment Variables)"></a>路径一：作为环境变量 (Environment Variables)</h2><p>这是最简单的注入方式，适用于开关参数、数据库连接地址等短小字段。<br>在 Pod 的 <code>spec.containers.env</code> 字段中引用：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">env-config-pod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">test-container</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">dudu-bird/nginx:latest</span>  <span class="comment"># 假设从渡渡鸟拉取</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">DB_URL</span>               <span class="comment"># 容器内的变量名</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">configMapKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">my-config</span>        <span class="comment"># ConfigMap 的名字</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">database_url</span>      <span class="comment"># ConfigMap 里的 Key</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>不可动态更新</strong>：如果你修改了 ConfigMap，容器里的环境变量<strong>不会</strong>改变。你必须重启 Pod（<code>kubectl delete pod ...</code>）才能生效。</li>
+<li><strong>变量名冲突</strong>：如果 ConfigMap 里的 Key 包含非法字符（如减号 <code>-</code>），某些 Linux Shell 可能无法识别。</li>
+</ul>
+<h2 id="路径二：作为挂载卷-Volumes-——-运维首选"><a href="#路径二：作为挂载卷-Volumes-——-运维首选" class="headerlink" title="路径二：作为挂载卷 (Volumes) —— 运维首选"></a>路径二：作为挂载卷 (Volumes) —— 运维首选</h2><p>这是生产环境最常用的方式，适用于 <code>nginx.conf</code>、<code>redis.conf</code> 等大型配置文件。它将 ConfigMap 里的 Key 映射为容器磁盘上的<strong>物理文件</strong>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">volume-config-pod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-container</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">dudu-bird/nginx:latest</span></span><br><span class="line">      <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config-volume</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/etc/nginx/conf.d</span>  <span class="comment"># 映射到容器内的目录</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config-volume</span></span><br><span class="line">      <span class="attr">configMap:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">nginx-config</span>              <span class="comment"># 引用的 ConfigMap 名称</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>热更新（Hot-update）</strong>：修改 ConfigMap 后，容器内的文件会在 1 分钟左右自动更新。</li>
+<li><strong>覆盖风险</strong>：这种方式会<strong>清空</strong>容器内 <code>/etc/nginx/conf.d</code> 目录下的原有文件。如果你只想挂载单个文件而不覆盖目录，需要使用 <code>subPath</code>。</li>
+<li><strong>只读性</strong>：挂载进去的文件默认是只读的。</li>
+</ul>
+<h2 id="路径三：批量注入（envFrom）"><a href="#路径三：批量注入（envFrom）" class="headerlink" title="路径三：批量注入（envFrom）"></a>路径三：批量注入（envFrom）</h2><p>当你有很多配置项（比如 50 个环境变量）时，逐个写 <code>valueFrom</code> 太累了。运维通常使用 <code>envFrom</code> 一次性导入所有 KV 对。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">test-container</span></span><br><span class="line">      <span class="attr">envFrom:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">configMapRef:</span></span><br><span class="line">            <span class="attr">name:</span> <span class="string">app-all-configs</span>  <span class="comment"># 把这个 CM 里所有的 Key 都变成环境变量</span></span><br></pre></td></tr></table></figure>
+<h2 id="排障流程"><a href="#排障流程" class="headerlink" title="排障流程"></a>排障流程</h2><p>当 Pod 配置文件出问题时，请按此顺序操作：</p>
+<ol>
+<li><strong>第一步：验证源头</strong> <code>kubectl get cm &lt;name&gt; -n &lt;ns&gt; -o yaml</code> 确认数据是否真的存在于集群中。</li>
+<li><strong>第二步：检查 Pod 状态</strong> <code>kubectl describe pod &lt;pod-name&gt;</code> 看 <code>Events</code> 部分。如果看到 <code>MountVolume.SetUp failed</code>，通常是 ConfigMap 名字写错了。</li>
+<li><strong>第三步：进入容器实地考察</strong> <code>kubectl exec -it &lt;pod-name&gt; -- ls /etc/nginx/conf.d</code> 查看文件是否生成，内容是否正确。</li>
+<li><strong>第四步：检查权限 (Permissions)</strong> 如果程序报错 <code>Permission denied</code>，检查 ConfigMap 挂载时的 <code>defaultMode</code>（默认是 0644）。</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/02/07/%E5%AE%B9%E5%99%A8/K8s/2.7_K8s%E6%A6%82%E5%BF%B5_configmap/">https://yh1140.github.io/2026/02/07/%E5%AE%B9%E5%99%A8/K8s/2.7_K8s%E6%A6%82%E5%BF%B5_configmap/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/02/08/%E5%AE%B9%E5%99%A8/K8s/2.8_K8s%E6%A6%82%E5%BF%B5_PV&amp;PVC/" title="K8s概念_PV&amp;PVC"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">K8s概念_PV&PVC</div></div><div class="info-2"><div class="info-item-1">基本定义在生产环境中，容器是“瞬态”的（随毁随建），但数据必须是“持久”的。PV  和 PVC 就是 K8s 为了解耦“存储资源提供者”和“存储资源使用者”而设计的核心抽象。 持久卷（PersistentVolume，PV）是集群中的一块存储，可以由管理员事先制备， 或者使用存储类（Storage Class）来动态制备。 持久卷是集群资源，就像节点也是集群资源一样。PV 持久卷和普通的 Volume 一样， 也是使用卷插件来实现的，只是它们拥有独立于任何使用 PV 的 Pod 的生命周期。 此 API 对象中记述了存储的实现细节，无论其背后是 NFS、iSCSI 还是特定于云平台的存储系统。 持久卷申领（PersistentVolumeClaim，PVC）表达的是用户对存储的请求，概念上与 Pod 类似。 Pod 会耗用节点资源，而 PVC 申领会耗用 PV 资源。Pod 可以请求特定数量的资源（CPU 和内存）。同样 PVC 申领也可以请求特定的大小和访问模式 （例如，可以挂载为 ReadWriteOnce、ReadOnlyMany、ReadWriteMany 或 ReadW...</div></div></div></a><a class="pagination-related" href="/2026/02/06/%E5%AE%B9%E5%99%A8/K8s/2.6_K8s%E6%A6%82%E5%BF%B5_Pod%E7%8A%B6%E6%80%81/" title="K8s概念_Pod状态"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">K8s概念_Pod状态</div></div><div class="info-2"><div class="info-item-1"> 摘要：本文记录了执行 ‘kubectl get pods’ 时会出现的STATUS类别，并说明应该如何根据STATUS进行排错  阶段阶段是 Pod 在其生命周期中所处的简单、高层面的总结。它是 kubectl get pod 中 STATUS 列的基础。根据 K8s 官方定义，阶段只有以下 5 种： Pending-挂起Running-运行Succeeded-成功Failed-失败Unknown-未知状态当你在 kubectl get pod 看到的内容不是上面那 5 个单词时，你看到的是 Reason（原因） 或 Condition（状况）。这些信息能更直接地告诉你“为什么”不在 Running 阶段 镜像类 ImagePullBackOff: 镜像拉取反复失败，K8s 正在等待重试。  ErrImagePull: 尝试拉取镜像时报错（通常是因为你的“渡渡鸟”镜像站地址写错或认证失败）。   配置与资源类 CreateContainerConfigError: ConfigMap 或 Secret 找不到，容器无法读取配置。  InvalidImageName: 镜像名格式...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/01/07/MySQL/%E9%94%81%E6%9C%BA%E5%88%B6/" title="MySQL_锁机制"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-07</div><div class="info-item-2">MySQL_锁机制</div></div><div class="info-2"><div class="info-item-1">分类按颗粒度分类表级锁行级锁页面锁按锁的属性分类共享锁排他锁意向锁</div></div></div></a><a class="pagination-related" href="/2026/02/08/%E5%AE%B9%E5%99%A8/K8s/2.8_K8s%E6%A6%82%E5%BF%B5_PV&PVC/" title="K8s概念_PV&amp;PVC"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-08</div><div class="info-item-2">K8s概念_PV&amp;PVC</div></div><div class="info-2"><div class="info-item-1">基本定义在生产环境中，容器是“瞬态”的（随毁随建），但数据必须是“持久”的。PV  和 PVC 就是 K8s 为了解耦“存储资源提供者”和“存储资源使用者”而设计的核心抽象。 持久卷（PersistentVolume，PV）是集群中的一块存储，可以由管理员事先制备， 或者使用存储类（Storage Class）来动态制备。 持久卷是集群资源，就像节点也是集群资源一样。PV 持久卷和普通的 Volume 一样， 也是使用卷插件来实现的，只是它们拥有独立于任何使用 PV 的 Pod 的生命周期。 此 API 对象中记述了存储的实现细节，无论其背后是 NFS、iSCSI 还是特定于云平台的存储系统。 持久卷申领（PersistentVolumeClaim，PVC）表达的是用户对存储的请求，概念上与 Pod 类似。 Pod 会耗用节点资源，而 PVC 申领会耗用 PV 资源。Pod 可以请求特定数量的资源（CPU 和内存）。同样 PVC 申领也可以请求特定的大小和访问模式 （例如，可以挂载为 ReadWriteOnce、ReadOnlyMany、ReadWriteMany 或 ReadW...</div></div></div></a><a class="pagination-related" href="/2026/03/09/%E5%AE%B9%E5%99%A8/docker/Docker%E6%A6%82%E5%BF%B5_%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="Docker概念_命名空间"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-09</div><div class="info-item-2">Docker概念_命名空间</div></div><div class="info-2"><div class="info-item-1">Docker 并不是一种全新的虚拟化技术，它本质上是一个利用 Linux 内核特性实现的隔离进程。 Docker 之所以能让容器看起来像一个独立的操作系统，全靠 Namespaces（资源隔离） 和 Cgroups（资源限制） 这两项核心技术。 基本定义命名空间（Namespaces） 是 Linux 内核的一个特性，用于对内核资源进行物理隔离。  通俗解释：想象你在一栋办公楼里。命名空间就像是给每个团队分配了一个独立的办公室。虽然大家都在同一栋楼（同一个 Linux 内核）里，但 A 团队看不见 B 团队的桌面，也听不见他们的电话。  运维意义：它保证了容器 A 里的进程编号、网络配置、挂载点等，不会与容器 B 或宿主机发生冲突。   七大命名空间PID Namespace-进程隔离NET Namespace-网络隔离MNT Namdespace-挂载点隔离UTS Namdespace-主机名隔离IPC Namdespace-进程间通信隔离USER Namespace-用户隔离CGROUP Namdespace</div></div></div></a><a class="pagination-related" href="/2026/03/07/MySQL/MySQL_%E6%97%A5%E5%BF%97/" title="MySQL_日志"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-07</div><div class="info-item-2">MySQL_日志</div></div><div class="info-2"><div class="info-item-1">日志种类错误日志error_log慢查询日志slow query_log一般查询日志general_log事务日志Redo_Log实现崩溃恢复和事务持久性 回滚日志undo_log二进制日志bin_log以二进制存储在磁盘中，数据备份恢复或主从数据同步 </div></div></div></a><a class="pagination-related" href="/2026/02/04/%E5%AE%B9%E5%99%A8/K8s/2.4_K8s%E6%A6%82%E5%BF%B5_%E7%BB%84%E4%BB%B6&%E6%9E%B6%E6%9E%84&%E6%8E%A5%E5%8F%A3&api/" title="K8s概念_组件&amp;架构&amp;接口&amp;api"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-04</div><div class="info-item-2">K8s概念_组件&amp;架构&amp;接口&amp;api</div></div><div class="info-2"><div class="info-item-1"> 摘要：全面拆解 Kubernetes “大脑”控制平面与工作节点的核心组件功能，并深度探讨 CRI&#x2F;CSI&#x2F;CNI 三大标准接口及“一切皆对象”的 K8s API 逻辑架构与访问流水线。  基本概念定义Kubernetes 是一个开源的容器编排引擎，一个可弹性运行分布式系统的框架,用来对容器化应用进行自动化部署、扩缩和管理。此开源项目由云原生计算基金会（CNCF）托管。 功能 服务发现和负载均衡  Kubernetes 可以使用 DNS 名称或自己的 IP 地址来暴露容器。  如果进入容器的流量很大，Kubernetes 可以负载均衡并分配网络流量，从而使部署稳定。    存储编排  Kubernetes 允许你自动挂载你选择的存储系统，例如本地存储、公共云提供商等。   自动部署和回滚  你可以使用 Kubernetes 描述已部署容器的所需状态，它可以以受控的速率将实际状态更改为期望状态。  例如，你可以自动化 Kubernetes 来为你的部署创建新容器，删除现有容器并将它们的所有资源用于新容器。    自动完成集装箱计算  你为 Kubernetes...</div></div></div></a><a class="pagination-related" href="/2026/03/09/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_%E6%8E%A2%E9%92%88/" title="K8s概念_探针"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-09</div><div class="info-item-2">K8s概念_探针</div></div><div class="info-2"><div class="info-item-1"> 摘要：  定义与基本概念探针是 Kubernetes 监控容器运行状态的“传感器”，它由 Kubelet 定期执行，根据探测结果决定是否重启容器或切断流量，从而实现服务的自动化健康管理。 探针分类 liveness探针：影响的是单个容器，如果检查失败，将杀死容器，根据pod的restartPolicy来操作。 readiness探针：影响的是整个pod，即如果pod中有多个容器，只要有一个容器的readiness探针诊断失败，那么整个pod都会处于unready状态。 startup探针：指示容器中的应用是否已经启动。如果提供了启动探针(startup probe)，则禁用所有其他探针，直到它成功为止。如果启动探针失败，kubelet 将杀死容器，容器服从其重启策略进行重启。如果容器没有提供启动探针，则默认状态为成功Success。  探针的参数   参数名 YAML 字段 默认值 定义与运维意义    初始延迟 initialDelaySeconds 0 容器启动后等多久才开始第一次探测。给应用留出启动时间。   探测间隔 periodSeconds 10 探测的频率。越小感...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649?spm_id_from=333.1387.0.0" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1140798266&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #1296db;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">基本定义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81"><span class="toc-number">1.2.</span> <span class="toc-text">特征</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%B6%E4%BD%9Cconfigmap"><span class="toc-number">3.</span> <span class="toc-text">制作configmap</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9B%B4%E6%8E%A5%E5%88%9B%E5%BB%BA-%E5%BF%AB%E9%80%9F%E6%B5%8B%E8%AF%95"><span class="toc-number">3.1.</span> <span class="toc-text">命令行直接创建-快速测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E5%8D%95%E4%B8%AA%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA-%E5%B8%B8%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">从单个文件创建-常用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E6%95%B4%E4%B8%AA%E7%9B%AE%E5%BD%95%E5%88%9B%E5%BB%BA-%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5%E5%B8%B8%E7%94%A8"><span class="toc-number">3.3.</span> <span class="toc-text">从整个目录创建-批量导入常用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87YAML%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA-%E7%94%B3%E6%98%8E%E5%BC%8F"><span class="toc-number">3.4.</span> <span class="toc-text">通过YAML文件创建-申明式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E4%B8%8E%E6%8E%92%E9%94%99"><span class="toc-number">3.5.</span> <span class="toc-text">验证与排错</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8configmap%E9%85%8D%E7%BD%AEpod"><span class="toc-number">4.</span> <span class="toc-text">使用configmap配置pod</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E4%B8%80%EF%BC%9A%E4%BD%9C%E4%B8%BA%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F-Environment-Variables"><span class="toc-number">4.1.</span> <span class="toc-text">路径一：作为环境变量 (Environment Variables)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E4%BA%8C%EF%BC%9A%E4%BD%9C%E4%B8%BA%E6%8C%82%E8%BD%BD%E5%8D%B7-Volumes-%E2%80%94%E2%80%94-%E8%BF%90%E7%BB%B4%E9%A6%96%E9%80%89"><span class="toc-number">4.2.</span> <span class="toc-text">路径二：作为挂载卷 (Volumes) —— 运维首选</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E4%B8%89%EF%BC%9A%E6%89%B9%E9%87%8F%E6%B3%A8%E5%85%A5%EF%BC%88envFrom%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">路径三：批量注入（envFrom）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E9%9A%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">4.4.</span> <span class="toc-text">排障流程</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/6%E5%8F%B0%E5%B7%A5%E4%BD%9C%E4%B8%BB%E6%9C%BA%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="6台工作主机的初始化配置">6台工作主机的初始化配置</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E6%8E%92%E6%9F%A5%EF%BC%9A%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8ansible%E7%BD%91%E7%BB%9C%E9%93%BE%E8%B7%AF%E9%AA%8C%E8%AF%81/" title="排查：云服务器ansible网络链路验证">排查：云服务器ansible网络链路验证</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="云服务器初始化配置">云服务器初始化配置</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/Firewall%20%E4%B8%BB%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" title="firewall部署">firewall部署</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84&amp;%E7%8E%AF%E5%A2%83/" title="集群架构&amp;环境">集群架构&amp;环境</a><time datetime="2026-03-09T16:00:00.000Z" title="发表于 2026-03-10 00:00:00">2026-03-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
