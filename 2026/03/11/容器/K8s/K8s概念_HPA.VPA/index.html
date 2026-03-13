@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>K8s概念_HPA.VPA | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在运维世界里，应对流量压力有两条路：加人（横向） 或 增强单兵作战能力（纵向）。 核心概念   特性 HPA (Horizontal Pod Autoscaler) VPA (Vertical Pod Autoscaler)    伸缩方向 横向（增加&#x2F;减少 Pod 副本数） 纵向（增大&#x2F;减小单个 Pod 的 CPU&#x2F;内存）   原理 复制更多的实例来分担压力 调整容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8s概念_HPA.VPA">
+<meta property="og:url" content="https://yh1140.github.io/2026/03/11/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_HPA.VPA/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="在运维世界里，应对流量压力有两条路：加人（横向） 或 增强单兵作战能力（纵向）。 核心概念   特性 HPA (Horizontal Pod Autoscaler) VPA (Vertical Pod Autoscaler)    伸缩方向 横向（增加&#x2F;减少 Pod 副本数） 纵向（增大&#x2F;减小单个 Pod 的 CPU&#x2F;内存）   原理 复制更多的实例来分担压力 调整容">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-03-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-11T03:12:35.443Z">
+<meta property="article:author" content="孤独の野狼">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "K8s概念_HPA.VPA",
+  "url": "https://yh1140.github.io/2026/03/11/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_HPA.VPA/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-03-10T16:00:00.000Z",
+  "dateModified": "2026-03-11T03:12:35.443Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/03/11/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_HPA.VPA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'K8s概念_HPA.VPA',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">K8s概念_HPA.VPA</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">K8s概念_HPA.VPA</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-10T16:00:00.000Z" title="发表于 2026-03-11 00:00:00">2026-03-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-11T03:12:35.443Z" title="更新于 2026-03-11 11:12:35">2026-03-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/K8s/">K8s</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>在运维世界里，应对流量压力有两条路：<strong>加人（横向）</strong> 或 <strong>增强单兵作战能力（纵向）</strong>。</p>
+<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>HPA (Horizontal Pod Autoscaler)</strong></th>
+<th><strong>VPA (Vertical Pod Autoscaler)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>伸缩方向</strong></td>
+<td><strong>横向</strong>（增加&#x2F;减少 Pod 副本数）</td>
+<td><strong>纵向</strong>（增大&#x2F;减小单个 Pod 的 CPU&#x2F;内存）</td>
+</tr>
+<tr>
+<td><strong>原理</strong></td>
+<td>复制更多的实例来分担压力</td>
+<td>调整容器的 <code>requests</code> 和 <code>limits</code></td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>无状态服务（Web 接口、微服务）</td>
+<td>有状态服务、数据库、单体应用</td>
+</tr>
+<tr>
+<td><strong>副作用</strong></td>
+<td>可能会受到存储或数据库连接数限制</td>
+<td>传统模式下需<strong>重启 Pod</strong>（1.35版本支持原地更新）</td>
+</tr>
+</tbody></table>
+<h1 id="HPA"><a href="#HPA" class="headerlink" title="HPA"></a>HPA</h1><p>通过定期（默认 15s）查询 <code>metrics-server</code> 获取 Pod 的资源利用率。</p>
+<h2 id="核心工作流"><a href="#核心工作流" class="headerlink" title="核心工作流"></a>核心工作流</h2><ul>
+<li><p><strong>监控</strong>：HPA 控制器查询 <code>metrics-server</code>。</p>
+</li>
+<li><p><strong>计算</strong>：根据公式计算期望副本数：</p>
+<p>  $$期望副本数 &#x3D; \lceil 当前副本数 \times \frac{当前指标值}{期望指标值} \rceil$$</p>
+</li>
+<li><p><strong>执行</strong>：修改 Deployment&#x2F;StatefulSet 的 <code>replicas</code> 字段。</p>
+</li>
+</ul>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>当你执行 <code>kubectl apply -f hpa.yaml</code> 后，系统内部发生了以下过程<br><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/1721566f7c17202853d7beab06066e84.png" alt="1721566f7c17202853d7beab06066e84.png"></p>
+<h3 id="①控制器激活"><a href="#①控制器激活" class="headerlink" title="①控制器激活"></a>①控制器激活</h3><p>HPA 控制器（属于 <code>kube-controller-manager</code> 的一部分）开始运行。它会根据 <code>scaleTargetRef</code> 找到你的 Deployment。</p>
+<ul>
+<li><strong>故障点</strong>：如果 Deployment 名字写错，HPA 状态会显示 <code>TargetNotFound</code>。</li>
+</ul>
+<h3 id="②指标获取-Metrics-Collection"><a href="#②指标获取-Metrics-Collection" class="headerlink" title="②指标获取(Metrics Collection)"></a>②指标获取(Metrics Collection)</h3><p>HPA 控制器每隔 15 秒（默认）请求 <strong>Metrics Server</strong>。</p>
+<ul>
+<li><p><strong>底层链路</strong>：<code>HPA Controller</code> -&gt; <code>API Server</code> -&gt; <code>Metrics API (Aggregation Layer)</code> -&gt; <code>Metrics Server</code> -&gt; <code>Kubelet</code> (Summary API)。</p>
+</li>
+<li><p><strong>故障点</strong>：如果 <code>kubectl top pods</code> 没数据，HPA 永远不会生效。</p>
+</li>
+</ul>
+<h3 id="③算法计算"><a href="#③算法计算" class="headerlink" title="③算法计算"></a>③算法计算</h3><p>使用公式：<code>期望副本数 = ceil[当前副本数 * (当前指标 / 期望指标)]</code>。</p>
+<ul>
+<li><strong>注意</strong>：如果计算结果波动在 10% 以内（默认容忍度），HPA 不会执行任何动作，这是为了系统稳定。</li>
+</ul>
+<h3 id="④执行扩缩容"><a href="#④执行扩缩容" class="headerlink" title="④执行扩缩容"></a>④执行扩缩容</h3><p>HPA 通过 Scale 子资源接口，修改 Deployment 的 <code>replicas</code> 字段。</p>
+<ul>
+<li><strong>验证方法</strong>：<code>kubectl describe hpa php-apache-hpa</code>。在底部的 <strong>Events</strong> 栏可以看到 <code>SuccessfulRescale</code> 的记录。</li>
+</ul>
+<h1 id="VPA"><a href="#VPA" class="headerlink" title="VPA"></a>VPA</h1><p>VPA 的核心价值在于：<strong>解决研发人员乱填 <code>resources</code> 的问题</strong>。它能根据历史负载，自动给出一个合理的资源建议。</p>
+<h2 id="VPA三个组件"><a href="#VPA三个组件" class="headerlink" title="VPA三个组件"></a>VPA三个组件</h2><ul>
+<li><p><strong>Recommender</strong>：后台观察历史数据，计算建议值（Target）。</p>
+</li>
+<li><p><strong>Updater</strong>：发现 Pod 的资源偏离建议值太大时，负责杀掉 Pod（如果开启了 <code>Auto</code> 模式）。</p>
+</li>
+<li><p><strong>Admission Controller</strong>：在 Pod 重建时，拦截请求并将 <code>requests</code> 修改为建议值。</p>
+</li>
+</ul>
+<h1 id="HPA创建"><a href="#HPA创建" class="headerlink" title="HPA创建"></a>HPA创建</h1><h2 id="命令创建"><a href="#命令创建" class="headerlink" title="命令创建"></a>命令创建</h2><p>速度快，适合临时扩容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong><code>autoscale</code></strong>: 告知 kubectl 我要创建一个 HPA 对象。</p>
+</li>
+<li><p><strong><code>deployment php-apache</code></strong>: 指定要监控的目标。</p>
+</li>
+<li><p><strong><code>--cpu-percent=50</code></strong>: 目标 CPU 使用率阈值。</p>
+</li>
+<li><p><strong><code>--min=1 --max=10</code></strong>: 副本数的上下限。<br>这条命令背后其实是 K8s 帮你自动生成了一个 <code>v1</code> 版本的 HPA。它功能较弱，通常只能根据 CPU 缩放。</p>
+</li>
+</ul>
+<h2 id="YAML创建"><a href="#YAML创建" class="headerlink" title="YAML创建"></a>YAML创建</h2><p>运维标准做法，支持 <strong>多指标监控</strong> 和 <strong>扩缩容策略（Behavior）</strong> 的精细化控制</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: autoscaling/v2</span><br><span class="line">kind: HorizontalPodAutoscaler</span><br><span class="line">metadata:</span><br><span class="line">  name: php-apache-hpa</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  <span class="comment"># 1. 关联目标</span></span><br><span class="line">  scaleTargetRef:</span><br><span class="line">    apiVersion: apps/v1</span><br><span class="line">    kind: Deployment</span><br><span class="line">    name: php-apache</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 2. 副本范围</span></span><br><span class="line">  minReplicas: 1</span><br><span class="line">  maxReplicas: 10</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 3. 核心指标定义</span></span><br><span class="line">  metrics:</span><br><span class="line">  - <span class="built_in">type</span>: Resource</span><br><span class="line">    resource:</span><br><span class="line">      name: cpu</span><br><span class="line">      target:</span><br><span class="line">        <span class="built_in">type</span>: Utilization</span><br><span class="line">        averageUtilization: 50</span><br><span class="line">  - <span class="built_in">type</span>: Resource</span><br><span class="line">    resource:</span><br><span class="line">      name: memory</span><br><span class="line">      target:</span><br><span class="line">        <span class="built_in">type</span>: AverageValue</span><br><span class="line">        averageValue: 500Mi <span class="comment"># 也可以用具体数值</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 4. 行为控制（1.23+ 推荐，1.35 必备）</span></span><br><span class="line">  behavior:</span><br><span class="line">    scaleDown:</span><br><span class="line">      stabilizationWindowSeconds: 300 <span class="comment"># 缩容冷却时间，防止震荡</span></span><br><span class="line">      policies:</span><br><span class="line">      - <span class="built_in">type</span>: Percent</span><br><span class="line">        value: 100</span><br><span class="line">        periodSeconds: 15</span><br></pre></td></tr></table></figure>
+
+<h1 id="VPA创建"><a href="#VPA创建" class="headerlink" title="VPA创建"></a>VPA创建</h1></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/03/11/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_HPA.VPA/">https://yh1140.github.io/2026/03/11/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_HPA.VPA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/11/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_Pod%E9%95%9C%E5%83%8F%E7%9A%84%E5%8D%87%E7%BA%A7&amp;%E5%9B%9E%E6%BB%9A/" title="K8s概念_Pod镜像的升级&amp;回滚"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">K8s概念_Pod镜像的升级&回滚</div></div><div class="info-2"><div class="info-item-1">镜像升级与回滚是日常工作中风险很高的环节。在 Kubernetes 中，这项工作主要由 Deployment 控制器通过管理多个 ReplicaSet (RS) 来实现。 镜像修改的核心原理当你修改 Deployment 的镜像版本时，K8s 并不是直接把旧 Pod 里的镜像换了，而是：  创建一个新的 ReplicaSet（代表新版本）。  逐步增加新 RS 的副本数，同时逐步减少旧 RS 的副本数。  直到旧 RS 副本数为 0，新 RS 达到预期副本数。   ReplicaSet镜像升级命令行升级12# 格式：kubectl set image deployment/&lt;部署名&gt; &lt;容器名&gt;=&lt;新镜像地址&gt;kubectl set image deployment/webapp my-app=dududiao.com/library/myapp:v2 YAML升级推荐！！运维规范通常要求修改 Git 仓库或本地的 YAML 文件，然后执行： 1kubectl apply -f webapp-deployment.yaml 升级配置策略在 YA...</div></div></div></a><a class="pagination-related" href="/2026/03/11/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_Pod%E8%B0%83%E5%BA%A6/" title="K8s概念_Pod调度"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">K8s概念_Pod调度</div></div><div class="info-2"><div class="info-item-1">一个Pod的启动流程调度器调度算法①自动调度②定向调度③亲和性和反亲和性调度④污点（容忍）调度调度记住</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/11/%E5%AE%B9%E5%99%A8/K8s/%E6%A8%A1%E6%8B%9F%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-Apache%20Bench/" title="模拟压力测试工具-Apache Bench"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-11</div><div class="info-item-2">模拟压力测试工具-Apache Bench</div></div><div class="info-2"><div class="info-item-1">安装方式在CentOS 10 环境下，不需要安装整个 Apache 服务，只需要安装工具包即可 1yum install -y httpd-tools 核心参数ab 的参数非常多，但作为运维，你只需要死记硬背下面这四个：  -n (Number)：总请求数。即一共要发多少次请求。  -c (Concurrency)：并发数。即模拟多少个人同时在点你的网站。  -t (Timelimit)：最大测试时间。如果请求没发完但时间到了，测试也会停止。  -k (KeepAlive)：开启长连接。这更符合现代浏览器的行为，可以减轻频繁建立 TCP 连接的开销。   实战演练</div></div></div></a><a class="pagination-related" href="/2026/03/09/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_%E6%8E%A2%E9%92%88/" title="K8s概念_探针"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-09</div><div class="info-item-2">K8s概念_探针</div></div><div class="info-2"><div class="info-item-1"> 摘要：  定义与基本概念探针是 Kubernetes 监控容器运行状态的“传感器”，它由 Kubelet 定期执行，根据探测结果决定是否重启容器或切断流量，从而实现服务的自动化健康管理。 探针分类 liveness探针：影响的是单个容器，如果检查失败，将杀死容器，根据pod的restartPolicy来操作。 readiness探针：影响的是整个pod，即如果pod中有多个容器，只要有一个容器的readiness探针诊断失败，那么整个pod都会处于unready状态。 startup探针：指示容器中的应用是否已经启动。如果提供了启动探针(startup probe)，则禁用所有其他探针，直到它成功为止。如果启动探针失败，kubelet 将杀死容器，容器服从其重启策略进行重启。如果容器没有提供启动探针，则默认状态为成功Success。  探针的参数   参数名 YAML 字段 默认值 定义与运维意义    初始延迟 initialDelaySeconds 0 容器启动后等多久才开始第一次探测。给应用留出启动时间。   探测间隔 periodSeconds 10 探测的频率。越小感...</div></div></div></a><a class="pagination-related" href="/2026/01/07/MySQL/%E9%94%81%E6%9C%BA%E5%88%B6/" title="MySQL_锁机制"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-07</div><div class="info-item-2">MySQL_锁机制</div></div><div class="info-2"><div class="info-item-1">分类按颗粒度分类表级锁行级锁页面锁按锁的属性分类共享锁排他锁意向锁</div></div></div></a><a class="pagination-related" href="/2026/03/11/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_Pod%E8%B0%83%E5%BA%A6/" title="K8s概念_Pod调度"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-11</div><div class="info-item-2">K8s概念_Pod调度</div></div><div class="info-2"><div class="info-item-1">一个Pod的启动流程调度器调度算法①自动调度②定向调度③亲和性和反亲和性调度④污点（容忍）调度调度记住</div></div></div></a><a class="pagination-related" href="/2026/02/06/%E5%AE%B9%E5%99%A8/K8s/2.6_K8s%E6%A6%82%E5%BF%B5_Pod%E7%8A%B6%E6%80%81/" title="K8s概念_Pod状态"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-06</div><div class="info-item-2">K8s概念_Pod状态</div></div><div class="info-2"><div class="info-item-1"> 摘要：本文记录了执行 ‘kubectl get pods’ 时会出现的STATUS类别，并说明应该如何根据STATUS进行排错  阶段阶段是 Pod 在其生命周期中所处的简单、高层面的总结。它是 kubectl get pod 中 STATUS 列的基础。根据 K8s 官方定义，阶段只有以下 5 种： Pending-挂起Running-运行Succeeded-成功Failed-失败Unknown-未知状态当你在 kubectl get pod 看到的内容不是上面那 5 个单词时，你看到的是 Reason（原因） 或 Condition（状况）。这些信息能更直接地告诉你“为什么”不在 Running 阶段 镜像类 ImagePullBackOff: 镜像拉取反复失败，K8s 正在等待重试。  ErrImagePull: 尝试拉取镜像时报错（通常是因为你的“渡渡鸟”镜像站地址写错或认证失败）。   配置与资源类 CreateContainerConfigError: ConfigMap 或 Secret 找不到，容器无法读取配置。  InvalidImageName: 镜像名格式...</div></div></div></a><a class="pagination-related" href="/2026/02/04/%E5%AE%B9%E5%99%A8/K8s/2.4_K8s%E6%A6%82%E5%BF%B5_%E7%BD%91%E7%BB%9C/" title="K8s概念_网络"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-04</div><div class="info-item-2">K8s概念_网络</div></div><div class="info-2"><div class="info-item-1"> 摘要:深入解析 Kubernetes 网络设计的“三条底层原则”与四层通信模型，并横向对比 Flannel、Calico 与基于 eBPF 的 Cilium 等主流 CNI 插件的工作原理与性能优劣  K8s网络概念k8s集群本省不直接负责容器之间的网络通信，而是通过CNI（容器网络接口）实现网络通信 K8s 网络本质上是一个由 CNI（负责通路）、kube-proxy（负责转发） 和 DNS（负责寻址） 共同构建的虚拟网络环境 网络三条底层原则 所有 Pod 之间可以直连通信：无需通过 NAT（网络地址转换）。 所有 Node 与 Pod 之间可以直连通信：无需通过 NAT。 Pod 看到的 IP 就是别人看到的 IP：即 Pod 的 IP 是全局唯一的  四层通信模型容器间通信 (Container-to-Container)这是最简单的层次。在同一个 Pod 内的多个容器共享同一个 Network Namespace。  实现方式：它们共享同一个 IP 和端口空间。 通信手段：通过 localhost 互相访问。就像在同一台电脑上运行的不同进程一样。  Pod 间通信 (...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649?spm_id_from=333.1387.0.0" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1140798266&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #1296db;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">核心概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HPA"><span class="toc-number">2.</span> <span class="toc-text">HPA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">2.1.</span> <span class="toc-text">核心工作流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">2.2.</span> <span class="toc-text">生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%91%A0%E6%8E%A7%E5%88%B6%E5%99%A8%E6%BF%80%E6%B4%BB"><span class="toc-number">2.2.1.</span> <span class="toc-text">①控制器激活</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%91%A1%E6%8C%87%E6%A0%87%E8%8E%B7%E5%8F%96-Metrics-Collection"><span class="toc-number">2.2.2.</span> <span class="toc-text">②指标获取(Metrics Collection)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%91%A2%E7%AE%97%E6%B3%95%E8%AE%A1%E7%AE%97"><span class="toc-number">2.2.3.</span> <span class="toc-text">③算法计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%91%A3%E6%89%A7%E8%A1%8C%E6%89%A9%E7%BC%A9%E5%AE%B9"><span class="toc-number">2.2.4.</span> <span class="toc-text">④执行扩缩容</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VPA"><span class="toc-number">3.</span> <span class="toc-text">VPA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#VPA%E4%B8%89%E4%B8%AA%E7%BB%84%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">VPA三个组件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HPA%E5%88%9B%E5%BB%BA"><span class="toc-number">4.</span> <span class="toc-text">HPA创建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%88%9B%E5%BB%BA"><span class="toc-number">4.1.</span> <span class="toc-text">命令创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YAML%E5%88%9B%E5%BB%BA"><span class="toc-number">4.2.</span> <span class="toc-text">YAML创建</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VPA%E5%88%9B%E5%BB%BA"><span class="toc-number">5.</span> <span class="toc-text">VPA创建</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/13/%E4%B8%89%E5%88%9B/%E6%8A%95%E9%80%92%E5%B2%97%E4%BD%8D/" title="投递岗位">投递岗位</a><time datetime="2026-03-12T16:00:00.000Z" title="发表于 2026-03-13 00:00:00">2026-03-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/13/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_%E6%B1%A1%E7%82%B9%E5%92%8C%E5%AE%B9%E5%BF%8D%E5%BA%A6/" title="K8s概念_污点和容忍度">K8s概念_污点和容忍度</a><time datetime="2026-03-12T16:00:00.000Z" title="发表于 2026-03-13 00:00:00">2026-03-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/13/%E5%AE%B9%E5%99%A8/K8s/K8s%E6%A6%82%E5%BF%B5_%E4%BA%B2%E5%92%8C%E6%80%A7%20Affinity/" title="K8s概念_亲和性 Affinity">K8s概念_亲和性 Affinity</a><time datetime="2026-03-12T16:00:00.000Z" title="发表于 2026-03-13 00:00:00">2026-03-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/13/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/Ingress-Nginx%E9%85%8D%E7%BD%AE/" title="Ingress-Nginx配置">Ingress-Nginx配置</a><time datetime="2026-03-12T16:00:00.000Z" title="发表于 2026-03-13 00:00:00">2026-03-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/12/%E4%B8%89%E5%88%9B/%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E5%A4%8D%E4%B9%A0/" title="面试知识点复习">面试知识点复习</a><time datetime="2026-03-11T16:00:00.000Z" title="发表于 2026-03-12 00:00:00">2026-03-12</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
