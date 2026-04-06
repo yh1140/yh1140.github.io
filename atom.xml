@@ -10,7 +10,7 @@
   <rights>All rights reserved 2026, 孤独の野狼</rights>
   <subtitle>好好学习，天天向上</subtitle>
   <title>孤独の野狼的博客</title>
-  <updated>2026-04-06T06:41:13.686Z</updated>
+  <updated>2026-04-06T06:49:51.947Z</updated>
   <entry>
     <author>
       <name>孤独の野狼</name>
@@ -30,7 +30,7 @@
 <p><img src="https://cdn.j]]>
     </summary>
     <title>4月春游</title>
-    <updated>2026-04-06T06:41:13.686Z</updated>
+    <updated>2026-04-06T06:49:51.947Z</updated>
   </entry>
   <entry>
     <author>
@@ -147,20 +147,22 @@
     <author>
       <name>孤独の野狼</name>
     </author>
-    <category term="博客网站" scheme="https://yh1140.github.io/categories/%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/"/>
+    <category term="日记" scheme="https://yh1140.github.io/categories/%E6%97%A5%E8%AE%B0/"/>
+    <category term="个人日志" scheme="https://yh1140.github.io/tags/%E4%B8%AA%E4%BA%BA%E6%97%A5%E5%BF%97/"/>
     <content>
-      <![CDATA[<h1 id="全局图片懒加载"><a href="#全局图片懒加载" class="headerlink" title="全局图片懒加载"></a>全局图片懒加载</h1><p>这是控制全站图片是否开启懒加载的总开关。</p><ul><li><p><strong>文件</strong>：<code>_config.butterfly.yml</code></p></li><li><p><strong>搜索定位</strong>：直接搜索 <code>lazyload:</code>（注意后面带冒号，且处于顶格位置）。</p></li><li><p><strong>配置项说明</strong>：</p></li></ul><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 位于 _config.butterfly.yml 约 600 行左右</span></span><br><span class="line"><span class="attr">lazyload:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>        <span class="comment"># 改为 true 开启图片懒加载</span></span><br><span class="line">  <span class="attr">native:</span> <span class="literal">false</span>       <span class="comment"># 是否使用浏览器原生懒加载</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">site</span>         <span class="comment"># 作用范围：site(全站) 或 post(仅文章)</span></span><br><span class="line">  <span class="attr">placeholder:</span>        <span class="comment"># 图片加载前的占位图</span></span><br><span class="line">  <span class="attr">blur:</span> <span class="literal">false</span>         <span class="comment"># 是否开启模糊效果</span></span><br></pre></td></tr></table></figure><h1 id="评论系统懒加载"><a href="#评论系统懒加载" class="headerlink" title="评论系统懒加载"></a>评论系统懒加载</h1><p>这个选项控制评论组件（如 Waline, Gitalk 等）是否在页面滚动到评论区时才开始加载。</p><ul><li><p><strong>文件</strong>：<code>_config.butterfly.yml</code></p></li><li><p><strong>搜索定位</strong>：在 <code>comments:</code> 字段下方。</p></li><li><p><strong>代码片段</strong>：</p></li></ul><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 位于 _config.butterfly.yml 约 365 行左右</span></span><br><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="attr">use:</span> </span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">false</span>     <span class="comment"># 如果评论插件加载慢，建议改为 true</span></span><br></pre></td></tr></table></figure><h1 id="社交网站配置"><a href="#社交网站配置" class="headerlink" title="社交网站配置"></a>社交网站配置</h1><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Social media links</span></span><br><span class="line"><span class="comment"># Format:</span></span><br><span class="line"><span class="comment">#   icon: link || description || color</span></span><br><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="comment"># ① GitHub</span></span><br><span class="line">  <span class="attr">fab fa-github:</span> <span class="string">https://github.com/yh1140</span> <span class="string">||</span> <span class="string">Github</span> <span class="string">||</span> <span class="string">&#x27;#24292e&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ② CSDN</span></span><br><span class="line">  <span class="attr">fas fa-blog:</span> <span class="string">https://blog.csdn.net/qq_74302052?type=blog</span> <span class="string">||</span> <span class="string">CSDN</span> <span class="string">||</span> <span class="string">&#x27;#fc5531&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ③ Gmail</span></span><br><span class="line">  <span class="attr">fas fa-envelope:</span> <span class="string">mailto:yh1140798266@gmail.com</span> <span class="string">||</span> <span class="string">Gmail</span> <span class="string">||</span> <span class="string">&#x27;#4a7dbe&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ④ QQ邮箱</span></span><br><span class="line">  <span class="attr">fas fa-at:</span> <span class="string">mailto:1140798266@qq.com</span> <span class="string">||</span> <span class="string">QQ邮箱</span> <span class="string">||</span> <span class="string">&#x27;#1296db&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ⑤ Bilibili</span></span><br><span class="line">  <span class="attr">fab fa-bilibili:</span> <span class="string">https://space.bilibili.com/305261649</span> <span class="string">||</span> <span class="string">BiliBili</span> <span class="string">||</span> <span class="string">&#x27;#fb7299&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ⑥ 网易云</span></span><br><span class="line">  <span class="attr">fas fa-music:</span> <span class="string">https://music.163.com/#/user/home?id=1323878854</span> <span class="string">||</span> <span class="string">网易云</span> <span class="string">||</span> <span class="string">&#x27;#e60026&#x27;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># ⑦ 微信 (请确保在 source/img/ 下上传了名为 wechat_qr.jpg 的二维码图片)</span></span><br><span class="line">  <span class="attr">fab fa-weixin:</span> <span class="string">/img/wechat_qr.jpg</span> <span class="string">||</span> <span class="string">微信</span> <span class="string">||</span> <span class="string">&#x27;#1aad19&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ⑧ Steam</span></span><br><span class="line">  <span class="attr">fab fa-steam:</span> <span class="string">https://steamcommunity.com/id/1140798266/</span> <span class="string">||</span> <span class="string">Steam</span> <span class="string">||</span> <span class="string">&#x27;#171a21&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ⑨ 抖音</span></span><br><span class="line">  <span class="attr">fab fa-tiktok:</span> <span class="string">https://www.douyin.com/user/MS4wLjABAAAAC-WqsjVdHpV_v771jhrx8Gy58RI-_V9kaM9ff-RLTYg?from_tab_name=main</span> <span class="string">||</span> <span class="string">抖音</span> <span class="string">||</span> <span class="string">&#x27;#000000&#x27;</span></span><br></pre></td></tr></table></figure>]]>
+      <![CDATA[<blockquote></blockquote><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/437e3b983f2ecb1deafc7940d26a131.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/bf7d772dbdf2b622271767d8fbc5e8b.png" alt="bf7d772dbdf2b622271767d8fbc5e8b.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/4aa23fe06d805657e7a8f6a2c181f7f.png" alt="4aa23fe06d805657e7a8f6a2c181f7f.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/c8eea66293457a511e7df674da0a2c3.png" alt="c8eea66293457a511e7df674da0a2c3.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/1773484014521.png" alt="1773484014521.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260320144556.jpg" alt="微信图片_20260320144556.jpg"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260320163100.jpg" alt="微信图片_20260320163100.jpg"></p>]]>
     </content>
-    <id>https://yh1140.github.io/2026/03/21/%E4%B8%89%E5%88%9B/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2_%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE/</id>
-    <link href="https://yh1140.github.io/2026/03/21/%E4%B8%89%E5%88%9B/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2_%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE/"/>
+    <id>https://yh1140.github.io/2026/03/21/%E6%88%91%E7%9A%84%E4%B8%AA%E4%BA%BA%E6%97%A5%E5%BF%97/3%E6%9C%88%E6%98%A5%E6%B8%B8/</id>
+    <link href="https://yh1140.github.io/2026/03/21/%E6%88%91%E7%9A%84%E4%B8%AA%E4%BA%BA%E6%97%A5%E5%BF%97/3%E6%9C%88%E6%98%A5%E6%B8%B8/"/>
     <published>2026-03-20T16:00:00.000Z</published>
     <summary>
-      <![CDATA[<h1 id="全局图片懒加载"><a href="#全局图片懒加载" class="headerlink" title="全局图片懒加载"></a>全局图片懒加载</h1><p>这是控制全站图片是否开启懒加载的总开关。</p>
-<ul>
-<li><p><strong>文件</s]]>
+      <![CDATA[<blockquote>
+</blockquote>
+<hr>
+<p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/437e3b983f2ecb1deafc7940d26a131.png"></p>]]>
     </summary>
-    <title>个人博客_优化配置</title>
-    <updated>2026-03-21T08:32:34.635Z</updated>
+    <title>3月春游</title>
+    <updated>2026-04-06T06:39:24.333Z</updated>
   </entry>
   <entry>
     <author>
@@ -187,6 +189,25 @@
     <author>
       <name>孤独の野狼</name>
     </author>
+    <category term="博客网站" scheme="https://yh1140.github.io/categories/%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/"/>
+    <content>
+      <![CDATA[<h1 id="全局图片懒加载"><a href="#全局图片懒加载" class="headerlink" title="全局图片懒加载"></a>全局图片懒加载</h1><p>这是控制全站图片是否开启懒加载的总开关。</p><ul><li><p><strong>文件</strong>：<code>_config.butterfly.yml</code></p></li><li><p><strong>搜索定位</strong>：直接搜索 <code>lazyload:</code>（注意后面带冒号，且处于顶格位置）。</p></li><li><p><strong>配置项说明</strong>：</p></li></ul><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 位于 _config.butterfly.yml 约 600 行左右</span></span><br><span class="line"><span class="attr">lazyload:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>        <span class="comment"># 改为 true 开启图片懒加载</span></span><br><span class="line">  <span class="attr">native:</span> <span class="literal">false</span>       <span class="comment"># 是否使用浏览器原生懒加载</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">site</span>         <span class="comment"># 作用范围：site(全站) 或 post(仅文章)</span></span><br><span class="line">  <span class="attr">placeholder:</span>        <span class="comment"># 图片加载前的占位图</span></span><br><span class="line">  <span class="attr">blur:</span> <span class="literal">false</span>         <span class="comment"># 是否开启模糊效果</span></span><br></pre></td></tr></table></figure><h1 id="评论系统懒加载"><a href="#评论系统懒加载" class="headerlink" title="评论系统懒加载"></a>评论系统懒加载</h1><p>这个选项控制评论组件（如 Waline, Gitalk 等）是否在页面滚动到评论区时才开始加载。</p><ul><li><p><strong>文件</strong>：<code>_config.butterfly.yml</code></p></li><li><p><strong>搜索定位</strong>：在 <code>comments:</code> 字段下方。</p></li><li><p><strong>代码片段</strong>：</p></li></ul><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 位于 _config.butterfly.yml 约 365 行左右</span></span><br><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="attr">use:</span> </span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">false</span>     <span class="comment"># 如果评论插件加载慢，建议改为 true</span></span><br></pre></td></tr></table></figure><h1 id="社交网站配置"><a href="#社交网站配置" class="headerlink" title="社交网站配置"></a>社交网站配置</h1><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Social media links</span></span><br><span class="line"><span class="comment"># Format:</span></span><br><span class="line"><span class="comment">#   icon: link || description || color</span></span><br><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="comment"># ① GitHub</span></span><br><span class="line">  <span class="attr">fab fa-github:</span> <span class="string">https://github.com/yh1140</span> <span class="string">||</span> <span class="string">Github</span> <span class="string">||</span> <span class="string">&#x27;#24292e&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ② CSDN</span></span><br><span class="line">  <span class="attr">fas fa-blog:</span> <span class="string">https://blog.csdn.net/qq_74302052?type=blog</span> <span class="string">||</span> <span class="string">CSDN</span> <span class="string">||</span> <span class="string">&#x27;#fc5531&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ③ Gmail</span></span><br><span class="line">  <span class="attr">fas fa-envelope:</span> <span class="string">mailto:yh1140798266@gmail.com</span> <span class="string">||</span> <span class="string">Gmail</span> <span class="string">||</span> <span class="string">&#x27;#4a7dbe&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ④ QQ邮箱</span></span><br><span class="line">  <span class="attr">fas fa-at:</span> <span class="string">mailto:1140798266@qq.com</span> <span class="string">||</span> <span class="string">QQ邮箱</span> <span class="string">||</span> <span class="string">&#x27;#1296db&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ⑤ Bilibili</span></span><br><span class="line">  <span class="attr">fab fa-bilibili:</span> <span class="string">https://space.bilibili.com/305261649</span> <span class="string">||</span> <span class="string">BiliBili</span> <span class="string">||</span> <span class="string">&#x27;#fb7299&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ⑥ 网易云</span></span><br><span class="line">  <span class="attr">fas fa-music:</span> <span class="string">https://music.163.com/#/user/home?id=1323878854</span> <span class="string">||</span> <span class="string">网易云</span> <span class="string">||</span> <span class="string">&#x27;#e60026&#x27;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># ⑦ 微信 (请确保在 source/img/ 下上传了名为 wechat_qr.jpg 的二维码图片)</span></span><br><span class="line">  <span class="attr">fab fa-weixin:</span> <span class="string">/img/wechat_qr.jpg</span> <span class="string">||</span> <span class="string">微信</span> <span class="string">||</span> <span class="string">&#x27;#1aad19&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ⑧ Steam</span></span><br><span class="line">  <span class="attr">fab fa-steam:</span> <span class="string">https://steamcommunity.com/id/1140798266/</span> <span class="string">||</span> <span class="string">Steam</span> <span class="string">||</span> <span class="string">&#x27;#171a21&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># ⑨ 抖音</span></span><br><span class="line">  <span class="attr">fab fa-tiktok:</span> <span class="string">https://www.douyin.com/user/MS4wLjABAAAAC-WqsjVdHpV_v771jhrx8Gy58RI-_V9kaM9ff-RLTYg?from_tab_name=main</span> <span class="string">||</span> <span class="string">抖音</span> <span class="string">||</span> <span class="string">&#x27;#000000&#x27;</span></span><br></pre></td></tr></table></figure>]]>
+    </content>
+    <id>https://yh1140.github.io/2026/03/21/%E4%B8%89%E5%88%9B/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2_%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE/</id>
+    <link href="https://yh1140.github.io/2026/03/21/%E4%B8%89%E5%88%9B/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2_%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE/"/>
+    <published>2026-03-20T16:00:00.000Z</published>
+    <summary>
+      <![CDATA[<h1 id="全局图片懒加载"><a href="#全局图片懒加载" class="headerlink" title="全局图片懒加载"></a>全局图片懒加载</h1><p>这是控制全站图片是否开启懒加载的总开关。</p>
+<ul>
+<li><p><strong>文件</s]]>
+    </summary>
+    <title>个人博客_优化配置</title>
+    <updated>2026-03-21T08:32:34.635Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>孤独の野狼</name>
+    </author>
     <category term="龙虾" scheme="https://yh1140.github.io/categories/%E9%BE%99%E8%99%BE/"/>
     <category term="学习笔记" scheme="https://yh1140.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>https://yh1140.github.io/2026/03/21/%E9%BE%99%E8%99%BE/Qclaw%E9%93%BE%E6%8E%A5VM%E8%99%9A%E6%8B%9F%E6%9C%BA/</id>
@@ -194,27 +215,6 @@
     <published>2026-03-20T16:00:00.000Z</published>
     <title>Qclaw链接VM虚拟机</title>
     <updated>2026-03-21T03:14:46.861Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>孤独の野狼</name>
-    </author>
-    <category term="日记" scheme="https://yh1140.github.io/categories/%E6%97%A5%E8%AE%B0/"/>
-    <category term="个人日志" scheme="https://yh1140.github.io/tags/%E4%B8%AA%E4%BA%BA%E6%97%A5%E5%BF%97/"/>
-    <content>
-      <![CDATA[<blockquote></blockquote><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/437e3b983f2ecb1deafc7940d26a131.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/bf7d772dbdf2b622271767d8fbc5e8b.png" alt="bf7d772dbdf2b622271767d8fbc5e8b.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/4aa23fe06d805657e7a8f6a2c181f7f.png" alt="4aa23fe06d805657e7a8f6a2c181f7f.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/c8eea66293457a511e7df674da0a2c3.png" alt="c8eea66293457a511e7df674da0a2c3.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/1773484014521.png" alt="1773484014521.png"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260320144556.jpg" alt="微信图片_20260320144556.jpg"></p><hr><p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260320163100.jpg" alt="微信图片_20260320163100.jpg"></p>]]>
-    </content>
-    <id>https://yh1140.github.io/2026/03/21/%E6%88%91%E7%9A%84%E4%B8%AA%E4%BA%BA%E6%97%A5%E5%BF%97/3%E6%9C%88%E6%98%A5%E6%B8%B8/</id>
-    <link href="https://yh1140.github.io/2026/03/21/%E6%88%91%E7%9A%84%E4%B8%AA%E4%BA%BA%E6%97%A5%E5%BF%97/3%E6%9C%88%E6%98%A5%E6%B8%B8/"/>
-    <published>2026-03-20T16:00:00.000Z</published>
-    <summary>
-      <![CDATA[<blockquote>
-</blockquote>
-<hr>
-<p><img src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/437e3b983f2ecb1deafc7940d26a131.png"></p>]]>
-    </summary>
-    <title>3月春游</title>
-    <updated>2026-04-06T06:39:24.333Z</updated>
   </entry>
   <entry>
     <author>
@@ -241,18 +241,6 @@
     </author>
     <category term="Redis" scheme="https://yh1140.github.io/categories/Redis/"/>
     <category term="学习笔记" scheme="https://yh1140.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    <id>https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</id>
-    <link href="https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
-    <published>2026-03-20T16:00:00.000Z</published>
-    <title>Redis概念_基本配置</title>
-    <updated>2026-03-21T03:49:10.034Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>孤独の野狼</name>
-    </author>
-    <category term="Redis" scheme="https://yh1140.github.io/categories/Redis/"/>
-    <category term="学习笔记" scheme="https://yh1140.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <content>
       <![CDATA[<blockquote><p><strong>Redis</strong>（Remote Dictionary Server）是一个开源的、基于<strong>内存</strong>的数据结构存储系统。它通常被用作<strong>数据库</strong>、<strong>缓存</strong>和<strong>消息中间件</strong>。<br>或者说：<br><strong>Redis</strong> 是一个高性能的 <strong>Key-Value</strong> 存储系统，它通过将数据存储在内存中并支持<strong>多种数据结构</strong>，解决了传统关系型数据库在处理高并发、低延迟场景下的性能瓶颈。</p></blockquote><h1 id="基本概述"><a href="#基本概述" class="headerlink" title="基本概述"></a>基本概述</h1><ul><li>分布式存储，在mysql前面</li><li>内存型数据库。支持数据库持久化（磁盘）</li><li>支持高可用</li></ul><h1 id="支持的数据类型"><a href="#支持的数据类型" class="headerlink" title="支持的数据类型"></a>支持的数据类型</h1><ul><li>String</li><li>List</li><li>Hash</li><li>Set</li><li>ZSet</li><li>Geospatial 地理空间</li><li>HyperLoglog 基数统计</li></ul><h1 id="核心工具集"><a href="#核心工具集" class="headerlink" title="核心工具集"></a>核心工具集</h1><ul><li><p><code>redis-server</code>：服务端程序。</p></li><li><p><code>redis-cli</code>：命令行客户端。</p></li><li><p><code>redis-benchmark</code>：性能压测工具。</p></li><li><p><code>redis-check-rdb/aof</code>：持久化文件修复工具。</p></li><li><p><code>redis-sentinel</code>：哨兵模式工具。</p></li></ul>]]>
     </content>
@@ -265,6 +253,18 @@
     </summary>
     <title>Redis概念_基本概念</title>
     <updated>2026-03-21T10:08:51.310Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>孤独の野狼</name>
+    </author>
+    <category term="Redis" scheme="https://yh1140.github.io/categories/Redis/"/>
+    <category term="学习笔记" scheme="https://yh1140.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</id>
+    <link href="https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
+    <published>2026-03-20T16:00:00.000Z</published>
+    <title>Redis概念_基本配置</title>
+    <updated>2026-03-21T03:49:10.034Z</updated>
   </entry>
   <entry>
     <author>
