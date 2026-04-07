@@ -241,25 +241,6 @@
     </author>
     <category term="Redis" scheme="https://yh1140.github.io/categories/Redis/"/>
     <category term="学习笔记" scheme="https://yh1140.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    <content>
-      <![CDATA[<blockquote><p><strong>Redis</strong>（Remote Dictionary Server）是一个开源的、基于<strong>内存</strong>的数据结构存储系统。它通常被用作<strong>数据库</strong>、<strong>缓存</strong>和<strong>消息中间件</strong>。<br>或者说：<br><strong>Redis</strong> 是一个高性能的 <strong>Key-Value</strong> 存储系统，它通过将数据存储在内存中并支持<strong>多种数据结构</strong>，解决了传统关系型数据库在处理高并发、低延迟场景下的性能瓶颈。</p></blockquote><h1 id="基本概述"><a href="#基本概述" class="headerlink" title="基本概述"></a>基本概述</h1><ul><li>分布式存储，在mysql前面</li><li>内存型数据库。支持数据库持久化（磁盘）</li><li>支持高可用</li></ul><h1 id="支持的数据类型"><a href="#支持的数据类型" class="headerlink" title="支持的数据类型"></a>支持的数据类型</h1><ul><li>String</li><li>List</li><li>Hash</li><li>Set</li><li>ZSet</li><li>Geospatial 地理空间</li><li>HyperLoglog 基数统计</li></ul><h1 id="核心工具集"><a href="#核心工具集" class="headerlink" title="核心工具集"></a>核心工具集</h1><ul><li><p><code>redis-server</code>：服务端程序。</p></li><li><p><code>redis-cli</code>：命令行客户端。</p></li><li><p><code>redis-benchmark</code>：性能压测工具。</p></li><li><p><code>redis-check-rdb/aof</code>：持久化文件修复工具。</p></li><li><p><code>redis-sentinel</code>：哨兵模式工具。</p></li></ul>]]>
-    </content>
-    <id>https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</id>
-    <link href="https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"/>
-    <published>2026-03-20T16:00:00.000Z</published>
-    <summary>
-      <![CDATA[<blockquote>
-<p><strong>Redis</strong>（Remote Dictionary Server）是一个开源的、基于<strong>内存</strong>的数据结构存储系统。它通常被用作<strong>数据库</strong>、<strong>缓存<]]>
-    </summary>
-    <title>Redis概念_基本概念</title>
-    <updated>2026-03-21T10:08:51.310Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>孤独の野狼</name>
-    </author>
-    <category term="Redis" scheme="https://yh1140.github.io/categories/Redis/"/>
-    <category term="学习笔记" scheme="https://yh1140.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</id>
     <link href="https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
     <published>2026-03-20T16:00:00.000Z</published>
@@ -283,6 +264,25 @@
     </summary>
     <title>Redis操作_常规操作</title>
     <updated>2026-03-21T10:32:36.808Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>孤独の野狼</name>
+    </author>
+    <category term="Redis" scheme="https://yh1140.github.io/categories/Redis/"/>
+    <category term="学习笔记" scheme="https://yh1140.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <content>
+      <![CDATA[<blockquote><p><strong>Redis</strong>（Remote Dictionary Server）是一个开源的、基于<strong>内存</strong>的数据结构存储系统。它通常被用作<strong>数据库</strong>、<strong>缓存</strong>和<strong>消息中间件</strong>。<br>或者说：<br><strong>Redis</strong> 是一个高性能的 <strong>Key-Value</strong> 存储系统，它通过将数据存储在内存中并支持<strong>多种数据结构</strong>，解决了传统关系型数据库在处理高并发、低延迟场景下的性能瓶颈。</p></blockquote><h1 id="基本概述"><a href="#基本概述" class="headerlink" title="基本概述"></a>基本概述</h1><ul><li>分布式存储，在mysql前面</li><li>内存型数据库。支持数据库持久化（磁盘）</li><li>支持高可用</li></ul><h1 id="支持的数据类型"><a href="#支持的数据类型" class="headerlink" title="支持的数据类型"></a>支持的数据类型</h1><ul><li>String</li><li>List</li><li>Hash</li><li>Set</li><li>ZSet</li><li>Geospatial 地理空间</li><li>HyperLoglog 基数统计</li></ul><h1 id="核心工具集"><a href="#核心工具集" class="headerlink" title="核心工具集"></a>核心工具集</h1><ul><li><p><code>redis-server</code>：服务端程序。</p></li><li><p><code>redis-cli</code>：命令行客户端。</p></li><li><p><code>redis-benchmark</code>：性能压测工具。</p></li><li><p><code>redis-check-rdb/aof</code>：持久化文件修复工具。</p></li><li><p><code>redis-sentinel</code>：哨兵模式工具。</p></li></ul>]]>
+    </content>
+    <id>https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</id>
+    <link href="https://yh1140.github.io/2026/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/Redis%E6%A6%82%E5%BF%B5_%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"/>
+    <published>2026-03-20T16:00:00.000Z</published>
+    <summary>
+      <![CDATA[<blockquote>
+<p><strong>Redis</strong>（Remote Dictionary Server）是一个开源的、基于<strong>内存</strong>的数据结构存储系统。它通常被用作<strong>数据库</strong>、<strong>缓存<]]>
+    </summary>
+    <title>Redis概念_基本概念</title>
+    <updated>2026-03-21T10:08:51.310Z</updated>
   </entry>
   <entry>
     <author>
