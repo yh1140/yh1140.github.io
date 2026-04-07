@@ -1,0 +1,279 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>孤独の野狼的博客 | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Bidirectional Forwarding Detection  BFD解决的是调度系统中最致命的问题：链路感知的滞后性   简介BFD 是一种全网统一的、检测链路故障的轻量级协议。它的核心任务非常简单：以毫秒级的速度探测两个网络节点之间的路径是否通畅。 如果某条 100G 的出口链路物理上没断，但发生了“灰度故障”（如光衰导致严重掉包），SNMP 轮询可能要几分钟才能发现，而 BFD 在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="孤独の野狼的博客">
+<meta property="og:url" content="https://yh1140.github.io/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/BFD-%E5%8F%8C%E5%90%91%E8%BD%AC%E5%8F%91%E6%A3%80%E6%B5%8B/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="Bidirectional Forwarding Detection  BFD解决的是调度系统中最致命的问题：链路感知的滞后性   简介BFD 是一种全网统一的、检测链路故障的轻量级协议。它的核心任务非常简单：以毫秒级的速度探测两个网络节点之间的路径是否通畅。 如果某条 100G 的出口链路物理上没断，但发生了“灰度故障”（如光衰导致严重掉包），SNMP 轮询可能要几分钟才能发现，而 BFD 在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-04-07T13:04:44.239Z">
+<meta property="article:modified_time" content="2026-04-06T04:28:51.422Z">
+<meta property="article:author" content="孤独の野狼">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://yh1140.github.io/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/BFD-%E5%8F%8C%E5%90%91%E8%BD%AC%E5%8F%91%E6%A3%80%E6%B5%8B/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-04-07T13:04:44.239Z",
+  "dateModified": "2026-04-06T04:28:51.422Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/BFD-%E5%8F%8C%E5%90%91%E8%BD%AC%E5%8F%91%E6%A3%80%E6%B5%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '孤独の野狼的博客',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">129</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">孤独の野狼的博客</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-07T13:04:44.239Z" title="发表于 2026-04-07 21:04:44">2026-04-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-06T04:28:51.422Z" title="更新于 2026-04-06 12:28:51">2026-04-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>Bidirectional Forwarding Detection</p>
+<blockquote>
+<p>BFD解决的是调度系统中最致命的问题：<strong>链路感知的滞后性</strong></p>
+</blockquote>
+<hr>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p><strong>BFD</strong> 是一种全网统一的、检测链路故障的轻量级协议。它的核心任务非常简单：<strong>以毫秒级的速度探测两个网络节点之间的路径是否通畅。</strong></p>
+<p>如果某条 100G 的出口链路物理上没断，但发生了“灰度故障”（如光衰导致严重掉包），SNMP 轮询可能要几分钟才能发现，而 BFD 在 <strong>几百毫秒</strong> 内就能触发调度切换。</p>
+<hr>
+<h1 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h1><p>BFD 的逻辑非常严谨，类似于两人对话确认生存：</p>
+<ol>
+<li><strong>建立会话：</strong> A 和 B 协商发送心跳包的时间间隔（例如 100ms）。</li>
+<li><strong>持续握手：</strong> A 发给 B，B 发给 A。只要在约定的时间内（如 3 次间隔内）收到对方的包，就认为链路正常。</li>
+<li><strong>快速崩溃：</strong> 一旦超时未收到包，BFD 状态立即变为 <code>Down</code>，并瞬间通知上层协议（静态路由、BGP、OSPF 或你的自动化调度脚本）。</li>
+</ol>
+<hr>
+<h1 id="故障排查逻辑"><a href="#故障排查逻辑" class="headerlink" title="故障排查逻辑"></a>故障排查逻辑</h1><p>如果你在调度监控中看到 BFD 相关的报错，请遵循以下严谨的排查思路：</p>
+<p><strong>报错信息：</strong> <code>BFD Session Down: Neighbor 10.1.1.2 unreachable</code> <strong>直译内容：</strong> BFD 会话关闭：邻居 10.1.1.2 不可达。 <strong>解决思路：</strong></p>
+<ol>
+<li><strong>链路检查：</strong> 检查底层物理链路是否真的发生中断或高延迟。</li>
+<li><strong>配置一致性：</strong> BFD 要求两端协商。检查本端和对端（运营商端）的 <code>discriminator</code>（标识符）是否互为镜像（即我的 local 是你的 remote）。</li>
+<li><strong>CPU 保护：</strong> 大带宽下（如你的 1T 节点），如果设备 CPU 过高，可能导致 BFD 心跳包处理延迟，产生<strong>误报</strong>。此时应调大 <code>multiplier</code>（容错倍数）或时间间隔。</li>
+<li><strong>ACL&#x2F;防火墙：</strong> 确认没有误封 BFD 协议包（通常使用 UDP 端口 3784）。</li>
+</ol>
+<hr>
+<h1 id="BFD-在调度中的三种核心角色"><a href="#BFD-在调度中的三种核心角色" class="headerlink" title="BFD 在调度中的三种核心角色"></a>BFD 在调度中的三种核心角色</h1><h3 id="A-BFD-静态路由-最简单的“主备切换”"><a href="#A-BFD-静态路由-最简单的“主备切换”" class="headerlink" title="A. BFD + 静态路由 (最简单的“主备切换”)"></a>A. BFD + 静态路由 (最简单的“主备切换”)</h3><p>在出口数量较少时，调度器通常配置静态路由。</p>
+<ul>
+<li><strong>痛点：</strong> 静态路由无法感知远端链路故障（下一跳没挂，但再往后挂了）。</li>
+<li><strong>调度表现：</strong> 将静态路由关联 BFD。一旦 BFD 检测到异常，静态路由立刻失效，流量自动切往优先级较低的备用出口。</li>
+</ul>
+<h3 id="B-BFD-BGP-ISP-CDN-调度主流"><a href="#B-BFD-BGP-ISP-CDN-调度主流" class="headerlink" title="B. BFD + BGP (ISP&#x2F;CDN 调度主流)"></a>B. BFD + BGP (ISP&#x2F;CDN 调度主流)</h3><p>在你提到的 1T 级别节点中，BGP 是核心。</p>
+<ul>
+<li><strong>痛点：</strong> BGP 的 <code>Keepalive</code> 机制默认是 60s，确认失效要 180s。这对 95 计费的带宽点数管理来说太慢了。</li>
+<li><strong>调度表现：</strong> BGP 挂载 BFD 后，检测时间从 <strong>分钟级</strong> 缩短到 <strong>毫秒级</strong>。这能防止因为单链路故障导致的“流量局部打爆”和“无效打峰点数消耗”。</li>
+</ul>
+<h3 id="C-BFD-PBR-策略路由"><a href="#C-BFD-PBR-策略路由" class="headerlink" title="C. BFD + PBR (策略路由)"></a>C. BFD + PBR (策略路由)</h3><ul>
+<li><strong>场景：</strong> 针对特定业务 IP 的调度。</li>
+<li><strong>调度表现：</strong> 当调度系统通过 PBR 将流量引向某个口时，如果该口链路抖动，BFD 联动 PBR 能够实现“毫秒级避障”。</li>
+</ul>
+<hr>
+<h1 id="配置方法"><a href="#配置方法" class="headerlink" title="配置方法"></a>配置方法</h1><h3 id="1-华为-VRP-配置示例"><a href="#1-华为-VRP-配置示例" class="headerlink" title="1. 华为 (VRP) 配置示例"></a>1. 华为 (VRP) 配置示例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启 BFD 功能</span></span><br><span class="line">[HUAWEI] bfd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 BFD 会话，探测下一跳出口 10.1.1.2</span></span><br><span class="line">[HUAWEI] bfd to-isp1 <span class="built_in">bind</span> peer-ip 10.1.1.2 source-ip 10.1.1.1</span><br><span class="line">[HUAWEI-bfd-session-to-isp1] discriminator <span class="built_in">local</span> 10</span><br><span class="line">[HUAWEI-bfd-session-to-isp1] discriminator remote 20</span><br><span class="line">[HUAWEI-bfd-session-to-isp1] min-rx-interval 100</span><br><span class="line">[HUAWEI-bfd-session-to-isp1] min-tx-interval 100</span><br><span class="line">[HUAWEI-bfd-session-to-isp1] commit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关联静态路由：如果 BFD 挂了，这条路由自动撤销</span></span><br><span class="line">[HUAWEI] ip route-static 0.0.0.0 0 10.1.1.2 track bfd-session to-isp1</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-思科-Cisco-IOS-配置示例"><a href="#2-思科-Cisco-IOS-配置示例" class="headerlink" title="2. 思科 (Cisco IOS) 配置示例"></a>2. 思科 (Cisco IOS) 配置示例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 接口下开启 BFD</span></span><br><span class="line">interface GigabitEthernet0/1</span><br><span class="line"> bfd interval 100 min_rx 100 multiplier 3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 BGP 中调用</span></span><br><span class="line">router bgp 64512</span><br><span class="line"> neighbor 10.1.1.2 fall-over bfd</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/BFD-%E5%8F%8C%E5%90%91%E8%BD%AC%E5%8F%91%E6%A3%80%E6%B5%8B/">https://yh1140.github.io/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/BFD-%E5%8F%8C%E5%90%91%E8%BD%AC%E5%8F%91%E6%A3%80%E6%B5%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/SNMP-%E7%AE%80%E5%8D%95%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">Simple Network Management Protocol  核心组件 NMS (Network Management System，网络管理系统&#x2F;管理站)： 相当于“大脑”。它是运行在调度服务器上的软件，负责下发指令（Get&#x2F;Set）并接收设备上报的信息。     Agent (代理进程)： 相当于“驻外办事员”。它是运行在交换机、路由器或服务器硬件上的软件模块，负责收集本设备的运行数据，并响应 NMS 的请求。 MIB (Management Information Base，管理信息库)： 相当于“字典”。它定义了设备上所有可监控项的结构和属性。 OID (Object Identifier，对象标识符)： 相当于“坐标&#x2F;地址”。它是 MIB 树状结构中的一个具体点。例如，接口流入流量的 OID 通常是以 1.3.6.1.2.1.2.2... 开头的一串数字。   交互机制SNMP 的逻辑非常严谨，主要通过以下几类操作完成数据交换： 📥 NMS 主动获取 (Pull 模式) Get-Request： NMS 询问 Agent：“请告...</div></div></div></a><a class="pagination-related  no-desc" href="/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E7%AE%80%E5%8E%86%E9%92%88%E5%AF%B9%E5%A4%8D%E4%B9%A0/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2"></div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">129</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_74302052?type=blog" target="_blank" title="CSDN"><i class="fas fa-blog" style="color: #fc5531;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Gmail"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:1140798266@qq.com" target="_blank" title="QQ邮箱"><i class="fas fa-at" style="color: #1296db;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="https://music.163.com/#/user/home?id=1323878854" target="_blank" title="网易云"><i class="fas fa-music" style="color: #e60026;"></i></a><a class="social-icon" href="/img/wechat_qr.jpg" target="_blank" title="微信"><i class="fab fa-weixin" style="color: #1aad19;"></i></a><a class="social-icon" href="https://steamcommunity.com/id/1140798266/" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #171a21;"></i></a><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAAC-WqsjVdHpV_v771jhrx8Gy58RI-_V9kaM9ff-RLTYg?from_tab_name=main" target="_blank" title="抖音"><i class="fab fa-tiktok" style="color: #000000;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5%E9%80%BB%E8%BE%91"><span class="toc-number">3.</span> <span class="toc-text">故障排查逻辑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BFD-%E5%9C%A8%E8%B0%83%E5%BA%A6%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E6%A0%B8%E5%BF%83%E8%A7%92%E8%89%B2"><span class="toc-number">4.</span> <span class="toc-text">BFD 在调度中的三种核心角色</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-BFD-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1-%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E2%80%9C%E4%B8%BB%E5%A4%87%E5%88%87%E6%8D%A2%E2%80%9D"><span class="toc-number">4.1.</span> <span class="toc-text">A. BFD + 静态路由 (最简单的“主备切换”)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-BFD-BGP-ISP-CDN-%E8%B0%83%E5%BA%A6%E4%B8%BB%E6%B5%81"><span class="toc-number">4.2.</span> <span class="toc-text">B. BFD + BGP (ISP&#x2F;CDN 调度主流)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-BFD-PBR-%E7%AD%96%E7%95%A5%E8%B7%AF%E7%94%B1"><span class="toc-number">4.3.</span> <span class="toc-text">C. BFD + PBR (策略路由)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">配置方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8D%8E%E4%B8%BA-VRP-%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.1.</span> <span class="toc-text">1. 华为 (VRP) 配置示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%80%9D%E7%A7%91-Cisco-IOS-%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.2.</span> <span class="toc-text">2. 思科 (Cisco IOS) 配置示例</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/07/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E6%8E%92%E6%9F%A5%EF%BC%9A%E6%89%93%E9%80%9APod%E5%AF%B9%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%AF%86%E5%88%AB/" title="无标题">无标题</a><time datetime="2026-04-07T13:04:44.884Z" title="发表于 2026-04-07 21:04:44">2026-04-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/%E4%B8%9C%E6%96%B9%E8%B4%A2%E5%AF%8C/%E4%B8%9C%E6%96%B9%E8%B4%A2%E5%AF%8C/" title="无标题">无标题</a><time datetime="2026-04-07T13:04:44.783Z" title="发表于 2026-04-07 21:04:44">2026-04-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/%E8%B5%A2%E6%97%B6%E8%83%9C/" title="无标题">无标题</a><time datetime="2026-04-07T13:04:44.770Z" title="发表于 2026-04-07 21:04:44">2026-04-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88/" title="无标题">无标题</a><time datetime="2026-04-07T13:04:44.761Z" title="发表于 2026-04-07 21:04:44">2026-04-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/07/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/" title="无标题">无标题</a><time datetime="2026-04-07T13:04:44.752Z" title="发表于 2026-04-07 21:04:44">2026-04-07</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'yh1140/yh1140.github.io',
+      'data-repo-id': 'R_kgDORbhcZQ',
+      'data-category-id': 'DIC_kwDORbhcZc4C46se',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
