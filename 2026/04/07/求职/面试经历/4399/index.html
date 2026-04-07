@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>4399 | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1.       linux禁用和启用root远程登录的命令 2.       授权命令chmod的使用 3.       Mysql怎么查看索引信息 4.       查看进程状态的命令(systemctl&#x2F;service) 5.       硬链接和软链接能否跨磁盘分区和区别 6.       查看网络负载的命令 7.       测试tcp端口是否能连通的命令 8.       R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4399">
+<meta property="og:url" content="https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/4399/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="1.       linux禁用和启用root远程登录的命令 2.       授权命令chmod的使用 3.       Mysql怎么查看索引信息 4.       查看进程状态的命令(systemctl&#x2F;service) 5.       硬链接和软链接能否跨磁盘分区和区别 6.       查看网络负载的命令 7.       测试tcp端口是否能连通的命令 8.       R">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-04-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-07T15:40:48.803Z">
+<meta property="article:author" content="孤独の野狼">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "4399",
+  "url": "https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/4399/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-04-06T16:00:00.000Z",
+  "dateModified": "2026-04-07T15:40:48.803Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/4399/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '4399',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">40</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">4399</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">4399</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-06T16:00:00.000Z" title="发表于 2026-04-07 00:00:00">2026-04-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-07T15:40:48.803Z" title="更新于 2026-04-07 23:40:48">2026-04-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>1.       linux禁用和启用root远程登录的命令</p>
+<p>2.       授权命令chmod的使用</p>
+<p>3.       Mysql怎么查看索引信息</p>
+<p>4.       查看进程状态的命令(systemctl&#x2F;service)</p>
+<p>5.       硬链接和软链接能否跨磁盘分区和区别</p>
+<p>6.       查看网络负载的命令</p>
+<p>7.       测试tcp端口是否能连通的命令</p>
+<p>8.       RAG的工作原理，RAG的优势</p>
+<p>9.       测试网络带宽延迟的命令</p>
+<p>10.    tcp三次握手和四次挥以及各个阶段的状态</p>
+<p>11.    模拟游戏服务器高并发场景的压力测试，说出你的测试方法，用到的测试工具以及需要哪些指标</p>
+<p>12.    你大学做过哪些比较多&#x2F;好的事情</p>
+<p>13.    你有什么个人性格特质，再说一说未来1-3年可能阻碍你的是什么</p>
+<p>14.    用shell写一个脚本，要求如下:</p>
+<p>(1)        添加新的定时任务</p>
+<p>(2)        列出当前用户所有的定时任务</p>
+<p>(3)        删除指定的定时任务</p>
+<p>(4)        备份和恢复crontab的配置</p>
+<p>暂时记得怎么点了…</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/4399/">https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/4399/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a></div><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/tap4fun/" title="tap4fun"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">tap4fun</div></div><div class="info-2"><div class="info-item-1">1.你写的脚本，如果想在k8s当中去运行，定时运行，怎么操作？2.你刚刚提到Apollo，解释一下？3.了解k8s吗？K8s的建构？4.Deployment和StatefulSet，Ingress和Service5.你用AI的写的脚本或者说一些自动化的任务如何确保它不会出错？6.一个服务你怎么确保上线不会出错？或者说在部署过程中出错怎么办？7.你觉得运维最重要的是什么8.你觉得你个人性格当中的缺点和优点   </div></div></div></a><a class="pagination-related" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E5%B2%97%E4%BD%8D%E6%8A%95%E9%80%92/%E6%8A%95%E9%80%92_%E7%BD%91%E7%94%B3%E6%A8%A1%E6%9D%BF/" title="投递_网申模板"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">投递_网申模板</div></div><div class="info-2"><div class="info-item-1"> 实习经历长沙小合科技有限公司 | 运维工程师  公司概述：深耕 ACDN&#x2F;PCDN 边缘计算赛道，专注于通过高并发流量调度算法与 95 计费模型优 化，为互联网大厂提供低延迟、高性价比 CDN 解决方案的技术驱动型公司。  工作内容：  流量计费与带宽调度： 负责调度服务器出口带宽合业务带宽等的日常监控，熟悉 95 计费逻辑， 通过调整阈值合调度策略，控制打峰，防止计费倒挂。 节点监控与异常通报： 利用 Prometheus 实时监测节点带宽、丢包及延迟。针对异常流量或链 路抖动进行及时记录与通报，保障业务 7×24h 稳定运行。  基础运维与硬件管理： 使用 Jumpserver 对远程服务器进行安全巡检。熟练运用 Linux 指令 （df&#x2F;lsblk&#x2F;iostat）监控磁盘负载，保障存储节点物理安全。  标准化部署与 SOP 维护： 参与边缘节点的开局部署与系统重装。严格执行 SOP 操作规范，协 助编写故障案例总结，提升团队日常运维的标准化程度。     项目经历混合云架构的web高可用自动化集群部署 2025&#x2F;12-2026&#x...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E5%B2%97%E4%BD%8D%E6%8A%95%E9%80%92/%E6%8A%95%E9%80%92_%E7%BD%91%E7%94%B3%E6%A8%A1%E6%9D%BF/" title="投递_网申模板"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-07</div><div class="info-item-2">投递_网申模板</div></div><div class="info-2"><div class="info-item-1"> 实习经历长沙小合科技有限公司 | 运维工程师  公司概述：深耕 ACDN&#x2F;PCDN 边缘计算赛道，专注于通过高并发流量调度算法与 95 计费模型优 化，为互联网大厂提供低延迟、高性价比 CDN 解决方案的技术驱动型公司。  工作内容：  流量计费与带宽调度： 负责调度服务器出口带宽合业务带宽等的日常监控，熟悉 95 计费逻辑， 通过调整阈值合调度策略，控制打峰，防止计费倒挂。 节点监控与异常通报： 利用 Prometheus 实时监测节点带宽、丢包及延迟。针对异常流量或链 路抖动进行及时记录与通报，保障业务 7×24h 稳定运行。  基础运维与硬件管理： 使用 Jumpserver 对远程服务器进行安全巡检。熟练运用 Linux 指令 （df&#x2F;lsblk&#x2F;iostat）监控磁盘负载，保障存储节点物理安全。  标准化部署与 SOP 维护： 参与边缘节点的开局部署与系统重装。严格执行 SOP 操作规范，协 助编写故障案例总结，提升团队日常运维的标准化程度。     项目经历混合云架构的web高可用自动化集群部署 2025&#x2F;12-2026&#x...</div></div></div></a><a class="pagination-related" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux%E5%A4%8D%E4%B9%A0_%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/" title="Linux复习_系统复习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-07</div><div class="info-item-2">Linux复习_系统复习</div></div><div class="info-2"><div class="info-item-1">用户态和内核态 用户态（User Mode）与内核态（Kernel Mode）的划分不仅是软件设计的需求，更是底层硬件（CPU）强制执行的权限隔离机制。这种建模的核心目标在于实现系统完整性（System Integrity）与故障隔离（Fault Isolation）。  1. 硬件基础：CPU 特权级（Privilege Levels） 在 x86 体系架构中，硬件通过 Ring 分级模型来定义执行上下文的权限。   Ring 0 (内核态 &#x2F; Supervisor Mode)：  核心权限：拥有对 CPU 所有指令集的完全访问权，包括特权指令（如 HLT 停机、LGDT 加载全局描述符表、操作控制寄存器 $CR0-CR4$ 等）。 内存访问：可以直接访问物理内存的所有区域，直接操控 I&#x2F;O 端口和底层硬件驱动。 运行主体：操作系统内核（Kernel）。   Ring 3 (用户态 &#x2F; User Mode)：  受限环境：仅能执行非特权指令（如基础运算、逻辑跳转）。 寻址受限：只能访问由内核分配的进程虚拟地址空间。任何尝试直接触碰物理硬件或跨进程访...</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88_SNMP-%E7%AE%80%E5%8D%95%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" title="小合_SNMP-简单网络管理协议"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">小合_SNMP-简单网络管理协议</div></div><div class="info-2"><div class="info-item-1">Simple Network Management Protocol  核心组件 NMS (Network Management System，网络管理系统&#x2F;管理站)： 相当于“大脑”。它是运行在调度服务器上的软件，负责下发指令（Get&#x2F;Set）并接收设备上报的信息。     Agent (代理进程)： 相当于“驻外办事员”。它是运行在交换机、路由器或服务器硬件上的软件模块，负责收集本设备的运行数据，并响应 NMS 的请求。 MIB (Management Information Base，管理信息库)： 相当于“字典”。它定义了设备上所有可监控项的结构和属性。 OID (Object Identifier，对象标识符)： 相当于“坐标&#x2F;地址”。它是 MIB 树状结构中的一个具体点。例如，接口流入流量的 OID 通常是以 1.3.6.1.2.1.2.2... 开头的一串数字。   交互机制SNMP 的逻辑非常严谨，主要通过以下几类操作完成数据交换： 📥 NMS 主动获取 (Pull 模式) Get-Request： NMS 询问 Agent：“请告...</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A1%AC%E4%BB%B6%E7%9F%A5%E8%AF%86/" title="小合_服务器硬件知识"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">小合_服务器硬件知识</div></div><div class="info-2"><div class="info-item-1"> 服务器硬件概述1. 服务器硬件的组成与功能服务器本质上是一台高性能计算机，但其设计核心在于稳定性、可扩展性和冗余性。  计算组件：CPU、内存（RAM）。 存储组件：硬盘（HDD&#x2F;SSD）、RAID卡、NVMe 推进器。 网络组件：网卡（NIC）、光纤通道卡（HBA）。 支撑组件：主板、电源（通常为 1+1 冗余）、散热风扇阵列。 管理组件：远程管理芯片（BMC）。  2. 服务器的分类 按外形分类： 机架式 (Rack Server)：最主流，以 U 为单位（1U&#x3D;4.445cm）。常见 1U、2U、4U。 塔式 (Tower Server)：类似 PC，适用于无机房的小型办公环境。 刀片式 (Blade Server)：高密度部署，共用电源和散热，适合大规模集群。   按处理器架构分类：x86 服务器（Intel&#x2F;AMD）、ARM 服务器（Ampere&#x2F;鲲鹏）、机（IBM Power）。   CPU1. 工作原理CPU 遵循 取指（Fetch）-&gt; 解码（Decode）-&gt; 执行（Execute）-&gt; 写回（Writ...</div></div></div></a><a class="pagination-related" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E6%8A%80%E6%9C%AF%E6%A0%88/%E5%AE%B9%E5%99%A8%E5%8C%96/K8s%E5%A4%8D%E4%B9%A0_%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/" title="K8s复习_面试题目"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-07</div><div class="info-item-2">K8s复习_面试题目</div></div><div class="info-2"><div class="info-item-1">1、简述etcd及其特点etcd是CoreOS团队发起的开源项目，是一个管理配置信息和服务发现（service discovery）的项目，它的目标是构建一个高可用的分布式键值（key-value）数据库，基于Go语言实现。 特点：  简单：支持REST风格的HTTP+JSON API 安全：支持HTTPS方式的访问 快速：支持并发1k&#x2F;s的写操作 可靠：支持分布式结构，基于Raft的一致性算法，Raft是一套通过选举主节点来实现分布式系统一致性的算法。  2、简述etcd适应的场景etcd基于其优秀的特点，可广泛的应用于以下场景：  服务发现（Service Discovery）：服务发现主要解决在同一个分布式集群中的进程或服务，要如何才能找到对方并建立连接。本质上来说，服务发现就是想要了解集群中是否有进程在监听UDP或TCP端口，并且通过名字就可以查找和连接。 消息发布与订阅：在分布式系统中，最适用的一种组件间通信方式就是消息发布与订阅。即构建一个配置共享中心，数据提供者在这个配置中心发布消息，而消息使用者则订阅他们关心的主题，一旦主题有消息发布，就会实时通知订阅者...</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95_%E5%BC%80%E6%94%BE%E5%9B%9E%E7%AD%94%E5%A4%8D%E4%B9%A0/" title="面试_开放回答复习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">面试_开放回答复习</div></div><div class="info-2"><div class="info-item-1"> 准备阶段面试问题 主观题你选择运维工程师（SRE&#x2F;DevOps 方向）岗位的原因是什么谈谈你未来 3 - 5 年的职业规划你对重复的工作是怎样的看法如果你的导师错了，你会怎么样如果你的导师给你布置了过多无法完成的任务，你会怎么样考研时的规划公司加班，个人的看法周末领导叫我拿东西对纪律问题的看法对多益网络的了解对996的看法薪资怎么要求？工作地点怎么要求？怎么样看待加班？有收到其他公司的offer吗？技术面试python is 和 &#x3D;&#x3D; 的区别 == 比较的是“值”（Value），通过调用 __eq__ 方法检查两个对象的内容是否相等；而 is 比较的是“身份”（Identity），通过 id() 函数检查两个变量是否指向内存中的同一个地址。在 SRE 实战中，判断 None、True 等单例对象时必须使用 is 以确保性能与安全性，而处理监控阈值或配置数值时则使用 ==。   pyhton的垃圾回收机制 引用计数，标记-清除，分代回收   python发生内存泄漏的场景 PyQt使用过的控件，QStandardItemModel使用在哪里 你在Py...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">40</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_74302052?type=blog" target="_blank" title="CSDN"><i class="fas fa-blog" style="color: #fc5531;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Gmail"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:1140798266@qq.com" target="_blank" title="QQ邮箱"><i class="fas fa-at" style="color: #1296db;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="https://music.163.com/#/user/home?id=1323878854" target="_blank" title="网易云"><i class="fas fa-music" style="color: #e60026;"></i></a><a class="social-icon" href="/img/wechat_qr.jpg" target="_blank" title="微信"><i class="fab fa-weixin" style="color: #1aad19;"></i></a><a class="social-icon" href="https://steamcommunity.com/id/1140798266/" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #171a21;"></i></a><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAAC-WqsjVdHpV_v771jhrx8Gy58RI-_V9kaM9ff-RLTYg?from_tab_name=main" target="_blank" title="抖音"><i class="fab fa-tiktok" style="color: #000000;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E6%8E%92%E6%9F%A5%EF%BC%9A%E6%89%93%E9%80%9APod%E5%AF%B9%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%AF%86%E5%88%AB/" title="无标题">无标题</a><time datetime="2026-04-07T16:22:11.602Z" title="发表于 2026-04-08 00:22:11">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/K8s%E5%AE%9E%E6%88%98_%E7%BD%91%E7%BB%9C%E6%9A%B4%E9%9C%B2/" title="K8s实战_网络暴露">K8s实战_网络暴露</a><time datetime="2026-04-07T16:22:10.218Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/2.7_K8s%E6%A6%82%E5%BF%B5_secrete/" title="无标题">无标题</a><time datetime="2026-04-07T16:22:10.183Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/2.6_K8s%E6%A6%82%E5%BF%B5_pod/" title="K8s概念_pod">K8s概念_pod</a><time datetime="2026-04-07T16:22:10.153Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="无标题">无标题</a><time datetime="2026-04-07T16:22:10.108Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'yh1140/yh1140.github.io',
+      'data-repo-id': 'R_kgDORbhcZQ',
+      'data-category-id': 'DIC_kwDORbhcZc4C46se',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

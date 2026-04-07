@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>小合_底层虚拟化环境搭建 | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="相关概念 底层环境虚拟化搭建一、 采集器底层环境部署 (PVE 虚拟化)该阶段侧重于基础设施的构建与安全加固，确保采集器主机具备稳定的运行环境。  基础环境准备：登录 PVE 管理平台，确认网络为桥接模式，并强制执行高强度调改密策略。  网络安全加固：通过 ufw 和 iptables 配置严谨的访问控制策略（ACL），仅允许 JumpServer 及公司特定管理 IP 访问相关端口（如 22、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小合_底层虚拟化环境搭建">
+<meta property="og:url" content="https://yh1140.github.io/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88_%E5%BA%95%E5%B1%82%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="相关概念 底层环境虚拟化搭建一、 采集器底层环境部署 (PVE 虚拟化)该阶段侧重于基础设施的构建与安全加固，确保采集器主机具备稳定的运行环境。  基础环境准备：登录 PVE 管理平台，确认网络为桥接模式，并强制执行高强度调改密策略。  网络安全加固：通过 ufw 和 iptables 配置严谨的访问控制策略（ACL），仅允许 JumpServer 及公司特定管理 IP 访问相关端口（如 22、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-04-07T16:09:43.000Z">
+<meta property="article:modified_time" content="2026-04-07T16:10:06.572Z">
+<meta property="article:author" content="孤独の野狼">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "小合_底层虚拟化环境搭建",
+  "url": "https://yh1140.github.io/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88_%E5%BA%95%E5%B1%82%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-04-07T16:09:43.000Z",
+  "dateModified": "2026-04-07T16:10:06.572Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88_%E5%BA%95%E5%B1%82%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '小合_底层虚拟化环境搭建',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">40</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">小合_底层虚拟化环境搭建</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">小合_底层虚拟化环境搭建</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-07T16:09:43.000Z" title="发表于 2026-04-08 00:09:43">2026-04-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-07T16:10:06.572Z" title="更新于 2026-04-08 00:10:06">2026-04-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95/%E5%B0%8F%E5%90%88/">小合</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><hr>
+<h1 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h1><hr>
+<h1 id="底层环境虚拟化搭建"><a href="#底层环境虚拟化搭建" class="headerlink" title="底层环境虚拟化搭建"></a>底层环境虚拟化搭建</h1><h2 id="一、-采集器底层环境部署-PVE-虚拟化"><a href="#一、-采集器底层环境部署-PVE-虚拟化" class="headerlink" title="一、 采集器底层环境部署 (PVE 虚拟化)"></a>一、 采集器底层环境部署 (PVE 虚拟化)</h2><p>该阶段侧重于基础设施的构建与安全加固，确保采集器主机具备稳定的运行环境。</p>
+<ul>
+<li><p><strong>基础环境准备</strong>：登录 PVE 管理平台，确认网络为<strong>桥接模式</strong>，并强制执行高强度调改密策略。</p>
+</li>
+<li><p><strong>网络安全加固</strong>：通过 <code>ufw</code> 和 <code>iptables</code> 配置严谨的访问控制策略（ACL），仅允许 JumpServer 及公司特定管理 IP 访问相关端口（如 22、8000-9000 等），完成录入后及时清理临时规则。</p>
+</li>
+<li><p><strong>虚拟机构建</strong>：</p>
+<ul>
+<li><p><strong>镜像处理</strong>：通过 <code>wget</code> 下载或 JumpServer 上传 <code>qcow2</code> 镜像。</p>
+</li>
+<li><p><strong>硬件分配</strong>：创建 4核&#x2F;8G&#x2F;200G 规格的虚拟机。</p>
+</li>
+<li><p><strong>磁盘导入</strong>：利用 <code>qm importdisk</code> 命令将镜像导入 local-lvm，并修正启动顺序与开机自启配置。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>系统初始化</strong>：配置与宿主机 PVE 同网段的静态 IP，确保内网互通。</p>
+</li>
+</ul>
+<h2 id="二、-控制器系统初始化-数据安全与存储"><a href="#二、-控制器系统初始化-数据安全与存储" class="headerlink" title="二、 控制器系统初始化 (数据安全与存储)"></a>二、 控制器系统初始化 (数据安全与存储)</h2><p>该阶段重点在于控制器内部的逻辑配置，特别是针对数据存储的安全性处理。</p>
+<ul>
+<li><p><strong>LUKS 硬盘加密</strong>：使用 <code>cryptsetup</code> 对新挂载的数据盘进行物理加密（统一密码规范），防止底层数据外泄。</p>
+</li>
+<li><p><strong>分区与挂载</strong>：完成加密分区的映射（LuksOpen）与 <code>ext4</code> 文件系统格式化，并挂载至指定目录 <code>/nolinux</code>。</p>
+</li>
+<li><p><strong>权限对接</strong>：再次进行防火墙加固并接入 JumpServer 统一管理。</p>
+</li>
+</ul>
+<h2 id="三、-sFlow-业务配置实操-流量采集"><a href="#三、-sFlow-业务配置实操-流量采集" class="headerlink" title="三、 sFlow 业务配置实操 (流量采集)"></a>三、 sFlow 业务配置实操 (流量采集)</h2><p>该阶段由系统配置转向业务执行，实现流量数据的有效抓取。</p>
+<ul>
+<li><p><strong>仿真与对接</strong>：利用 eNSP 模拟器绘制拓扑，验证虚拟机与交换机间的采集路径。</p>
+</li>
+<li><p><strong>交换机配置</strong>：在物理&#x2F;虚拟交换机上开启 sFlow 代理，配置采集器 IP、端口及采样率等核心参数。</p>
+</li>
+</ul>
+<h2 id="四、-运维分析与流量结算-系统应用"><a href="#四、-运维分析与流量结算-系统应用" class="headerlink" title="四、 运维分析与流量结算 (系统应用)"></a>四、 运维分析与流量结算 (系统应用)</h2><p>该阶段指导员工如何利用 Web 系统进行日常运维与业务核算。</p>
+<ul>
+<li><p><strong>Web 系统操作</strong>：掌握各项参数调整方法及使用说明。</p>
+</li>
+<li><p><strong>故障排查逻辑</strong>：利用系统“源 IP 查找”与“业务分析”功能，定位<strong>未进调度节点</strong>的异常流量，检查默认路由下的残留流量。</p>
+</li>
+<li><p><strong>流量结算</strong>：基于 sFlow 采集的真实数据实现业务侧的流量结算与统计。</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88_%E5%BA%95%E5%B1%82%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">https://yh1140.github.io/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88_%E5%BA%95%E5%B1%82%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a></div><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88_%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0/" title="小合_风险评估"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">小合_风险评估</div></div><div class="info-2"><div class="info-item-1"> 评估一个节点（如成都电信 1T 节点）是否健康，不能只看流量，要看**“余量”与“变量”**。   评估指标1. 成本风险 (Cost Risk)通过“点数水位线”评估。  低风险：剩余点数充足，且流量波动符合历史规律。 中风险：业务中途变更，点数消耗速度翻倍，预计 7 天内耗尽。 高风险：点数已亏损，或剩余点数无法支撑到月底，且流量持续处于高位。  2. 容量风险 (Capacity Risk)通过“利用率红线”评估。  计算指标：$\frac{\text{当前实时流量}}{\text{出口物理带宽}}$。 警戒线： 50%：理想状态，调度空间大。 80%：危险状态。此时一旦发生单链路故障（如 BFD 报 Down），剩余链路会瞬间打满导致全节点瘫痪。 90%：极度危险，必须强制限速或引入新出口。    3. 质量风险 (Quality Risk)通过 SNMP 丢包率和 BFD 抖动次数评估。  如果一个节点频繁出现 BFD 状态切换，说明链路极不稳定。在 95 计费下，这种抖动会导致流量在不同口之间反复横跳，产生大量“无效高点”，迅速耗尽弃点数。  4. 业务变更风险 (...</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/ACDN&amp;PCDN/%E5%B0%8F%E5%90%88_A%E4%B8%9A%E5%8A%A1%E9%85%8D%E7%BD%AE%E6%8C%87%E5%AF%BC/" title="小合_A业务配置指导"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">小合_A业务配置指导</div></div><div class="info-2"><div class="info-item-1">                                         A业务配置指导 一、系统镜像 http://isoredirect.centos.org/centos/7/isos/x86_64&#x2F;   二、只留万兆光口生效，如有内置的千兆网卡，需在BIOS禁用掉。   三、在安装系统时，将万兆网口名称修改为eth0: 1、在安装界面移动光标到 Install Centos 7.按 TAB 键，在出现的代码的末尾添加：net.ifnames&#x3D;0 biosdevname&#x3D;0.按下回车开始安装即可，系统会自动从eth0开始命名   四、安装系统时，将sda系统盘，划分独立分区1、独立分区挂载点为&#x2F;pcdn_data&#x2F;pcdn_index_data (大于50GB)例如: 系统盘为sda，划分独立分区为&#x2F;dev&#x2F;sda4，则将&#x2F;dev&#x2F;sda4挂载到&#x2F;pcdn_data&#x2F;pcdn_index_data目录 五、ssd进行分区（除系统盘） 1、SSD盘进行同等大小...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux%E5%A4%8D%E4%B9%A0_%E5%A4%8D%E4%B9%A0%E6%A1%86%E6%9E%B6/" title="Linux复习_复习框架"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-07</div><div class="info-item-2">Linux复习_复习框架</div></div><div class="info-2"><div class="info-item-1">一、 核心概念与“八股文”要点1. 内核与空间管理 用户态 (User Space) 与内核态 (Kernel Space)： 为什么要划分？（为了安全和稳定）。 系统调用 (System Call)： 用户态如何通过 int 80h 或 syscall 进入内核态。  2. 进程管理（重点） 进程、线程、协程的区别： 资源分配的基本单位 vs CPU 调度的基本单位。 进程状态： R (Running), S (Sleeping), D (Disk Sleep - 不可中断睡眠), Z (Zombie - 僵尸进程), T (Stopped)。 孤儿进程 vs 僵尸进程： 产生原因、危害及清理方法（僵尸进程需找父进程或 kill 父进程）。 调度算法： 完全公平调度器 (CFS) 的基本原理。  3. 内存管理 虚拟内存与物理内存： 页表 (Page Table)、MMU (内存管理单元) 的映射关系。 Buffer 与 Cache： Buffer（写缓冲，解决速度不匹配）vs Cache（读缓存，加速读取数据）。 SWAP 分区： 触发时机、对性能的影响。 OOM Kille...</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E5%B0%8F%E5%90%88_SNMP-%E7%AE%80%E5%8D%95%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE/" title="小合_SNMP-简单网络管理协议"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">小合_SNMP-简单网络管理协议</div></div><div class="info-2"><div class="info-item-1">Simple Network Management Protocol  核心组件 NMS (Network Management System，网络管理系统&#x2F;管理站)： 相当于“大脑”。它是运行在调度服务器上的软件，负责下发指令（Get&#x2F;Set）并接收设备上报的信息。     Agent (代理进程)： 相当于“驻外办事员”。它是运行在交换机、路由器或服务器硬件上的软件模块，负责收集本设备的运行数据，并响应 NMS 的请求。 MIB (Management Information Base，管理信息库)： 相当于“字典”。它定义了设备上所有可监控项的结构和属性。 OID (Object Identifier，对象标识符)： 相当于“坐标&#x2F;地址”。它是 MIB 树状结构中的一个具体点。例如，接口流入流量的 OID 通常是以 1.3.6.1.2.1.2.2... 开头的一串数字。   交互机制SNMP 的逻辑非常严谨，主要通过以下几类操作完成数据交换： 📥 NMS 主动获取 (Pull 模式) Get-Request： NMS 询问 Agent：“请告...</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E6%95%85%E9%9A%9C/%E5%B0%8F%E5%90%88_%E6%95%85%E9%9A%9C%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/" title="小合_故障学习框架"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">小合_故障学习框架</div></div><div class="info-2"><div class="info-item-1">学习心态准备 耐心与坚持：网络知识体系庞大，故障排查经验需要积累，不可能一蹴而就。 动手实践：这是最重要的环节。理论看十遍不如动手做一遍。 好奇心：对每个现象多问一个“为什么”，追根溯源，才能深刻理解。 系统性思维：网络是一个整体，要学会关联思考，而不是孤立地看问题。 学习框架：从基础到精通 第一阶段：筑基篇 - 理解网络“语言”和“交通规则” 这个阶段的目标是打下坚实的理论基础，让你知道数据是如何在网络中“流动”的。 核心概念： （1）OSI七层模型与TCP&#x2F;IP五层模型：这是学习网络的“世界观”。必须深刻理解每一层的功能、协议和数据单元（如帧、包、段）。 （2）IP地址与子网划分：这是网络的“门牌号”。熟练掌握IPv4地址分类、公有&#x2F;私有地址、子网掩码、CIDR、VLSM。这是后续分析路由问题的基础。 （3）MAC地址：这是网络设备的“身份证”。理解它在二层网络中的唯一性。 关键协议（“交通规则”）： （1）以太网协议（二层）：理解帧结构、交换机的工作原理（MAC地址表学习、转发&#x2F;过滤&#x2F;泛洪决策）。 （2）ARP协议：理解IP地址如何映...</div></div></div></a><a class="pagination-related" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E5%B2%97%E4%BD%8D%E6%8A%95%E9%80%92/%E6%8A%95%E9%80%92_%E7%BD%91%E7%94%B3%E6%A8%A1%E6%9D%BF/" title="投递_网申模板"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-07</div><div class="info-item-2">投递_网申模板</div></div><div class="info-2"><div class="info-item-1"> 实习经历长沙小合科技有限公司 | 运维工程师  公司概述：深耕 ACDN&#x2F;PCDN 边缘计算赛道，专注于通过高并发流量调度算法与 95 计费模型优 化，为互联网大厂提供低延迟、高性价比 CDN 解决方案的技术驱动型公司。  工作内容：  流量计费与带宽调度： 负责调度服务器出口带宽合业务带宽等的日常监控，熟悉 95 计费逻辑， 通过调整阈值合调度策略，控制打峰，防止计费倒挂。 节点监控与异常通报： 利用 Prometheus 实时监测节点带宽、丢包及延迟。针对异常流量或链 路抖动进行及时记录与通报，保障业务 7×24h 稳定运行。  基础运维与硬件管理： 使用 Jumpserver 对远程服务器进行安全巡检。熟练运用 Linux 指令 （df&#x2F;lsblk&#x2F;iostat）监控磁盘负载，保障存储节点物理安全。  标准化部署与 SOP 维护： 参与边缘节点的开局部署与系统重装。严格执行 SOP 操作规范，协 助编写故障案例总结，提升团队日常运维的标准化程度。     项目经历混合云架构的web高可用自动化集群部署 2025&#x2F;12-2026&#x...</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/ACDN&PCDN/%E5%B0%8F%E5%90%88_%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="小合_管理系统"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">小合_管理系统</div></div><div class="info-2"><div class="info-item-1">Acdn&#x2F;pcdn管理系统需求描述-修改一、系统整体需求该系统需满足20T规模带宽&#x2F;约1w台acdn&#x2F;pcdn服务器的流量采集管理，满足不同计费模式对接各互联网公司平台。 二、当前紧急需求对接tx平台，实现acdn 5分钟流量采集、tx平台流量上报、tx月度对账、供应商按节点结算、按节点收益分析、流量图等功能。腾讯a业务分为移动非80、移动80、非移动三种业务类型。 1、支持按供应商&#x2F;节点&#x2F;业务类型三个纬度的接入设备管理。    如客户湘谷有电信、移动两个节点，每个节点可能多台服务器，对应非移动、移动非80、移动80三种业务类型。 2、对接tx平台，从tx系统中获取设备信息，并根据设备ip采集5min流量（呈现采集成功率）。    服务器可能会随时调整，变更业务类型（移动&#x2F;非移动），变更ip，需要每间隔一段时间从tx系统刷新设备信息 3、每小时上报所有服务器流量数据（支持调增系数），错误数据支持上报覆盖。    有的时候我们采集数据比实际小，所以考虑乘一个调增系数上报 4、支持按业务&#x2F;按供应商导出原始数据。  ...</div></div></div></a><a class="pagination-related" href="/2026/03/13/%E6%B1%82%E8%81%8C/%E5%B2%97%E4%BD%8D%E6%8A%95%E9%80%92/%E6%8A%95%E9%80%92_%E5%B2%97%E4%BD%8D%E8%AE%B0%E5%BD%95/" title="投递_岗位记录"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-13</div><div class="info-item-2">投递_岗位记录</div></div><div class="info-2"><div class="info-item-1">游戏科学IT运维工程师 影石服务器运维工程师 米哈游业务运维开发工程师业务运维开发工程师 游戏运维开发游戏运维开发 鹰角SRE工程师 三一重工云计算工程师（流程信息化总部） 系统运维工程师（流程信息化总部） 恒生浩鲸多益网络多益网络 数字湖南数字湖南 列表叠纸网易元气森林山东港口集团中石化中国东方航空携程TCL安踏集团OPPO水羊集团博众精工长鑫存储小鹏汽车腾讯字节猿辅导领跑汽车快手百度红松学而思新疆电投人民网阿里虎鲸文娱凡岛北京排水集团广东广电网络爱奇艺青岛国信集团泰州邮政银行 </div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">40</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_74302052?type=blog" target="_blank" title="CSDN"><i class="fas fa-blog" style="color: #fc5531;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Gmail"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:1140798266@qq.com" target="_blank" title="QQ邮箱"><i class="fas fa-at" style="color: #1296db;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="https://music.163.com/#/user/home?id=1323878854" target="_blank" title="网易云"><i class="fas fa-music" style="color: #e60026;"></i></a><a class="social-icon" href="/img/wechat_qr.jpg" target="_blank" title="微信"><i class="fab fa-weixin" style="color: #1aad19;"></i></a><a class="social-icon" href="https://steamcommunity.com/id/1140798266/" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #171a21;"></i></a><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAAC-WqsjVdHpV_v771jhrx8Gy58RI-_V9kaM9ff-RLTYg?from_tab_name=main" target="_blank" title="抖音"><i class="fab fa-tiktok" style="color: #000000;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">相关概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E7%8E%AF%E5%A2%83%E8%99%9A%E6%8B%9F%E5%8C%96%E6%90%AD%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">底层环境虚拟化搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E9%87%87%E9%9B%86%E5%99%A8%E5%BA%95%E5%B1%82%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2-PVE-%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">一、 采集器底层环境部署 (PVE 虚拟化)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B3%BB%E7%BB%9F%E5%88%9D%E5%A7%8B%E5%8C%96-%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8%E4%B8%8E%E5%AD%98%E5%82%A8"><span class="toc-number">2.2.</span> <span class="toc-text">二、 控制器系统初始化 (数据安全与存储)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81-sFlow-%E4%B8%9A%E5%8A%A1%E9%85%8D%E7%BD%AE%E5%AE%9E%E6%93%8D-%E6%B5%81%E9%87%8F%E9%87%87%E9%9B%86"><span class="toc-number">2.3.</span> <span class="toc-text">三、 sFlow 业务配置实操 (流量采集)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81-%E8%BF%90%E7%BB%B4%E5%88%86%E6%9E%90%E4%B8%8E%E6%B5%81%E9%87%8F%E7%BB%93%E7%AE%97-%E7%B3%BB%E7%BB%9F%E5%BA%94%E7%94%A8"><span class="toc-number">2.4.</span> <span class="toc-text">四、 运维分析与流量结算 (系统应用)</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E6%8E%92%E6%9F%A5%EF%BC%9A%E6%89%93%E9%80%9APod%E5%AF%B9%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%AF%86%E5%88%AB/" title="无标题">无标题</a><time datetime="2026-04-07T16:22:11.602Z" title="发表于 2026-04-08 00:22:11">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/K8s%E5%AE%9E%E6%88%98_%E7%BD%91%E7%BB%9C%E6%9A%B4%E9%9C%B2/" title="K8s实战_网络暴露">K8s实战_网络暴露</a><time datetime="2026-04-07T16:22:10.218Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/2.7_K8s%E6%A6%82%E5%BF%B5_secrete/" title="无标题">无标题</a><time datetime="2026-04-07T16:22:10.183Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/2.6_K8s%E6%A6%82%E5%BF%B5_pod/" title="K8s概念_pod">K8s概念_pod</a><time datetime="2026-04-07T16:22:10.153Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="无标题">无标题</a><time datetime="2026-04-07T16:22:10.108Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'yh1140/yh1140.github.io',
+      'data-repo-id': 'R_kgDORbhcZQ',
+      'data-category-id': 'DIC_kwDORbhcZc4C46se',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

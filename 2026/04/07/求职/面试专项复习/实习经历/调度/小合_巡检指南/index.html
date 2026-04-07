@@ -1,0 +1,399 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>小合_巡检指南 | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="调度和巡检指南一、 巡检指南1.登录云管（1）登录云管平台——&gt;告警中心——&gt;查看告警事件   （2）IP监测——&gt;IP管理——&gt;查看所以站点ip丢包情况   2. 节点概览 （1）看cpu利用率、出口流量、业务流量、互联导流&#x2F;回流   ①cpu利用率不能持续超过10%，最大不能超过50%。 ②正常情况下 出口流量&#x3D;业务流量 &lt;&#x3D; 互联导">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小合_巡检指南">
+<meta property="og:url" content="https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E8%B0%83%E5%BA%A6/%E5%B0%8F%E5%90%88_%E5%B7%A1%E6%A3%80%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="调度和巡检指南一、 巡检指南1.登录云管（1）登录云管平台——&gt;告警中心——&gt;查看告警事件   （2）IP监测——&gt;IP管理——&gt;查看所以站点ip丢包情况   2. 节点概览 （1）看cpu利用率、出口流量、业务流量、互联导流&#x2F;回流   ①cpu利用率不能持续超过10%，最大不能超过50%。 ②正常情况下 出口流量&#x3D;业务流量 &lt;&#x3D; 互联导">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-04-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-07T15:52:27.680Z">
+<meta property="article:author" content="孤独の野狼">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "小合_巡检指南",
+  "url": "https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E8%B0%83%E5%BA%A6/%E5%B0%8F%E5%90%88_%E5%B7%A1%E6%A3%80%E6%8C%87%E5%8D%97/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-04-06T16:00:00.000Z",
+  "dateModified": "2026-04-07T15:52:27.680Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E8%B0%83%E5%BA%A6/%E5%B0%8F%E5%90%88_%E5%B7%A1%E6%A3%80%E6%8C%87%E5%8D%97/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '小合_巡检指南',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">40</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">小合_巡检指南</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">小合_巡检指南</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-06T16:00:00.000Z" title="发表于 2026-04-07 00:00:00">2026-04-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-07T15:52:27.680Z" title="更新于 2026-04-07 23:52:27">2026-04-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B0%8F%E5%90%88/">小合</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B0%8F%E5%90%88/%E9%9D%A2%E8%AF%95/">面试</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="调度和巡检指南"><a href="#调度和巡检指南" class="headerlink" title="调度和巡检指南"></a><strong>调度和巡检指南</strong></h1><h2 id="一、-巡检指南"><a href="#一、-巡检指南" class="headerlink" title="一、 巡检指南"></a>一、 <strong>巡检指南</strong></h2><h2 id="1-登录云管"><a href="#1-登录云管" class="headerlink" title="1.登录云管"></a>1.登录云管</h2><p>（1）登录云管平台——&gt;告警中心——&gt;查看告警事件</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/fbb266e56749d554fa25ce46108f5d53150e6947"> </p>
+<p>（2）IP监测——&gt;IP管理——&gt;查看所以站点ip丢包情况</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/1d19abc5f106bd31e51351f76eeeaa7e60291dea"> </p>
+<p>2. 节点概览</p>
+<p>（1）看cpu利用率、出口流量、业务流量、互联导流&#x2F;回流</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/bdfdada348cb29b5a699dd13101370a814df5167"> </p>
+<p>①cpu利用率不能持续超过10%，最大不能超过50%。</p>
+<p>②正常情况下 出口流量&#x3D;业务流量 &lt;&#x3D; 互联导流&#x2F;回流（有强化导流的情况下）</p>
+<p>新加业务没有录入：业务流量会小于出口流量，互联导流&#x2F;回流&gt;&#x3D;出口流量</p>
+<p>有默认路由情况：出口&#x2F;业务口流量&gt;导流&#x2F;回流，有部分流量没有进调度，直接走默认了</p>
+<p><strong>特殊节点（鹏达-深圳移动为例）</strong></p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/73f97994e45acd0d1dd91b3d8546ecfc2e3e962d"> </p>
+<p>重复统计了上下连接的交换机，下面的流量。下面的流量做了限速策略</p>
+<p>③互联导流&#x2F;回流也要基本相同，且要大于或等于出口业务流量</p>
+<p><strong>特殊节点（杰邦-太原为例）</strong></p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/8fba0d226e92a8614db37373b7fb71d5972223b6"> </p>
+<p>双核心调度，有两个核心交换机，核心交换机之间的流量录入进去了，如果没录入就是相等的。</p>
+<p>（2）查看告警事件</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/4bfc76a24da5d4f69fd7a17b843f52b41117eb6d"> </p>
+<p>（3）看流量模型</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/18c8482e0af2c3100c9d6c6df1c3285e68cdb2b4"> </p>
+<p>①分95：每个出口端口的95的和</p>
+<p>合95：总流量的95，也就是14.4<em>30或14.4</em>31那个值</p>
+<p>区间就是用当前流量降序排序，找到n*14.4那个值（n是前一天的日期）</p>
+<p>②分95之和就是把每个端口的95值算出来，再相加。</p>
+<p>出口合95就是把每个端口流量求和 再算95值</p>
+<p>③出口保底：每个站点有些端口是有保底的，如果真实出口分95没到保底计费的时候，就会按保底算（正常的话，联通和电信是30%，移动是40%）</p>
+<p>④出口侧收益：出口合95值-出口分95值</p>
+<p>⑤正常好的流量模型是白天不打峰，不用点，晚上有高峰</p>
+<p>（4）看min、max、peak、纠偏</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/54a0967435a68fde12ac88dc9e18e033975979a8"></p>
+<p>①正常来说，程序是会按算法自动调节min、max、peck的，peck值是在min-max之间，超peck值会打峰，人工干预的话也是只能调min max ，peck值是会自动调节的。</p>
+<p>②纠偏是分配带宽和实时速度的差值，如果差异过大会导致纠偏异常，一般来说只有最后一个口的纠偏是比较大的，其他口的纠偏值都要小于最后一个口（红色的就是最后一个口），纠偏的过程是为了使实时速度接近分配带宽，如果实时速度大于分配带宽，那么设置带宽会设置小点来纠正实时速度，反之，如果实时速度小于于分配带宽，那么设置带宽会设置大点来纠正实时速度。一般有强化导流会出现纠偏异常。</p>
+<p>**注意：**互联不均衡，导致每个端口流量不一样，产生纠偏；包口产生的纠偏是不用看的，主要是看95口是否有纠偏</p>
+<p>3. 计费统计</p>
+<p>（1）出口计费</p>
+<p>①出口总流量图</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/6f4589a36691d058c9a998c32b7492562b5b01b2"> </p>
+<p>可以看具体流量大小，对比今天和前一天同时间的流量对比。看真实出口侧分95到达情况。</p>
+<p>②会有每个端口的详细信息，主要是看每个口的流量模型，看每个端口的打峰情况，和跑量情况</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://www.kdocs.cn/api/v3/office/copy/MktjY2owNjl5SzRRVUhadGIwa1FtbUhlaTFndkVKd2Fpc1BHN2V5c2N5YlF2Z1lDTjNKUUtWV2NmZk9XL04rUGIxQ0FMUXN4cHFqL1FNMzM2OVZTUW1lWXJmaVFLa3JPRU4zMEpIcSt5QU9KZDJkSXlCYUo3bVFYMUhiWDBvZXdrSlFEUU9XUVNSS0NhdlpBQ1hNNmhtVmRkeWpwajJlZEhzaVZXWFNBYzJzMHVSWW92Z083RDF4TGMvakE4QnlncXAwd0tIdWR0U0JCcEZXTFNnQ0hub29WT25CM3pRYXpZZFZkU2ltL21kWGIzZ3hwREdRdFQ4SHlNYzhka2ZRcFdDQXlMQitJbmtvPQ==/attach/object/beb9a934b53bc5445bdb21a86de9c2905a8a1cc4"> </p>
+<p>这种情况是打峰状态。</p>
+<p>（2）业务计费</p>
+<p>①看有几个业务，哪些业务在跑量，可以结合之前的跑量情况，来分析后面的业务打峰情况</p>
+<p>②具体业务</p>
+<p> </p>
+<p>这样说明这个时间这个业务在打峰，同样的可以看到业务的95和区间95。</p>
+<p>③总业务图</p>
+<p> </p>
+<p>对比本月，观察流量是否发生变化</p>
+<p>4. 端口流量</p>
+<p>（1）出口端口（每个口的20s流量）</p>
+<p> </p>
+<p>观察当前的流量分流是否均衡，对调度是否会有影响</p>
+<p>（2）业务端口（每个口的20s流量）</p>
+<p> </p>
+<p>查看每个业务20s流量</p>
+<p>（3）互联端口（每个口的20s流量）</p>
+<p> </p>
+<p>看互联分配均不均衡</p>
+<p>看互联流量占比不能超过93%，如果在70%~80%之间需要 查看 业务侧利用率是否一样。</p>
+<p>如果 互联利用率（78%）远大于业务侧互联利用率（50%） 这种情况要通报到群里，需要增加互联带宽</p>
+<p>如果 互联利用率（78%）差不多等于业务侧互联利用率（80%） 这种情况问题不大。</p>
+<p>5. 趋势分析</p>
+<p>（1）流量趋势</p>
+<p> </p>
+<p>能查看各计费的本月走势，一般看日95和月95。</p>
+<p>（2）错峰消耗</p>
+<p>①消耗趋势</p>
+<p> </p>
+<p>这个统计是 peak min max  都相同时点数消耗情况，可以作为参考每天用的点数，但是想要知道具体得手算。</p>
+<p>②点数使用情况</p>
+<p> </p>
+<p>A. 括号外面的数值是流量值</p>
+<p>B. 括号里的第一个数字是这个月到目前总用点数</p>
+<p>C. 括号里的第二个数字是今天是使用点数情况</p>
+<p>一般第一行都是保底流量大小，如果这还有点数剩余，那么此站点从点数方面看没有风险。在月初的时候即使最后一行都没点数剩余，也没事，因为月初跑均衡。月中的时候，至少最后三行是要有点数剩余的，从点数方面来看，才是安全的。月末的时候前三行有点数剩余会比较安全。（在跑自动的情况下，作为参考）</p>
+<p>（3）数据分析</p>
+<p> </p>
+<p>通过算点评估节点是否有风险</p>
+<p>6. 质量检测</p>
+<p>（1）端口丢包</p>
+<p>实现看丢包率大不大，如果是0.01%以下的且短暂丢包，正常</p>
+<p>当端口丢包的时候得看流量是否正常，如果流量跑满了，或者流量波动太大都会导致端口丢包，如果一切都正常，且端口持续丢包，需要查看日志（内存告警等）</p>
+<p>（2）Ip丢包</p>
+<p>查看端口丢包情况和流量情况，如果一切正常，且旁挂没告警，基本可以排除是调度的问题了。如果持续丢包，没有包口且流量低，关调度观察，如果还丢包，那也不是调度问题，通知客户。如果旁挂是有告警的就需要具体看具体情况了（v6分流策略失效等）。</p>
+<p><strong>有故障去看丢包案例指南、</strong></p>
+<p><strong>有故障或者可能是有风险的情况，一定第一时间发群里！！！！</strong></p>
+<p><strong>早上：巡检需要具体和全面，云管平台的出口端口，业务计费，业务端口，互联端口，出口计费，ip丢包，端口丢包等都需要过一遍。</strong></p>
+<p><strong>下午：巡检主要是查看异常（白天异常打峰，业务流量变化较大。）</strong></p>
+<p><strong>晚上：巡检需要观察 风险节点的点数消耗情况。</strong></p>
+<p><strong>正常节点可通过该方式巡检，便可确定节点基本情况。</strong></p>
+<p><strong>风险节点需要该节点具体情况，侧重点不一样。</strong></p>
+<h2 id="二、-调度指南"><a href="#二、-调度指南" class="headerlink" title="二、 调度指南"></a>二、 <strong>调度指南</strong></h2><p>1. 调度基本知识</p>
+<p>（1）了解95计费规则</p>
+<p>月总点数&#x3D;12<em>24</em>30或者31  95计费&#x3D;月总点数*95%&#x3D;433&#x2F;447  </p>
+<p>（2）了解收益</p>
+<p>收益&#x3D;分业务95之和 - 分出口95之和</p>
+<p>收益&#x3D;出口合并95 - 分出口95之和</p>
+<p>我们的调度理念是至少不能亏损。所以 分业务95之和（出口合并95） 大于或等于 分出口95之和</p>
+<p>（3）了解min~max、peak</p>
+<p>Min — max是触发打峰的一个区间值，peak是区间内触发打峰的值</p>
+<p><strong>点数剩余正常或者较多的时候</strong>：流量超peak值，将会触发打峰，而其余没有打峰的出口端口，将会按照min&#x2F;端口数量的流量值跑量。</p>
+<p>**点数剩余较少，或者超用的情况下：**流量可能需要超max才打峰。而其余没有打峰的出口端口，也将会按照min&#x2F;端口数量的流量值跑量。</p>
+<p><strong>min的作用</strong>：抬升出口端口95值，一定量的减少点数消耗 和 腾出多于点数。</p>
+<p>**max的作用：**是出口95的最大值（收益最后的底线值），至少要保证，max值算点有点数剩余。</p>
+<p>（4）了解纠偏</p>
+<p>正常纠偏 分配带宽与实时速度的 几乎一样，只有最有一个口差值较大（如果有除最后一个口以外的 2-3个口 差值大于1-2G 需要观察5-10分钟，如果一直保持以上现象，需要发群里，通知该节点负责人）</p>
+<p><strong>注意包口有纠偏是正常的</strong></p>
+<p> </p>
+<p>（5）计划错峰</p>
+<p>主要注意点是：打峰会按优先级依次进行，不会考虑打峰后的影响（设置错峰会打峰的时候一直选这个端口）， 也就是设置后必须注意点数消耗情况。</p>
+<p>主要条件： 触发速度  和  生效时间 ， 只有同时满足条件 的时候  指定的计费组 优先级 才会改变，否则是 默认的100</p>
+<p>容易误解的地方是：达到触发速度就会打峰 ，这个不会。打不打峰由主算法控制，如果非要实现这个功能 就要同时修改 组合设置min max 在触发速度区间打峰</p>
+<p>（6）保留带宽、缓存因子、突发因子</p>
+<p>①　保留带宽</p>
+<p>保留带宽是指最后口保留的剩余带宽。</p>
+<p>剩余带宽不足会触发端口非错峰需求的打峰损耗。</p>
+<p>剩余带宽一般设置范围为：选取所有端口中剩余带宽最小的值（峰值-预期95值）乘以 0.8 –0.9；</p>
+<p>②　缓存因子</p>
+<p>缓存因子是针对包端口或打峰端口跑满时掉包的调节参数，端口跑满时发生持续掉包，应调小，端口已经设置到峰值，但实际流量与峰值差距过大，且未发生掉包时 应调大</p>
+<p>③　突发因子</p>
+<p>突发因子是针对95端口未跑满时掉包的调节参数，最后端口或强化导流二次分配的95端口发生掉包应调大，其他95端口发生掉包应调小</p>
+<p>（7）导流模式、ai导流的作用</p>
+<p>①　导流模式</p>
+<p>强化导流1：是作用到最后一个口，一般用于100G口站点</p>
+<p>强化导流2：是作用到最后一个口和除最后一个口的最大的口，也让打峰更加多，更加稳定，一般用于10G口的站点</p>
+<p>②　Ai导流的作用</p>
+<p>强化导流主要作用：</p>
+<p>防止最后口剩余带宽不足掉包，尤其是业务快速拉升时。强化导流会把超出保留带宽的流量二次分配到其他95端口，从而防止掉包</p>
+<p>对于10g端口数量多，互联不均衡时，纠偏过大， 开启强化导流2会减少纠偏</p>
+<p>包端口模式下禁止启强化导流，其他非特殊设备（ce6860）或场景下都应该配置强化导流vlan并开启强化导流：</p>
+<p>100g端口开启强化导流1模式</p>
+<p>10g端口开启强化导流2模式。</p>
+<p>2. 调度中心</p>
+<p>（1）缓存因子、突发因子、调度模式、保留带宽、导流模式</p>
+<p> </p>
+<p>①缓存因子：针对端口打满的情况，防止流量下跌，导致丢包。</p>
+<p>②突发因子：针对端口打满的情况，防止流量下跌，导致丢包。</p>
+<p>③调度模式：a.自动模式，一般都是自动模式，min max peak值都是全自动的。</p>
+<p>            b.自动+人工，能手动调节min max，但是peak值还是会有自动模式控制。</p>
+<p>④保留带宽：（端口峰值 - 端口预期95值（小于保底减保底））*80%到（端口峰值 - 端口预期95值（小于保底减保底））*90%</p>
+<p>⑤导流模式</p>
+<p>a.强化导流1是作用到最后一个口，一般100G口</p>
+<p>b.强化导流2是作用到最后一个口和除最后一个口的最大的口，也让打峰更加多，更加稳定，一般10G口</p>
+<p>C.强化导流防止端口丢包</p>
+<h2 id="调度总结"><a href="#调度总结" class="headerlink" title="调度总结"></a><strong>调度总结</strong></h2><p>1. 首先公司会分组分配节点，至少需要对自己组所分配到的节点有很高的熟悉度。（比如出口带宽，近1-2月的分出口95之和，业务侧多个客户的95值，需要有大概的印象。有利于 业务侧 流量有变化可以第一时间发现。可以提高巡检的效率 和 减少遗漏。）</p>
+<p>2. 巡检：调度过程中，发现问题的重要步骤，需要保证程序的正常运行，和调度无异常情况。（比如：对节点有个风险评估，ip丢包 端口丢包 纠偏异常 等等）</p>
+<p>怎么判定一个节点是否有风险？</p>
+<p>第一步：按照收益，有亏损风险或者低收益的为 高风险节点。</p>
+<p>第二步：使用 区间分业务95之和（区间合并95） 的95值，计算点数，点数仍然有亏损或者剩下不多。</p>
+<p>如下图为风险节点。</p>
+<p> </p>
+<p>如下为高收益节点</p>
+<p> </p>
+<p>3. 人工参与调整min max情况：</p>
+<p>(1) 流量模型是前低后高的模型，后期有业务流量明显变高（特别是白天，需要人为参与）</p>
+<p>(2) 月初客户有 新开的出口端口 有5天免费测试期需要从包口改95口。前期需要人工调度</p>
+<p>(3) 客户的流量模型是周末白天流量高的,周1-5流量正常的，月初需要人工参与。之后要看点数消耗情况，在是否调整为自动。</p>
+<p>(4) 调整min max 一般都是出口95需要调大，需要把保留带宽同步修改！！！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E8%B0%83%E5%BA%A6/%E5%B0%8F%E5%90%88_%E5%B7%A1%E6%A3%80%E6%8C%87%E5%8D%97/">https://yh1140.github.io/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E8%B0%83%E5%BA%A6/%E5%B0%8F%E5%90%88_%E5%B7%A1%E6%A3%80%E6%8C%87%E5%8D%97/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a></div><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related  no-desc" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL%E5%A4%8D%E4%B9%A0/" title="MySQL复习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">MySQL复习</div></div></div></a><a class="pagination-related" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux%E5%A4%8D%E4%B9%A0_%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/" title="Linux复习_系统复习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux复习_系统复习</div></div><div class="info-2"><div class="info-item-1">用户态和内核态 用户态（User Mode）与内核态（Kernel Mode）的划分不仅是软件设计的需求，更是底层硬件（CPU）强制执行的权限隔离机制。这种建模的核心目标在于实现系统完整性（System Integrity）与故障隔离（Fault Isolation）。  1. 硬件基础：CPU 特权级（Privilege Levels） 在 x86 体系架构中，硬件通过 Ring 分级模型来定义执行上下文的权限。   Ring 0 (内核态 &#x2F; Supervisor Mode)：  核心权限：拥有对 CPU 所有指令集的完全访问权，包括特权指令（如 HLT 停机、LGDT 加载全局描述符表、操作控制寄存器 $CR0-CR4$ 等）。 内存访问：可以直接访问物理内存的所有区域，直接操控 I&#x2F;O 端口和底层硬件驱动。 运行主体：操作系统内核（Kernel）。   Ring 3 (用户态 &#x2F; User Mode)：  受限环境：仅能执行非特权指令（如基础运算、逻辑跳转）。 寻址受限：只能访问由内核分配的进程虚拟地址空间。任何尝试直接触碰物理硬件或跨进程访...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related no-desc" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95_%E7%AE%80%E5%8E%86%E9%92%88%E5%AF%B9%E5%A4%8D%E4%B9%A0/" title="面试_简历针对复习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">面试_简历针对复习</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/ACDN&PCDN/%E5%B0%8F%E5%90%88_A%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A5%E5%85%A5/" title="小合_A业务服务器接入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">小合_A业务服务器接入</div></div><div class="info-2"><div class="info-item-1">腾讯服务器部署指南一、磁盘分区1. 查看硬盘的情况   根据硬盘的具体大小进行分盘   机械盘不需要进行分区（如sdb sdc等） Ssd固态盘需要进行分区(总分区数大于等于6）： 1. 建议设备上所有SSD数据盘都进行分区 2. SSD盘进行等大小分区，单分区≥1TB，如4T SSD盘可分为4个大小相同的1T分区 3. （并非严格要求1T，但是分区大小需要相同，比如对于3.2TB磁盘，单分区大小800G也符合要求） 不要动系统盘（sda！！！！！在提交验收时需要注意系统盘的目录是否正确） 2. 给固态盘分区                                     fdisk &#x2F;dev&#x2F;nvme0n1  # 进入nvme0n1 进行分区(g，w；；n，回车，+7800g（一直新建）；；) 按 g 改为gpt模式 按 n 开始分区 从1开始分区 d删除分区   反复执行之前的操作  最后按w 保存推出 二、给分区之后的硬盘进行格式化mkfs.xfs -f &#x2F;dev&#x2F;sdb1 mkfs.xfs -f &#x2F;dev&#x2F...</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/ACDN&PCDN/%E5%B0%8F%E5%90%88_A%E4%B8%9A%E5%8A%A1%E9%85%8D%E7%BD%AE%E6%8C%87%E5%AF%BC/" title="小合_A业务配置指导"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">小合_A业务配置指导</div></div><div class="info-2"><div class="info-item-1">                                         A业务配置指导 一、系统镜像 http://isoredirect.centos.org/centos/7/isos/x86_64&#x2F;   二、只留万兆光口生效，如有内置的千兆网卡，需在BIOS禁用掉。   三、在安装系统时，将万兆网口名称修改为eth0: 1、在安装界面移动光标到 Install Centos 7.按 TAB 键，在出现的代码的末尾添加：net.ifnames&#x3D;0 biosdevname&#x3D;0.按下回车开始安装即可，系统会自动从eth0开始命名   四、安装系统时，将sda系统盘，划分独立分区1、独立分区挂载点为&#x2F;pcdn_data&#x2F;pcdn_index_data (大于50GB)例如: 系统盘为sda，划分独立分区为&#x2F;dev&#x2F;sda4，则将&#x2F;dev&#x2F;sda4挂载到&#x2F;pcdn_data&#x2F;pcdn_index_data目录 五、ssd进行分区（除系统盘） 1、SSD盘进行同等大小...</div></div></div></a><a class="pagination-related" href="/2026/04/08/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86/%E6%95%85%E9%9A%9C/%E5%B0%8F%E5%90%88_%E6%95%85%E9%9A%9C%E5%9F%B9%E8%AE%AD/" title="小合_故障培训"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-08</div><div class="info-item-2">小合_故障培训</div></div><div class="info-2"><div class="info-item-1">目录 一、丢包 二、纠偏 三、流量不对等 四、流量不均衡 五、策略应用不上 六、 交换机高内存告警 七、程序离线 八、采集问题 九、AI预测失败 十、出口down了 十一、 bfd 断了 一、丢包二、纠偏1、导流vlan不均衡配置 1)华为： load-balance ecmp ipv4 src-ip dst-ip vlan l4-src-port l4-dst-port protocol src-interface ipv6 src-ipv6 dst-ipv6 vlan l4-src-port l4-dst-port protocol src-interface 2）H3C： Ip load-sharing mode per-flow dest-ip src-ip dest-port src-port global   2、AI导流vlan不均衡配置 1）AI导流VLAN配置双IP 2）vlan的ip大小顺序从小到大（1，2，3，4） 例如：vlan711配置1，4  vlan712配置2，3   注意：二次导流  如果流量恒定比例 其实是好处理的，你把 4个ip 看成4股流量...</div></div></div></a><a class="pagination-related" href="/2026/03/01/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95_%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" title="面试_自我介绍"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/13.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-01</div><div class="info-item-2">面试_自我介绍</div></div><div class="info-2"><div class="info-item-1"> 自我介绍个人基本信息 面试官您好，我叫禹宇阳宏，来自湖南株洲，26年本科毕业于湖南农业大学大数据专业。  接下来，我将从我的实习经历、项目经验、技术栈和个人优势等方面，向您做个简要的介绍。 实习经历在实习方面我从今年3月初至今在长沙小合科技有限公司实习运维工程师，在职期间主要负责网络和服务器运维工作。具体职责为  数据中心交换机，服务器的远程开局部署以及日常维护 数据中心网络定时巡检，排障以及处理 流量计费以及带宽调度 同时我自主编写和完善了已有的实习生入职文档  项目经历在项目经历上，  我模拟了一个企业的生产环境，独立完成一个混合云架构的高可用自动化web集群部署项目 搭建了一个公有云管理私有云的混合云架构 解决了在复杂网络环境下集群的自动化管理和数据一致性问题，实现了集群的高可用负载以及全链路监控和自动化告警。  我还独立开发了一个  智慧交通感知与AI自动化决策系统 针对节假日复杂车流情况，构建“实时感知，结构化存储，自然语言分析，ai预测决策”为一体的智能交通管理平台。 实现了对12种细分车型的精准识别和自然语言转SQL的交互可视化数据分析，以及ai决策。  我现在也...</div></div></div></a><a class="pagination-related no-desc" href="/2026/04/07/%E6%B1%82%E8%81%8C/%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A1%B9%E5%A4%8D%E4%B9%A0/%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL%E5%A4%8D%E4%B9%A0/" title="MySQL复习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-07</div><div class="info-item-2">MySQL复习</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">134</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">40</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_74302052?type=blog" target="_blank" title="CSDN"><i class="fas fa-blog" style="color: #fc5531;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Gmail"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:1140798266@qq.com" target="_blank" title="QQ邮箱"><i class="fas fa-at" style="color: #1296db;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="https://music.163.com/#/user/home?id=1323878854" target="_blank" title="网易云"><i class="fas fa-music" style="color: #e60026;"></i></a><a class="social-icon" href="/img/wechat_qr.jpg" target="_blank" title="微信"><i class="fab fa-weixin" style="color: #1aad19;"></i></a><a class="social-icon" href="https://steamcommunity.com/id/1140798266/" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #171a21;"></i></a><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAAC-WqsjVdHpV_v771jhrx8Gy58RI-_V9kaM9ff-RLTYg?from_tab_name=main" target="_blank" title="抖音"><i class="fab fa-tiktok" style="color: #000000;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6%E5%92%8C%E5%B7%A1%E6%A3%80%E6%8C%87%E5%8D%97"><span class="toc-number">1.</span> <span class="toc-text">调度和巡检指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%B7%A1%E6%A3%80%E6%8C%87%E5%8D%97"><span class="toc-number">1.1.</span> <span class="toc-text">一、 巡检指南</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%99%BB%E5%BD%95%E4%BA%91%E7%AE%A1"><span class="toc-number">1.2.</span> <span class="toc-text">1.登录云管</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E8%B0%83%E5%BA%A6%E6%8C%87%E5%8D%97"><span class="toc-number">1.3.</span> <span class="toc-text">二、 调度指南</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">调度总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E9%A1%B9%E7%9B%AE/%E7%BB%BC%E5%90%88web%E9%9B%86%E7%BE%A4/%E6%8E%92%E6%9F%A5%EF%BC%9A%E6%89%93%E9%80%9APod%E5%AF%B9%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%AF%86%E5%88%AB/" title="无标题">无标题</a><time datetime="2026-04-07T16:22:11.602Z" title="发表于 2026-04-08 00:22:11">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/K8s%E5%AE%9E%E6%88%98_%E7%BD%91%E7%BB%9C%E6%9A%B4%E9%9C%B2/" title="K8s实战_网络暴露">K8s实战_网络暴露</a><time datetime="2026-04-07T16:22:10.218Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/2.7_K8s%E6%A6%82%E5%BF%B5_secrete/" title="无标题">无标题</a><time datetime="2026-04-07T16:22:10.183Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/2.6_K8s%E6%A6%82%E5%BF%B5_pod/" title="K8s概念_pod">K8s概念_pod</a><time datetime="2026-04-07T16:22:10.153Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/08/%E5%AE%B9%E5%99%A8/K8s/2.2_K8s%E6%A6%82%E5%BF%B5_%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="无标题">无标题</a><time datetime="2026-04-07T16:22:10.108Z" title="发表于 2026-04-08 00:22:10">2026-04-08</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'yh1140/yh1140.github.io',
+      'data-repo-id': 'R_kgDORbhcZQ',
+      'data-category-id': 'DIC_kwDORbhcZc4C46se',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
