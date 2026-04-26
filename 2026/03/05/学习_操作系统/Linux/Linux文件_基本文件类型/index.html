@@ -1,0 +1,575 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux文件_基本文件类型 | 孤独の野狼的博客</title><meta name="author" content="孤独の野狼"><meta name="copyright" content="孤独の野狼"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言在 Linux 系统中，“一切皆文件”是其核心哲学。这意味着无论是硬件设备、目录还是进程通信，都被抽象为文件为了区分这些文件，Linux 使用了不同的文件类型标识。可以通过执行 ls -l 命令查看文件权限位的第一个字符来识别它们 文件类型速查表   字符 文件类型 英文名称 描述    - 普通文件 Regular File 存储文本、数据或程序   d 目录文件 Directory 存放文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux文件_基本文件类型">
+<meta property="og:url" content="https://yh1140.github.io/2026/03/05/%E5%AD%A6%E4%B9%A0_%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux/Linux%E6%96%87%E4%BB%B6_%E5%9F%BA%E6%9C%AC%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="孤独の野狼的博客">
+<meta property="og:description" content="前言在 Linux 系统中，“一切皆文件”是其核心哲学。这意味着无论是硬件设备、目录还是进程通信，都被抽象为文件为了区分这些文件，Linux 使用了不同的文件类型标识。可以通过执行 ls -l 命令查看文件权限位的第一个字符来识别它们 文件类型速查表   字符 文件类型 英文名称 描述    - 普通文件 Regular File 存储文本、数据或程序   d 目录文件 Directory 存放文">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yh1140.github.io/img/head.jpg">
+<meta property="article:published_time" content="2026-03-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-19T02:43:14.511Z">
+<meta property="article:author" content="孤独の野狼">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yh1140.github.io/img/head.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux文件_基本文件类型",
+  "url": "https://yh1140.github.io/2026/03/05/%E5%AD%A6%E4%B9%A0_%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux/Linux%E6%96%87%E4%BB%B6_%E5%9F%BA%E6%9C%AC%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B/",
+  "image": "https://yh1140.github.io/img/head.jpg",
+  "datePublished": "2026-03-04T16:00:00.000Z",
+  "dateModified": "2026-04-19T02:43:14.511Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "孤独の野狼",
+      "url": "https://yh1140.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/head.jpg"><link rel="canonical" href="https://yh1140.github.io/2026/03/05/%E5%AD%A6%E4%B9%A0_%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux/Linux%E6%96%87%E4%BB%B6_%E5%9F%BA%E6%9C%AC%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux文件_基本文件类型',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="孤独の野狼的博客" type="application/atom+xml">
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/11.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">99</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">36</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">孤独の野狼的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">Linux文件_基本文件类型</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Linux文件_基本文件类型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-04T16:00:00.000Z" title="发表于 2026-03-05 00:00:00">2026-03-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-19T02:43:14.511Z" title="更新于 2026-04-19 10:43:14">2026-04-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在 Linux 系统中，“一切皆文件”是其核心哲学。这意味着无论是硬件设备、目录还是进程通信，都被抽象为文件<br>为了区分这些文件，Linux 使用了不同的文件类型标识。可以通过执行 <code>ls -l</code> 命令查看文件权限位的第一个字符来识别它们</p>
+<h2 id="文件类型速查表"><a href="#文件类型速查表" class="headerlink" title="文件类型速查表"></a>文件类型速查表</h2><table>
+<thead>
+<tr>
+<th><strong>字符</strong></th>
+<th><strong>文件类型</strong></th>
+<th><strong>英文名称</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-</code></td>
+<td>普通文件</td>
+<td>Regular File</td>
+<td>存储文本、数据或程序</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>目录文件</td>
+<td>Directory</td>
+<td>存放文件清单的特殊文件</td>
+</tr>
+<tr>
+<td><code>l</code></td>
+<td>软链接</td>
+<td>Symbolic Link</td>
+<td>指向另一个文件的指针</td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td>块设备</td>
+<td>Block Device</td>
+<td>磁盘、闪存等硬件</td>
+</tr>
+<tr>
+<td><code>c</code></td>
+<td>字符设备</td>
+<td>Character Device</td>
+<td>键盘、终端等顺序读写设备</td>
+</tr>
+<tr>
+<td><code>p</code></td>
+<td>管道文件</td>
+<td>Named Pipe</td>
+<td>进程间通信的 FIFO 通道</td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td>套接字</td>
+<td>Socket</td>
+<td>网络或本地服务通信接口</td>
+</tr>
+</tbody></table>
+<h1 id="普通文件"><a href="#普通文件" class="headerlink" title="普通文件"></a>普通文件</h1><p>从操作系统的底层视角来看，普通文件是一系列<strong>无结构的数据流</strong>。Linux 内核并不关心这个文件里存的是代码、文本还是猫片，它只负责维护其属性并提供读写接口。</p>
+<h2 id="核心特征"><a href="#核心特征" class="headerlink" title="核心特征"></a>核心特征</h2><ul>
+<li><strong>文件标识符：</strong> 在 <code>ls -l</code> 的输出中，第一个字符为 <code>-</code>。</li>
+<li><strong>存储位置：</strong> 数据实际存储在磁盘的“数据块”（Data Blocks）中，而文件的元数据（权限、大小、创建时间等）存储在 <strong>inode</strong> 中。</li>
+<li><strong>无强制格式：</strong> 文件的内部结构由打开它的<strong>应用程序</strong>决定</li>
+</ul>
+<h2 id="逻辑分类"><a href="#逻辑分类" class="headerlink" title="逻辑分类"></a>逻辑分类</h2><p>虽然内核一视同仁，但在用户应用层面，我们通常将其分为两大类</p>
+<h3 id="文本文件-Text-Files"><a href="#文本文件-Text-Files" class="headerlink" title="文本文件 (Text Files)"></a>文本文件 (Text Files)</h3><ul>
+<li><strong>内容：</strong> 由 ASCII 或 Unicode (UTF-8) 字符组成</li>
+<li><strong>特点：</strong> 可以直接用 <code>cat</code>、<code>vim</code> 或 <code>less</code> 阅读</li>
+<li><strong>示例：</strong> 配置文件 (<code>/etc/passwd</code>)、源代码 (<code>hello.c</code>)、日志文件 (<code>/var/log/syslog</code>)。</li>
+</ul>
+<h3 id="二进制文件-Binary-Files"><a href="#二进制文件-Binary-Files" class="headerlink" title="二进制文件 (Binary Files)"></a>二进制文件 (Binary Files)</h3><ul>
+<li><strong>内容：</strong> 包含机器可读的代码或压缩后的特定格式数据。</li>
+<li><strong>特点：</strong> 直接打开会显示乱码。</li>
+<li><strong>示例：</strong> * <strong>可执行程序：</strong> 如 <code>/bin/ls</code>（ELF 格式）。<ul>
+<li><strong>压缩包：</strong> <code>.tar.gz</code>, <code>.zip</code>。</li>
+<li><strong>多媒体：</strong> 图片 (.png)、视频 (.mp4)。</li>
+</ul>
+</li>
+</ul>
+<h1 id="目录文件"><a href="#目录文件" class="headerlink" title="目录文件"></a>目录文件</h1><p><strong>目录文件 (Directory)</strong> 并不是一个存放文件的“文件夹”容器，而是一种<strong>特殊的普通文件</strong></p>
+<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><p>在底层，目录文件存储的内容非常简单，它是一张<strong>映射表（Mapping Table）</strong>。每一条记录（称为 <code>dentry</code>，即 Directory Entry）主要包含两个核心信息：</p>
+<ul>
+<li>文件名 Filename</li>
+<li>Inode编号 Inode Number<br>当你执行 <code>ls /home/user</code> 时，系统并不是去“打开文件夹”，而是读取 <code>/home/user</code> 这个目录文件里的内容，查看到底有哪些文件名和对应的 Inode 号。</li>
+</ul>
+<p>每个目录下至少包含两个特殊的子目录：</p>
+<ul>
+<li><code>.</code> (当前目录)：指向目录自身的 Inode。</li>
+<li><code>..</code> (上级目录)：指向父目录的 Inode。</li>
+</ul>
+<h2 id="标识符与基本特征"><a href="#标识符与基本特征" class="headerlink" title="标识符与基本特征"></a>标识符与基本特征</h2><ul>
+<li><strong>标识符：</strong> 在 <code>ls -l</code> 输出的第一个字符为 <code>d</code>。</li>
+<li><strong>大小：</strong> 目录文件也有大小（通常是 4096 字节的倍数）。这个大小反映的是<strong>文件名列表占用空间的大小</strong>，而不是目录内所有文件的总大小。</li>
+<li><strong>Inode 占用：</strong> 每个目录都有自己的 Inode，记录了它的权限、所有者和修改时间。</li>
+</ul>
+<h2 id="权限位的特殊含义"><a href="#权限位的特殊含义" class="headerlink" title="权限位的特殊含义"></a>权限位的特殊含义</h2><p>对于目录文件，<code>rwx</code> 权限的含义与普通文件完全不同：</p>
+<table>
+<thead>
+<tr>
+<th><strong>权限</strong></th>
+<th><strong>对目录的含义</strong></th>
+<th><strong>如果没有该权限…</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>r</strong> (Read)</td>
+<td><strong>读取</strong>目录列表</td>
+<td>你无法执行 <code>ls</code> 查看目录下有哪些文件。</td>
+</tr>
+<tr>
+<td><strong>w</strong> (Write)</td>
+<td><strong>修改</strong>目录内容</td>
+<td>你无法在该目录下创建、删除或重命名文件（即使你有文件的写权限）。</td>
+</tr>
+<tr>
+<td><strong>x</strong> (Execute)</td>
+<td><strong>进入</strong>目录</td>
+<td>你无法 <code>cd</code> 进去，也无法访问该目录下的文件内容（即使你知道文件名）。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>如果一个目录只有 <code>x</code> 权限而没有 <code>r</code> 权限，你不能 <code>ls</code> 看到文件名，但如果你精确知道某个文件名（如 <code>secret.txt</code>），你依然可以 <code>cat</code> 它。 </p>
+</blockquote>
+<h1 id="链接文件"><a href="#链接文件" class="headerlink" title="链接文件"></a>链接文件</h1><p><strong>链接文件 (Link File)</strong> 是指向文件系统中另一个对象的“引用”。<br>Linux 提供了两种截然不同的链接方式：</p>
+<ul>
+<li><strong>软链接（Symbolic Link）</strong> </li>
+<li><strong>硬链接（Hard Link）</strong>。<br>理解它们的区别是掌握 Linux 文件系统的关键。</li>
+</ul>
+<h2 id="软连接-Symbolic-Link-Soft-Link"><a href="#软连接-Symbolic-Link-Soft-Link" class="headerlink" title="软连接-Symbolic Link &#x2F; Soft Link"></a>软连接-Symbolic Link &#x2F; Soft Link</h2><p>这是我们在 <code>ls -l</code> 中看到的以 <code>l</code> 开头的文件。它更像是一个独立的文件，其内容仅仅是<strong>另一个文件或目录的路径字符串</strong>。</p>
+<ul>
+<li><strong>标识符：</strong> <code>l</code></li>
+<li><strong>Inode 特性：</strong> 软链接拥有<strong>自己独立的 Inode</strong>。</li>
+<li><strong>跨分区：</strong> 可以跨越不同的磁盘分区或文件系统。</li>
+<li><strong>目录链接：允许为目录创建软链接。</strong></li>
+<li><strong>失效情况：</strong> 如果原始文件被删除，软链接会变成“死链接”（Broken Link），指向一个不存在的路径。</li>
+</ul>
+<h2 id="硬链接-Hard-Link"><a href="#硬链接-Hard-Link" class="headerlink" title="硬链接-Hard Link"></a>硬链接-Hard Link</h2><p>硬链接在 <code>ls -l</code> 中并不表现为特殊类型（它看起来就是普通文件 <code>-</code>），但它是文件系统层面的一个重要概念。</p>
+<ul>
+<li><strong>本质：</strong> 它是同一个 Inode 的<strong>另一个名字</strong>。</li>
+<li><strong>Inode 特性：</strong> 硬链接与原始文件共享<strong>同一个 Inode 编号</strong>和相同的数据块。</li>
+<li><strong>引用计数：</strong> 每增加一个硬链接，该 Inode 的 <code>Links</code> 计数就会加 1。只有当计数降为 0 时，文件数据才会被真正删除。</li>
+<li><strong>限制：</strong> * 不能跨文件系统（因为不同分区的 Inode 编号可能冲突）。<ul>
+<li>出于安全和防止环路的考虑，通常不允许用户为目录创建硬链接。</li>
+</ul>
+</li>
+</ul>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>软链接 (Symbolic)</strong></th>
+<th><strong>硬链接 (Hard Link)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>命令</strong></td>
+<td><code>ln -s source link</code></td>
+<td><code>ln source link</code></td>
+</tr>
+<tr>
+<td><strong>Inode</strong></td>
+<td>不同的 Inode</td>
+<td>相同的 Inode</td>
+</tr>
+<tr>
+<td><strong>文件大小</strong></td>
+<td>路径字符串的大小</td>
+<td>与原文件大小完全一致</td>
+</tr>
+<tr>
+<td><strong>跨分区</strong></td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td><strong>链接目录</strong></td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td><strong>删除原文件</strong></td>
+<td>链接失效（红字闪烁）</td>
+<td>文件依然可用，计数减 1</td>
+</tr>
+</tbody></table>
+<h1 id="块设备文件"><a href="#块设备文件" class="headerlink" title="块设备文件"></a>块设备文件</h1><p><strong>块设备文件 (Block Device File)</strong> 是用于与存储硬件进行高效、随机访问交互的特殊文件<br>它是 Linux “一切皆文件”哲学的典型体现：你不需要通过复杂的底层指令去读写硬盘，只需像操作普通文件一样 <code>open</code>、<code>read</code>、<code>write</code> 这个设备文件即可</p>
+<h2 id="核心特征-1"><a href="#核心特征-1" class="headerlink" title="核心特征"></a>核心特征</h2><ul>
+<li><strong>标识符：</strong> 在 <code>ls -l</code> 的输出中，第一个字符为 <strong><code>b</code></strong>。</li>
+<li><strong>随机访问 (Random Access)：</strong> 这是块设备最本质的特征。你可以直接跳转到文件的任何位置（使用 <code>lseek</code>）读取数据，而不需要按顺序从头读到尾。</li>
+<li><strong>缓冲机制 (Buffering)：</strong> 内核为块设备维护了一个特殊的“缓冲区高速缓存”（Buffer Cache）。当你写入数据时，内核通常先将其存入内存缓存，待时机成熟后再批量写入物理磁盘，以提高性能。</li>
+<li><strong>数据单位：</strong> 数据以固定大小的“块”（Block，如 512 字节、1024 字节或 4096 字节）为单位进行传输。</li>
+</ul>
+<h2 id="常见的块设备示例"><a href="#常见的块设备示例" class="headerlink" title="常见的块设备示例"></a>常见的块设备示例</h2><p>块设备几乎涵盖了所有的持久化存储介质，通常存放在 <code>/dev</code> 目录下：</p>
+<ul>
+<li><strong><code>/dev/sda</code>, <code>/dev/sdb</code></strong>：SATA&#x2F;SAS 硬盘或 SSD。</li>
+<li><strong><code>/dev/nvme0n1</code></strong>：现代 NVMe 固态硬盘。</li>
+<li><strong><code>/dev/mmcblk0</code></strong>：SD 卡或 eMMC 存储。</li>
+<li><strong><code>/dev/loop0</code></strong>：回环设备（将一个普通镜像文件模拟成块设备）。</li>
+</ul>
+<h2 id="主设备号与次设备号"><a href="#主设备号与次设备号" class="headerlink" title="主设备号与次设备号"></a>主设备号与次设备号</h2><p>不同于普通文件记录大小，<code>ls -l</code> 查看块设备时，原本显示“大小”的位置显示的是两个数字：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brw-rw---- 1 root disk 8, 0 Mar  5 14:00 /dev/sda</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>8 (主设备号)：</strong> 标识设备驱动程序。内核通过这个数字知道该找哪个驱动来处理请求（8 通常代表 SCSI&#x2F;SATA 硬盘驱动）。</li>
+<li><strong>0 (次设备号)：</strong> 标识该驱动程序下的具体设备实例（0 代表第一块硬盘，1 代表第一个分区等）。</li>
+</ul>
+<h2 id="块设备与文件系统的关系"><a href="#块设备与文件系统的关系" class="headerlink" title="块设备与文件系统的关系"></a>块设备与文件系统的关系</h2><p>这是一个常见的误区：<strong>块设备文件本身并不等同于文件系统。</strong></p>
+<ul>
+<li><strong>块设备：</strong> 是“原始的存储空间”（Raw Storage），像一块白纸。</li>
+<li><strong>文件系统：</strong> 是在块设备上“画好的格子”（如 Ext4, XFS）。 你需要通过 <code>mkfs</code> 命令在块设备上创建文件系统，然后通过 <code>mount</code> 将其挂载到某个目录。</li>
+</ul>
+<h1 id="字符设备"><a href="#字符设备" class="headerlink" title="字符设备"></a>字符设备</h1><p><strong>字符设备 (Character Device)</strong> 是与硬件进行通信的另一种主要方式。</p>
+<h2 id="核心特征-2"><a href="#核心特征-2" class="headerlink" title="核心特征"></a>核心特征</h2><ul>
+<li><strong>标识符：</strong> 在 <code>ls -l</code> 输出的第一个字符为 <strong><code>c</code></strong>。</li>
+<li><strong>顺序访问 (Sequential Access)：</strong> 数据像流水一样按顺序读取或写入。与块设备不同，字符设备通常<strong>不支持随机寻址</strong>（你不能像在硬盘上那样直接跳转到某个位置读取，除非驱动特殊实现）。</li>
+<li><strong>无缓冲 (Unbuffered)：</strong> 字符设备通常直接与硬件驱动交互，不经过内核的页缓存（Page Cache）。你写一个字节，驱动就立刻处理一个字节。</li>
+<li><strong>单位：</strong> 以字节（Byte）为单位进行传输。</li>
+</ul>
+<h2 id="常见的字符设备示例"><a href="#常见的字符设备示例" class="headerlink" title="常见的字符设备示例"></a>常见的字符设备示例</h2><p>字符设备涵盖了大多数非存储类的外设</p>
+<ul>
+<li><strong><code>/dev/tty</code>, <code>/dev/pts/*</code></strong>：终端和伪终端。</li>
+<li><strong><code>/dev/lp0</code></strong>：打印机。</li>
+<li><strong><code>/dev/mouse</code>, <code>/dev/input/event*</code></strong>：鼠标、键盘等输入设备。</li>
+<li><strong><code>/dev/console</code></strong>：系统控制台。</li>
+<li><strong><code>/dev/null</code>, <code>/dev/zero</code>, <code>/dev/urandom</code></strong>：这些是虚拟字符设备（软件模拟的设备）。</li>
+</ul>
+<h2 id="特殊的虚拟字符设备"><a href="#特殊的虚拟字符设备" class="headerlink" title="特殊的虚拟字符设备"></a>特殊的虚拟字符设备</h2><p>在 Linux 系统维护中，这几个字符设备最为权威且常用</p>
+<ol>
+<li><strong><code>/dev/null</code></strong>：位桶（Bit Bucket）。写入它的任何数据都会消失，读取它会立即返回 EOF（文件结束）。</li>
+<li><strong><code>/dev/zero</code></strong>：无限零源。读取它会得到无穷无尽的 <code>\0</code>。</li>
+<li><strong><code>/dev/random</code> &#x2F; <code>/dev/urandom</code></strong>：内核随机数生成器接口。</li>
+</ol>
+<h2 id="主设备号与次设备号-1"><a href="#主设备号与次设备号-1" class="headerlink" title="主设备号与次设备号"></a>主设备号与次设备号</h2><p>与块设备一样，字符设备也使用一对数字来标识：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crw-rw-rw- 1 root root 1, 3 Mar  6 09:00 /dev/null</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>1 (Major)</strong>：标识字符设备驱动程序（1 通常是内存设备驱动）。</li>
+<li><strong>3 (Minor)</strong>：标识该驱动下的具体功能（3 代表空设备 null）。</li>
+</ul>
+<h2 id="字符设备与块设备的本质区别"><a href="#字符设备与块设备的本质区别" class="headerlink" title="字符设备与块设备的本质区别"></a>字符设备与块设备的本质区别</h2><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>字符设备 (Character)</strong></th>
+<th><strong>块设备 (Block)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数据访问</strong></td>
+<td>按字节流，顺序访问</td>
+<td>按块，支持随机访问 (<code>lseek</code>)</td>
+</tr>
+<tr>
+<td><strong>内核缓冲</strong></td>
+<td>通常无缓冲</td>
+<td>有 Buffer Cache 缓冲</td>
+</tr>
+<tr>
+<td><strong>典型硬件</strong></td>
+<td>键盘、串口、声卡</td>
+<td>硬盘、U 盘、光驱</td>
+</tr>
+<tr>
+<td><strong>ls -l 标识</strong></td>
+<td><code>c</code></td>
+<td><code>b</code></td>
+</tr>
+</tbody></table>
+<h1 id="管道文件"><a href="#管道文件" class="headerlink" title="管道文件"></a>管道文件</h1><p><strong>管道文件 (Pipe)</strong> 是进程间通信（IPC, Inter-Process Communication）的最基本方式。它就像一根单向传输的数据管子，数据从一头流入，从另一头流出。<br>管道分为两种：<strong>匿名管道</strong>和<strong>有名管道 (Named Pipe&#x2F;FIFO)</strong>。通常我们所说的“管道文件”特指<strong>有名管道</strong>。</p>
+<h2 id="核心特征-3"><a href="#核心特征-3" class="headerlink" title="核心特征"></a>核心特征</h2><ul>
+<li><strong>标识符：</strong> 在 <code>ls -l</code> 输出的第一个字符为 <strong><code>p</code></strong>。</li>
+<li><strong>FIFO 原则：</strong> 遵循“先进先出”（First In, First Out）。先写入管道的数据一定先被读出来。</li>
+<li><strong>单向性：</strong> 它是半双工的，数据只能在一个方向上流动。如果需要双向通信，通常需要建立两个管道。</li>
+<li><strong>阻塞特性（重要）：</strong> * 如果进程尝试读取一个空的管道，它会<strong>阻塞（暂停）</strong>，直到有数据写入。<ul>
+<li>如果进程尝试写入一个已满的管道，它也会阻塞，直到有空间释放。</li>
+</ul>
+</li>
+</ul>
+<h2 id="有名管道（FIFO）-匿名管道"><a href="#有名管道（FIFO）-匿名管道" class="headerlink" title="有名管道（FIFO）&amp;匿名管道"></a>有名管道（FIFO）&amp;匿名管道</h2><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>匿名管道 (Anonymous Pipe)</strong></th>
+<th><strong>有名管道 (Named Pipe &#x2F; FIFO)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>存在形式</strong></td>
+<td>只存在于内核内存中，无文件名</td>
+<td><strong>在文件系统中可见</strong>，有路径名</td>
+</tr>
+<tr>
+<td><strong>使用方式</strong></td>
+<td>命令行中的竖线 &#96;</td>
+<td>&#96;</td>
+</tr>
+<tr>
+<td><strong>进程关系</strong></td>
+<td>仅限具有亲缘关系（父子）的进程</td>
+<td><strong>任意进程</strong>之间均可通信</td>
+</tr>
+<tr>
+<td><strong>生命周期</strong></td>
+<td>随进程结束而销毁</td>
+<td>除非手动删除，否则文件一直存在</td>
+</tr>
+</tbody></table>
+<h2 id="创建和使用管道文件"><a href="#创建和使用管道文件" class="headerlink" title="创建和使用管道文件"></a>创建和使用管道文件</h2><h3 id="创建一个管道文件"><a href="#创建一个管道文件" class="headerlink" title="创建一个管道文件"></a>创建一个管道文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkfifo</span> my_pipe</span><br><span class="line"><span class="built_in">ls</span> -l my_pipe</span><br><span class="line"><span class="comment"># 输出类似：prw-r--r-- 1 user group 0 Mar  6 10:00 my_pipe</span></span><br></pre></td></tr></table></figure>
+<h3 id="开启‘读取端’（接收方）"><a href="#开启‘读取端’（接收方）" class="headerlink" title="开启‘读取端’（接收方）"></a>开启‘读取端’（接收方）</h3><p>在终端A输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &lt; my_pipe</span><br></pre></td></tr></table></figure>
+<p>此时发现A卡住了。因为在等待数据输入</p>
+<h3 id="开启‘写入端’"><a href="#开启‘写入端’" class="headerlink" title="开启‘写入端’"></a>开启‘写入端’</h3><p>打开另一个终端B：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello from Terminal B&quot;</span> &gt; my_pipe</span><br></pre></td></tr></table></figure>
+<p>看到A立即打印出这句话，并结束阻塞</p>
+<h1 id="套接字文件"><a href="#套接字文件" class="headerlink" title="套接字文件"></a>套接字文件</h1><p><strong>套接字文件 (Socket)</strong> 是实现进程间通信（IPC）最强大的方式。如果说管道是简单的“水管”，那么套接字就是一套完整的“邮政系统”。<br>它是 Linux 中唯一一种能跨越网络、在不同物理机器之间进行通信的文件类型。</p>
+<h2 id="核心特征-4"><a href="#核心特征-4" class="headerlink" title="核心特征"></a>核心特征</h2><ul>
+<li><strong>标识符：</strong> 在 <code>ls -l</code> 输出的第一个字符为 <strong><code>s</code></strong>。</li>
+<li><strong>双向通信 (Full-Duplex)：</strong> 与单向的管道不同，套接字支持同时收发数据。</li>
+<li><strong>多样性：</strong> 既支持同一台机器上的本地通信（Unix Domain Sockets），也支持跨网络的 TCP&#x2F;IP 通信。</li>
+<li><strong>文件化表现：</strong> 虽然网络连接本身很复杂，但 Linux 将其抽象为一个文件。你可以通过文件描述符来读写它。</li>
+</ul>
+<h2 id="本地套接字"><a href="#本地套接字" class="headerlink" title="本地套接字"></a>本地套接字</h2><p>你在文件系统中看到的 <code>s</code> 类型文件，通常是 <strong>Unix Domain Socket</strong></p>
+<ul>
+<li><strong>用途：</strong> 专门用于同一台主机上的进程间通信。</li>
+<li><strong>优势：</strong> 因为不需要经过网络协议栈（如 TCP&#x2F;IP 校验、封包等），它的速度比网络套接字快得多。</li>
+<li><strong>常见例子：</strong><ul>
+<li><code>/var/run/docker.sock</code>：Docker 守护进程的通信接口。</li>
+<li><code>/tmp/mysql.sock</code>：MySQL 数据库的本地连接文件。</li>
+</ul>
+</li>
+</ul>
+<h2 id="套接字的工作流程"><a href="#套接字的工作流程" class="headerlink" title="套接字的工作流程"></a>套接字的工作流程</h2><p>在 Linux 编程手册 (<code>man 2 socket</code>) 中，创建一个套接字通信通常需要以下步骤：</p>
+<ol>
+<li><strong><code>socket()</code></strong>：创建一个新的套接字，返回一个文件描述符。</li>
+<li><strong><code>bind()</code></strong>：将套接字绑定到一个“地址”。对于本地套接字，这个地址就是一个<strong>文件路径</strong>；对于网络套接字，它是 <strong>IP+端口</strong>。</li>
+<li><strong><code>listen()</code></strong>：服务器端进入监听状态。</li>
+<li><strong><code>accept()</code></strong>：接收客户端的连接请求。</li>
+<li><strong><code>read()</code> &#x2F; <code>write()</code></strong>：像操作普通文件一样交换数据。</li>
+</ol>
+<h2 id="网络套接字"><a href="#网络套接字" class="headerlink" title="网络套接字"></a>网络套接字</h2><p>虽然它们也是套接字，但<strong>网络套接字通常不会在文件系统中显示为 <code>s</code> 类型的实体文件</strong>。它们存在于内核内存中，通过网络协议栈直接交互</p>
+<ul>
+<li><strong>查看方法：</strong> 使用 <code>ss</code> 或 <code>netstat</code> 命令。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ss -lnp <span class="comment"># 查看所有监听中的套接字（包括网络和本地）</span></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yh1140.github.io">孤独の野狼</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yh1140.github.io/2026/03/05/%E5%AD%A6%E4%B9%A0_%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux/Linux%E6%96%87%E4%BB%B6_%E5%9F%BA%E6%9C%AC%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B/">https://yh1140.github.io/2026/03/05/%E5%AD%A6%E4%B9%A0_%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux/Linux%E6%96%87%E4%BB%B6_%E5%9F%BA%E6%9C%AC%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yh1140.github.io" target="_blank">孤独の野狼的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div><div class="post-share"><div class="social-share" data-image="/img/head.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/07/%E5%AD%A6%E4%B9%A0_%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/MySQL_%E6%97%A5%E5%BF%97/" title="MySQL_日志"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">MySQL_日志</div></div><div class="info-2"><div class="info-item-1">日志种类错误日志error_log慢查询日志slow query_log一般查询日志general_log事务日志Redo_Log实现崩溃恢复和事务持久性 回滚日志undo_log二进制日志bin_log以二进制存储在磁盘中，数据备份恢复或主从数据同步 </div></div></div></a><a class="pagination-related" href="/2026/03/05/%E5%AD%A6%E4%B9%A0_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/K8s/K8s%E5%AE%9E%E6%88%98%EF%BC%9A%E5%9C%A8%E9%9B%86%E7%BE%A4%E4%B8%AD%E9%83%A8%E7%BD%B2%20NFS%EF%BC%88PV&amp;PVC%EF%BC%89%20%E6%8C%81%E4%B9%85%E5%8C%96%E5%AD%98%E5%82%A8/" title="K8s实战：在集群中部署 NFS 持久化存储"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">K8s实战：在集群中部署 NFS 持久化存储</div></div><div class="info-2"><div class="info-item-1">环境说明 操作系统：CentOS 10 (Stream&#x2F;Linux) K8s 版本：v1.35 (最新特性支持) 节点信息： Master (NFS Server) | k8s-master-1 | 192.168.10.152  Worker Node | k8s-node-1 | 192.168.10.153  Worker Node | k8s-node-2 | 192.168.10.154   镜像来源：由于网络限制，统一从“渡渡鸟”镜像站拉取。  部署流程基础设施层：安装nfs服务端在 Master 节点上执行，用于提供物理存储空间 12345678910# 安装并启动sudo yum install -y nfs-utils#创建&amp;授权共享目录mkdir -p /data/k8s_nfs &amp;&amp; chmod 777 /data/k8s_nfs#编辑配置文件，允许node节点网段访问echo &quot;/data/k8s_nfs 192.168.10.0/24(rw,sync,no_root_squash)&quot; &gt;&gt;...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/11/%E5%AD%A6%E4%B9%A0_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/K8s/K8s%E6%A6%82%E5%BF%B5_Pod%E9%95%9C%E5%83%8F%E7%9A%84%E5%8D%87%E7%BA%A7&%E5%9B%9E%E6%BB%9A/" title="K8s概念_Pod镜像的升级&amp;回滚"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-11</div><div class="info-item-2">K8s概念_Pod镜像的升级&amp;回滚</div></div><div class="info-2"><div class="info-item-1">镜像升级与回滚是日常工作中风险很高的环节。在 Kubernetes 中，这项工作主要由 Deployment 控制器通过管理多个 ReplicaSet (RS) 来实现。 镜像修改的核心原理当你修改 Deployment 的镜像版本时，K8s 并不是直接把旧 Pod 里的镜像换了，而是：  创建一个新的 ReplicaSet（代表新版本）。  逐步增加新 RS 的副本数，同时逐步减少旧 RS 的副本数。  直到旧 RS 副本数为 0，新 RS 达到预期副本数。   ReplicaSet镜像升级命令行升级12# 格式：kubectl set image deployment/&lt;部署名&gt; &lt;容器名&gt;=&lt;新镜像地址&gt;kubectl set image deployment/webapp my-app=dududiao.com/library/myapp:v2 YAML升级推荐！！运维规范通常要求修改 Git 仓库或本地的 YAML 文件，然后执行： 1kubectl apply -f webapp-deployment.yaml 升级配置策略在 YA...</div></div></div></a><a class="pagination-related" href="/2026/04/03/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E8%BF%9B%E9%98%B6/python%E8%BF%9B%E9%98%B6_%E8%BF%AD%E4%BB%A3%E5%99%A8/" title="python进阶_迭代器"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-03</div><div class="info-item-2">python进阶_迭代器</div></div><div class="info-2"><div class="info-item-1"> 迭代器一定是一个可迭代对象  迭代器特点：惰性求值  需要的时候再生成 读处理大文件时，可以一次只读10行并处理，再读取下10行并处理-》节省内存   列表是可迭代对象  但是列表不可以实现lst.as__next__()  如果容器本身是迭代器（拥有__next__和状态指针），那么它就变成了一次性用品  所有的内置容器对象都是无状态的遍历对象。  只提供数据，不负责记录当前到哪了 可以a = iter(lst)创建可迭代对象 此时print(a.__next__)是可迭代的 for i in range(lst)本质就是创建了一个新的对象   但是，有些对象既是可迭代对象，又是迭代器本身  文件对象 (file object)： 生成器：包括生成器函数和生成器表达式。 内置工具：如 enumerate, zip, map, filter。   他们通常不是为了存储数据存在的  而是为了”生成”或”流式处理”数据  可迭代协议  迭代器协议    可迭代对象-定义从系统架构和逻辑设计的角度来看，可迭代对象（Iterable） 并不是某种特定的数据类型，而是一种对象行为的协议（...</div></div></div></a><a class="pagination-related" href="/2026/03/16/%E5%AD%A6%E4%B9%A0_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/K8s/K8s%E6%A6%82%E5%BF%B5_Service/" title="K8s概念_Service"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-16</div><div class="info-item-2">K8s概念_Service</div></div><div class="info-2"><div class="info-item-1">在 K8s 中，Pod 是有生命周期的（销毁、重启、漂移…），这意味着 Pod 的 IP 是动态且不可靠的。 Service（简称 Svc） 的出现就是为了解决这个问题。它定义了一组 Pod 的逻辑集合，并为这组 Pod 提供一个固定的访问入口（IP 或域名）  服务发现：无论Pod 的 IP 怎么变，客户端只需要访问 Service 的名称或其虚拟 IP 负载均衡：当后端有多个副本（Replicas）时，Service 会自动将流量均匀地分发给健康的 Pod  三个组件要理解 Service 的工作原理，必须看清这三个组件的关联 Service (SVC) 定义访问规则和虚拟ip 关注 selector 是否匹配， type 是否选对  Endpoints（EP） 关键中间层，记录后端健康的 Pod IP 列表 如果访问不通，先看 kubectl get ep 如果这里没有 IP 说明标签选错了  EndpointSlice k8s 1.21+ 引入的高级版EP 针对大规模集群（上千pod）的性能优化，K8s1.35默认推荐  三个端口在编写 YAML 时，要定义三个端口 po...</div></div></div></a><a class="pagination-related" href="/2026/04/17/%E5%AD%A6%E4%B9%A0_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/K8s/k8s%E6%9E%B6%E6%9E%84/K8s%E6%A6%82%E5%BF%B5_%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E4%B8%8E%E7%BB%84%E4%BB%B6/" title="K8s概念_集群架构与组件"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/yh1140/Bed-of-Images/img/20260417111316371.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-17</div><div class="info-item-2">K8s概念_集群架构与组件</div></div><div class="info-2"><div class="info-item-1"> 集群架构一个完整K8s集群会包括  控制平面 工作节点 额外插件 三大标准接口 基础设施支撑 外部负载均衡器 镜像仓库 外部存储后端   扩展与自定义逻辑 CRD Operator   安全与治理组件 密钥管理 准入策略引擎   客户端与生态工具 Helm Kustomize    集群架构的设计不是一成不变的，而是根据可靠性需求、资源预算和业务场景演变出多种形态 按控制平面数量划分 单主架构 Single Master  1个Master节点+多个Worker节点 部署简单，资源消耗少 缺点：单点故障   多主高可用架构 Multi-Master HA  结构：3-5奇数个的Master节点 特点：利用负载均衡（LB）和选主机制    按etcd存储位置划分在高可用架构中，etcd（数据库）放哪里是区分“专业程度”的关键  堆叠etcd模式-Stacked etcd  设计：etcd运行在每一个Master节点上，与API Server强绑定 优点：通过kubeadm一件创建，管理简单 缺点：API Server 与 etcd 争夺资源。如果Master 压力大会影响数据库一...</div></div></div></a><a class="pagination-related no-desc" href="/2026/04/16/%E5%AD%A6%E4%B9%A0_%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux/Linux%E5%9F%BA%E7%A1%80_%E9%87%8D%E5%90%AF%E5%92%8Creload%E5%8C%BA%E5%88%AB/" title="Linux基础_重启和reload区别"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-16</div><div class="info-item-2">Linux基础_重启和reload区别</div></div></div></a><a class="pagination-related" href="/2026/04/03/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E8%BF%9B%E9%98%B6/python%E8%BF%9B%E9%98%B6_%E8%A3%85%E9%A5%B0%E5%99%A8/" title="python进阶_装饰器"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-03</div><div class="info-item-2">python进阶_装饰器</div></div><div class="info-2"><div class="info-item-1"> 闭包：在闭包情况下，局部变量不会随着函数调用结束而释放  如何形成闭包  要有内外函数 内函数要引用外函数的变量 内函数返回外函数   装饰器：  在不改变函数或类的源代码的基础上，为其添加额外功能 装饰器的本质是闭包函数，接受一个callable对象传入      装饰器（Decorator） 是 Python 中一种极其强大且符合“开闭原则”（对扩展开放，对修改关闭）的设计模式。从逻辑上讲，装饰器本质上是一个闭包（Closure），它允许你在不修改原函数代码的前提下，动态地为函数添加额外的功能（如日志记录、性能测试、权限校验等）。  装饰器的核心逻辑-函数即对象 函数可以作为变量赋值 函数可以作为参数传递 函数可以作为另一个函数的返回值  装饰器的本质：接收一个函数，包装他，最后返回一个新的函数。 </div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">孤独の野狼</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">99</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">36</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yh1140" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/qq_74302052?type=blog" target="_blank" title="CSDN"><i class="fas fa-blog" style="color: #fc5531;"></i></a><a class="social-icon" href="mailto:yh1140798266@gmail.com" target="_blank" title="Gmail"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:1140798266@qq.com" target="_blank" title="QQ邮箱"><i class="fas fa-at" style="color: #1296db;"></i></a><a class="social-icon" href="https://space.bilibili.com/305261649" target="_blank" title="BiliBili"><i class="fab fa-bilibili" style="color: #fb7299;"></i></a><a class="social-icon" href="https://music.163.com/#/user/home?id=1323878854" target="_blank" title="网易云"><i class="fas fa-music" style="color: #e60026;"></i></a><a class="social-icon" href="/img/wechat_qr.jpg" target="_blank" title="微信"><i class="fab fa-weixin" style="color: #1aad19;"></i></a><a class="social-icon" href="https://steamcommunity.com/id/1140798266/" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #171a21;"></i></a><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAAC-WqsjVdHpV_v771jhrx8Gy58RI-_V9kaM9ff-RLTYg?from_tab_name=main" target="_blank" title="抖音"><i class="fab fa-tiktok" style="color: #000000;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">文件类型速查表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">普通文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E5%BE%81"><span class="toc-number">2.1.</span> <span class="toc-text">核心特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E5%88%86%E7%B1%BB"><span class="toc-number">2.2.</span> <span class="toc-text">逻辑分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6-Text-Files"><span class="toc-number">2.2.1.</span> <span class="toc-text">文本文件 (Text Files)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6-Binary-Files"><span class="toc-number">2.2.2.</span> <span class="toc-text">二进制文件 (Binary Files)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">目录文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E8%B4%A8"><span class="toc-number">3.1.</span> <span class="toc-text">本质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E8%AF%86%E7%AC%A6%E4%B8%8E%E5%9F%BA%E6%9C%AC%E7%89%B9%E5%BE%81"><span class="toc-number">3.2.</span> <span class="toc-text">标识符与基本特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E4%BD%8D%E7%9A%84%E7%89%B9%E6%AE%8A%E5%90%AB%E4%B9%89"><span class="toc-number">3.3.</span> <span class="toc-text">权限位的特殊含义</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">链接文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E8%BF%9E%E6%8E%A5-Symbolic-Link-Soft-Link"><span class="toc-number">4.1.</span> <span class="toc-text">软连接-Symbolic Link &#x2F; Soft Link</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E9%93%BE%E6%8E%A5-Hard-Link"><span class="toc-number">4.2.</span> <span class="toc-text">硬链接-Hard Link</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94"><span class="toc-number">4.3.</span> <span class="toc-text">对比</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9D%97%E8%AE%BE%E5%A4%87%E6%96%87%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">块设备文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E5%BE%81-1"><span class="toc-number">5.1.</span> <span class="toc-text">核心特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%9D%97%E8%AE%BE%E5%A4%87%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.2.</span> <span class="toc-text">常见的块设备示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%AE%BE%E5%A4%87%E5%8F%B7%E4%B8%8E%E6%AC%A1%E8%AE%BE%E5%A4%87%E5%8F%B7"><span class="toc-number">5.3.</span> <span class="toc-text">主设备号与次设备号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%97%E8%AE%BE%E5%A4%87%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">5.4.</span> <span class="toc-text">块设备与文件系统的关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87"><span class="toc-number">6.</span> <span class="toc-text">字符设备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E5%BE%81-2"><span class="toc-number">6.1.</span> <span class="toc-text">核心特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E7%A4%BA%E4%BE%8B"><span class="toc-number">6.2.</span> <span class="toc-text">常见的字符设备示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%9A%84%E8%99%9A%E6%8B%9F%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87"><span class="toc-number">6.3.</span> <span class="toc-text">特殊的虚拟字符设备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%AE%BE%E5%A4%87%E5%8F%B7%E4%B8%8E%E6%AC%A1%E8%AE%BE%E5%A4%87%E5%8F%B7-1"><span class="toc-number">6.4.</span> <span class="toc-text">主设备号与次设备号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E4%B8%8E%E5%9D%97%E8%AE%BE%E5%A4%87%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB"><span class="toc-number">6.5.</span> <span class="toc-text">字符设备与块设备的本质区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%E6%96%87%E4%BB%B6"><span class="toc-number">7.</span> <span class="toc-text">管道文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E5%BE%81-3"><span class="toc-number">7.1.</span> <span class="toc-text">核心特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93%EF%BC%88FIFO%EF%BC%89-%E5%8C%BF%E5%90%8D%E7%AE%A1%E9%81%93"><span class="toc-number">7.2.</span> <span class="toc-text">有名管道（FIFO）&amp;匿名管道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8%E7%AE%A1%E9%81%93%E6%96%87%E4%BB%B6"><span class="toc-number">7.3.</span> <span class="toc-text">创建和使用管道文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%A1%E9%81%93%E6%96%87%E4%BB%B6"><span class="toc-number">7.3.1.</span> <span class="toc-text">创建一个管道文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E2%80%98%E8%AF%BB%E5%8F%96%E7%AB%AF%E2%80%99%EF%BC%88%E6%8E%A5%E6%94%B6%E6%96%B9%EF%BC%89"><span class="toc-number">7.3.2.</span> <span class="toc-text">开启‘读取端’（接收方）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E2%80%98%E5%86%99%E5%85%A5%E7%AB%AF%E2%80%99"><span class="toc-number">7.3.3.</span> <span class="toc-text">开启‘写入端’</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A5%97%E6%8E%A5%E5%AD%97%E6%96%87%E4%BB%B6"><span class="toc-number">8.</span> <span class="toc-text">套接字文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E5%BE%81-4"><span class="toc-number">8.1.</span> <span class="toc-text">核心特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%A5%97%E6%8E%A5%E5%AD%97"><span class="toc-number">8.2.</span> <span class="toc-text">本地套接字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">8.3.</span> <span class="toc-text">套接字的工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%A5%97%E6%8E%A5%E5%AD%97"><span class="toc-number">8.4.</span> <span class="toc-text">网络套接字</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/26/%E5%AD%A6%E4%B9%A0_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/K8s/K8s%E5%AE%9E%E6%88%98_%E7%BD%91%E7%BB%9C%E6%9A%B4%E9%9C%B2/" title="K8s实战_网络暴露">K8s实战_网络暴露</a><time datetime="2026-04-26T07:54:47.260Z" title="发表于 2026-04-26 15:54:47">2026-04-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/26/%E5%AD%A6%E4%B9%A0_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/K8s/2.6_K8s%E6%A6%82%E5%BF%B5_pod/" title="K8s概念_pod">K8s概念_pod</a><time datetime="2026-04-26T07:54:47.183Z" title="发表于 2026-04-26 15:54:47">2026-04-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/26/%E5%AD%A6%E4%B9%A0_%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux/Linux%E6%96%87%E4%BB%B6_%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" title="无标题">无标题</a><time datetime="2026-04-26T07:54:46.808Z" title="发表于 2026-04-26 15:54:46">2026-04-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/17/%E5%AD%A6%E4%B9%A0_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/K8s/k8s%E6%9E%B6%E6%9E%84/K8s%E6%A6%82%E5%BF%B5_%E6%8E%A7%E5%88%B6%E5%99%A8/" title="K8s概念_控制器">K8s概念_控制器</a><time datetime="2026-04-17T09:39:12.000Z" title="发表于 2026-04-17 17:39:12">2026-04-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/17/%E5%AD%A6%E4%B9%A0_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/K8s/k8s%E6%9E%B6%E6%9E%84/K8s%E6%A6%82%E5%BF%B5_%E8%8A%82%E7%82%B9%E4%B8%8E%E6%8E%A7%E5%88%B6%E5%B9%B3%E9%9D%A2%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/" title="K8s概念_节点与控制平面之间的通信">K8s概念_节点与控制平面之间的通信</a><time datetime="2026-04-17T08:12:39.000Z" title="发表于 2026-04-17 16:12:39">2026-04-17</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 孤独の野狼</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'yh1140/yh1140.github.io',
+      'data-repo-id': 'R_kgDORbhcZQ',
+      'data-category-id': 'DIC_kwDORbhcZc4C46se',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章内容..." type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
