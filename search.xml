@@ -1050,31 +1050,6 @@
     
     
     <entry>
-      <title>使用RustDesk实现移动设备屏幕共享</title>
-      <link href="/2026/04/07/%E5%AE%9E%E6%88%98_%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/%E4%BD%BF%E7%94%A8RustDesk%E5%AE%9E%E7%8E%B0%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E5%B1%8F%E5%B9%95%E5%85%B1%E4%BA%AB/"/>
-      <url>/2026/04/07/%E5%AE%9E%E6%88%98_%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/%E4%BD%BF%E7%94%A8RustDesk%E5%AE%9E%E7%8E%B0%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E5%B1%8F%E5%B9%95%E5%85%B1%E4%BA%AB/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p><strong>RustDesk</strong> 是目前开源社区中最受欢迎的远程桌面解决方案之一。它之所以被认为是“轻量且高性能”，是因为它采用了 <strong>Rust 语言</strong>编写（内存安全且执行效率高），并且允许用户<strong>自建中继服务器</strong>，彻底摆脱跨品牌设备间复杂的网络穿透问题。</p></blockquote><blockquote><p>由于软件具备监控屏幕和远程控制功能，且连接到远程服务器。为了接触拦截以及保证安全，建议关闭移动设备防护并断网安装，且使用本地服务器进阶部署</p></blockquote><hr><h1 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h1><p>用我的小米手机和华为平板演示</p><h4 id="第一步：安装-App"><a href="#第一步：安装-App" class="headerlink" title="第一步：安装 App"></a>第一步：安装 App</h4><ol><li>在小米手机和华为平板上同时安装 RustDesk 安卓客户端（建议从 GitHub 或官网下载最新的 APK）。<ul><li><a href="https://rustdesk.com/zh/">官网链接</a></li><li><a href="https://github.com/rustdesk/rustdesk/releases/tag/1.4.6">GitHub下载链接</a></li><li>选择通用版<code>rustdesk-1.4.6-universal-signed.apk</code></li><li>或者性能版rustdesk-1.4.6-aarch64-signed.apk</li></ul></li><li><strong>小米手机权限设置</strong>（关键）：<ul><li>开启“辅助功能”（Accessibility Service）。</li><li>开启“录屏权限”。</li><li>在电池管理中将 RustDesk 设为“允许后台运行”，避免被系统杀掉进程。</li></ul></li></ol><h4 id="第二步：建立连接"><a href="#第二步：建立连接" class="headerlink" title="第二步：建立连接"></a>第二步：建立连接</h4><ol><li>打开小米手机上的 RustDesk，你会看到一个 <strong>ID</strong> 和 <strong>临时密码</strong>。</li><li>在华为平板的 RustDesk 界面输入小米手机的 ID。</li><li>点击连接后，输入密码或在小米手机上点击“接受”。</li></ol><h4 id="第三步：优化性能设置"><a href="#第三步：优化性能设置" class="headerlink" title="第三步：优化性能设置"></a>第三步：优化性能设置</h4><p>为了达到你要求的“高性能”，请在华为平板（主控端）的连接设置中进行如下调整：</p><ul><li><strong>传输协议</strong>：优先选择 <strong>VP9</strong> 或 <strong>H.264&#x2F;H.265</strong> 硬解码（如果设备支持）。</li><li><strong>画质模式</strong>：选择“性能优先”（降低一点码率以换取极低延迟）。</li><li><strong>帧率限制</strong>：手动设为 30fps 或 60fps。</li></ul><hr><h1 id="进阶部署"><a href="#进阶部署" class="headerlink" title="进阶部署"></a>进阶部署</h1><p>如果觉得公用服务器延迟高，可以使用本地的linux服务器自建 ID&#x2F;Relay Server</p><h2 id="在服务器上执行命令"><a href="#在服务器上执行命令" class="headerlink" title="在服务器上执行命令"></a>在服务器上执行命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name hbbs -p 21115:21115 -p 21116:21116 -p 21116:21116/udp -p 21118:21118 -v `<span class="built_in">pwd</span>`:/root -td rustdesk/rustdesk-server hbbs</span><br><span class="line">docker run --name hbbr -p 21117:21117 -p 21119:21119 -v `<span class="built_in">pwd</span>`:/root -td rustdesk/rustdesk-server hbbr</span><br></pre></td></tr></table></figure><p><strong>配置：</strong> 在小米和华为的 App 设置中，找到“ID&#x2F;中继服务器”，填入你服务器的 IP 地址。这样两台设备就会通过你的私有通道传输，<strong>延迟通常能压到 20ms 以内</strong>，就像原生投屏一样丝滑。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 工具 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 工具 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>不安装应用如何实现移动设备的互相投影</title>
       <link href="/2026/04/07/%E5%AE%9E%E6%88%98_%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/%E4%B8%8D%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E7%9A%84%E4%BA%92%E7%9B%B8%E6%8A%95%E5%BD%B1/"/>
       <url>/2026/04/07/%E5%AE%9E%E6%88%98_%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/%E4%B8%8D%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E7%9A%84%E4%BA%92%E7%9B%B8%E6%8A%95%E5%BD%B1/</url>
@@ -1100,25 +1075,23 @@
     
     
     <entry>
-      <title>python学习规划</title>
-      <link href="/2026/04/07/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/"/>
-      <url>/2026/04/07/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/</url>
+      <title>使用RustDesk实现移动设备屏幕共享</title>
+      <link href="/2026/04/07/%E5%AE%9E%E6%88%98_%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/%E4%BD%BF%E7%94%A8RustDesk%E5%AE%9E%E7%8E%B0%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E5%B1%8F%E5%B9%95%E5%85%B1%E4%BA%AB/"/>
+      <url>/2026/04/07/%E5%AE%9E%E6%88%98_%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/%E4%BD%BF%E7%94%A8RustDesk%E5%AE%9E%E7%8E%B0%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E5%B1%8F%E5%B9%95%E5%85%B1%E4%BA%AB/</url>
       
-        <content type="html"><![CDATA[<h1 id="一阶段"><a href="#一阶段" class="headerlink" title="一阶段"></a>一阶段</h1><p>面向对象<br>异常处理<br>装饰器<br>垃圾回收机制<br>深浅拷贝<br>全局解释器锁对并发的影响</p><h1 id="二阶段"><a href="#二阶段" class="headerlink" title="二阶段"></a>二阶段</h1><p>文件与io库<br>网络编程</p><h1 id="三阶段-SRE实战工具链"><a href="#三阶段-SRE实战工具链" class="headerlink" title="三阶段-SRE实战工具链"></a>三阶段-SRE实战工具链</h1><p>paramiko或fabric实现批量巡检<br>使用psutil</p>]]></content>
+        <content type="html"><![CDATA[<blockquote><p><strong>RustDesk</strong> 是目前开源社区中最受欢迎的远程桌面解决方案之一。它之所以被认为是“轻量且高性能”，是因为它采用了 <strong>Rust 语言</strong>编写（内存安全且执行效率高），并且允许用户<strong>自建中继服务器</strong>，彻底摆脱跨品牌设备间复杂的网络穿透问题。</p></blockquote><blockquote><p>由于软件具备监控屏幕和远程控制功能，且连接到远程服务器。为了接触拦截以及保证安全，建议关闭移动设备防护并断网安装，且使用本地服务器进阶部署</p></blockquote><hr><h1 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h1><p>用我的小米手机和华为平板演示</p><h4 id="第一步：安装-App"><a href="#第一步：安装-App" class="headerlink" title="第一步：安装 App"></a>第一步：安装 App</h4><ol><li>在小米手机和华为平板上同时安装 RustDesk 安卓客户端（建议从 GitHub 或官网下载最新的 APK）。<ul><li><a href="https://rustdesk.com/zh/">官网链接</a></li><li><a href="https://github.com/rustdesk/rustdesk/releases/tag/1.4.6">GitHub下载链接</a></li><li>选择通用版<code>rustdesk-1.4.6-universal-signed.apk</code></li><li>或者性能版rustdesk-1.4.6-aarch64-signed.apk</li></ul></li><li><strong>小米手机权限设置</strong>（关键）：<ul><li>开启“辅助功能”（Accessibility Service）。</li><li>开启“录屏权限”。</li><li>在电池管理中将 RustDesk 设为“允许后台运行”，避免被系统杀掉进程。</li></ul></li></ol><h4 id="第二步：建立连接"><a href="#第二步：建立连接" class="headerlink" title="第二步：建立连接"></a>第二步：建立连接</h4><ol><li>打开小米手机上的 RustDesk，你会看到一个 <strong>ID</strong> 和 <strong>临时密码</strong>。</li><li>在华为平板的 RustDesk 界面输入小米手机的 ID。</li><li>点击连接后，输入密码或在小米手机上点击“接受”。</li></ol><h4 id="第三步：优化性能设置"><a href="#第三步：优化性能设置" class="headerlink" title="第三步：优化性能设置"></a>第三步：优化性能设置</h4><p>为了达到你要求的“高性能”，请在华为平板（主控端）的连接设置中进行如下调整：</p><ul><li><strong>传输协议</strong>：优先选择 <strong>VP9</strong> 或 <strong>H.264&#x2F;H.265</strong> 硬解码（如果设备支持）。</li><li><strong>画质模式</strong>：选择“性能优先”（降低一点码率以换取极低延迟）。</li><li><strong>帧率限制</strong>：手动设为 30fps 或 60fps。</li></ul><hr><h1 id="进阶部署"><a href="#进阶部署" class="headerlink" title="进阶部署"></a>进阶部署</h1><p>如果觉得公用服务器延迟高，可以使用本地的linux服务器自建 ID&#x2F;Relay Server</p><h2 id="在服务器上执行命令"><a href="#在服务器上执行命令" class="headerlink" title="在服务器上执行命令"></a>在服务器上执行命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name hbbs -p 21115:21115 -p 21116:21116 -p 21116:21116/udp -p 21118:21118 -v `<span class="built_in">pwd</span>`:/root -td rustdesk/rustdesk-server hbbs</span><br><span class="line">docker run --name hbbr -p 21117:21117 -p 21119:21119 -v `<span class="built_in">pwd</span>`:/root -td rustdesk/rustdesk-server hbbr</span><br></pre></td></tr></table></figure><p><strong>配置：</strong> 在小米和华为的 App 设置中，找到“ID&#x2F;中继服务器”，填入你服务器的 IP 地址。这样两台设备就会通过你的私有通道传输，<strong>延迟通常能压到 20ms 以内</strong>，就像原生投屏一样丝滑。</p>]]></content>
       
       
       <categories>
           
-          <category> 编程语言 </category>
-          
-          <category> Python </category>
+          <category> 工具 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 学习笔记 </tag>
+            <tag> 工具 </tag>
             
         </tags>
       
@@ -1181,6 +1154,33 @@
     
     
     <entry>
+      <title>python学习规划</title>
+      <link href="/2026/04/07/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/"/>
+      <url>/2026/04/07/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一阶段"><a href="#一阶段" class="headerlink" title="一阶段"></a>一阶段</h1><p>面向对象<br>异常处理<br>装饰器<br>垃圾回收机制<br>深浅拷贝<br>全局解释器锁对并发的影响</p><h1 id="二阶段"><a href="#二阶段" class="headerlink" title="二阶段"></a>二阶段</h1><p>文件与io库<br>网络编程</p><h1 id="三阶段-SRE实战工具链"><a href="#三阶段-SRE实战工具链" class="headerlink" title="三阶段-SRE实战工具链"></a>三阶段-SRE实战工具链</h1><p>paramiko或fabric实现批量巡检<br>使用psutil</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程语言 </category>
+          
+          <category> Python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>NAT</title>
       <link href="/2026/04/07/%E5%AD%A6%E4%B9%A0_%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E5%B1%82/NAT/"/>
       <url>/2026/04/07/%E5%AD%A6%E4%B9%A0_%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E5%B1%82/NAT/</url>
@@ -1191,6 +1191,33 @@
       <categories>
           
           <category> 计算机网络 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Python基础_列表</title>
+      <link href="/2026/04/07/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E5%9F%BA%E7%A1%80/Python%E5%9F%BA%E7%A1%80_%E5%88%97%E8%A1%A8/"/>
+      <url>/2026/04/07/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E5%9F%BA%E7%A1%80/Python%E5%9F%BA%E7%A1%80_%E5%88%97%E8%A1%A8/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> Python </category>
+          
+          <category> 编程语言 </category>
           
       </categories>
       
@@ -1245,33 +1272,6 @@
           <category> 编程语言 </category>
           
           <category> Python </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Python基础_列表</title>
-      <link href="/2026/04/07/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E5%9F%BA%E7%A1%80/Python%E5%9F%BA%E7%A1%80_%E5%88%97%E8%A1%A8/"/>
-      <url>/2026/04/07/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E5%9F%BA%E7%A1%80/Python%E5%9F%BA%E7%A1%80_%E5%88%97%E8%A1%A8/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> Python </category>
-          
-          <category> 编程语言 </category>
           
       </categories>
       
@@ -1368,33 +1368,6 @@
     
     
     <entry>
-      <title>python进阶_装饰器</title>
-      <link href="/2026/04/03/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E8%BF%9B%E9%98%B6/python%E8%BF%9B%E9%98%B6_%E8%A3%85%E9%A5%B0%E5%99%A8/"/>
-      <url>/2026/04/03/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E8%BF%9B%E9%98%B6/python%E8%BF%9B%E9%98%B6_%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-      
-        <content type="html"><![CDATA[<ul><li><p>闭包：在闭包情况下，局部变量不会随着函数调用结束而释放</p></li><li><p>如何形成闭包</p><ul><li>要有内外函数</li><li>内函数要引用外函数的变量</li><li>内函数返回外函数</li></ul></li><li><p>装饰器：</p><ul><li>在不改变函数或类的源代码的基础上，为其添加额外功能</li><li>装饰器的本质是闭包函数，接受一个callable对象传入</li></ul></li></ul><hr><blockquote><p><strong>装饰器（Decorator）</strong> 是 Python 中一种极其强大且符合“开闭原则”（对扩展开放，对修改关闭）的设计模式。<br>从逻辑上讲，装饰器本质上是一个<strong>闭包（Closure）</strong>，它允许你在不修改原函数代码的前提下，动态地为函数添加额外的功能（如日志记录、性能测试、权限校验等）。</p></blockquote><h1 id="装饰器的核心逻辑-函数即对象"><a href="#装饰器的核心逻辑-函数即对象" class="headerlink" title="装饰器的核心逻辑-函数即对象"></a>装饰器的核心逻辑-函数即对象</h1><ul><li>函数可以作为变量赋值</li><li>函数可以作为参数传递</li><li>函数可以作为另一个函数的返回值</li></ul><p>装饰器的本质：接收一个函数，包装他，最后返回一个新的函数。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Python </category>
-          
-          <category> 编程语言 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>python进阶_迭代器</title>
       <link href="/2026/04/03/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E8%BF%9B%E9%98%B6/python%E8%BF%9B%E9%98%B6_%E8%BF%AD%E4%BB%A3%E5%99%A8/"/>
       <url>/2026/04/03/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E8%BF%9B%E9%98%B6/python%E8%BF%9B%E9%98%B6_%E8%BF%AD%E4%BB%A3%E5%99%A8/</url>
@@ -1422,43 +1395,16 @@
     
     
     <entry>
-      <title>SHELL基础_变量</title>
-      <link href="/2026/04/02/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/SHELL/SHELL%E5%9F%BA%E7%A1%80_%E5%8F%98%E9%87%8F/"/>
-      <url>/2026/04/02/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/SHELL/SHELL%E5%9F%BA%E7%A1%80_%E5%8F%98%E9%87%8F/</url>
+      <title>python进阶_装饰器</title>
+      <link href="/2026/04/03/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E8%BF%9B%E9%98%B6/python%E8%BF%9B%E9%98%B6_%E8%A3%85%E9%A5%B0%E5%99%A8/"/>
+      <url>/2026/04/03/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Python/python%E8%BF%9B%E9%98%B6/python%E8%BF%9B%E9%98%B6_%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
       
-        <content type="html"><![CDATA[<ul><li>双引号内的变量可以引用</li><li>单引号-所见即所得</li></ul><h1 id="变量-类型"><a href="#变量-类型" class="headerlink" title="变量-类型"></a>变量-类型</h1><ul><li>局部变量 &#x2F; 全局变量</li><li>自定义变量 &#x2F; 预定义变量</li><li>位置参数变量<ul><li><code>$0</code>      当前执行的脚本文件名</li><li><code>$1-9</code>   第一个到第九个参数</li><li><code>${10}</code> 第十个以及后面的参数必须加花括号</li><li><code>$*</code>      所有参数(视为整体字符串)</li><li><code>$@</code>      所有参数(视为独立的多个字符串)</li></ul></li><li>预定义特殊变量<ul><li><code>$$</code>      当前终端的进程号</li><li><code>$?</code>      上一条命令的退出状态码</li><li><code>$#</code>      传递给脚本或函数的参数总个数</li></ul></li></ul><h1 id="变量-定义"><a href="#变量-定义" class="headerlink" title="变量-定义"></a>变量-定义</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">variable_name=<span class="string">&quot;value&quot;</span></span><br></pre></td></tr></table></figure><ul><li>变量可以不定义直接使用，值为空</li><li>等号两边不能有空格</li><li>命名规则：由字母、数字和下划线组成，不能以数字开头。</li><li>习惯上，环境变量用大写，局部变量用小写。</li></ul><h1 id="变量-引用"><a href="#变量-引用" class="headerlink" title="变量-引用"></a>变量-引用</h1><ul><li>单引号-强引用，所及及所得</li><li>双引号-弱引用，内部可以引用变量</li></ul><h1 id="变量-操作"><a href="#变量-操作" class="headerlink" title="变量-操作"></a>变量-操作</h1><h4 id="只读变量"><a href="#只读变量" class="headerlink" title="只读变量"></a>只读变量</h4><p>使用 <code>readonly</code> 命令，变量的值将无法被修改或删除。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url=<span class="string">&quot;https://google.com&quot;</span></span><br><span class="line"><span class="built_in">readonly</span> url</span><br><span class="line"><span class="comment"># url=&quot;test&quot; # 这里会报错：readonly variable</span></span><br></pre></td></tr></table></figure><h4 id="删除变量"><a href="#删除变量" class="headerlink" title="删除变量"></a>删除变量</h4><p>使用 <code>unset</code> 命令。注意：无法删除只读变量。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">my_var=<span class="string">&quot;data&quot;</span></span><br><span class="line"><span class="built_in">unset</span> my_var</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$my_var</span> <span class="comment"># 输出为空</span></span><br></pre></td></tr></table></figure><h4 id="命令结果赋值"><a href="#命令结果赋值" class="headerlink" title="命令结果赋值"></a>命令结果赋值</h4><p>将命令的输出结果保存到变量中，有两种写法</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推荐（支持嵌套）</span></span><br><span class="line">current_dir=$(<span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 旧（使用反引号）</span></span><br><span class="line">files=`<span class="built_in">ls</span>`</span><br></pre></td></tr></table></figure><h1 id="变量-数学运算"><a href="#变量-数学运算" class="headerlink" title="变量-数学运算"></a>变量-数学运算</h1><p>由于变量默认是字符串，直接相加会变成字符串拼接。若要进行数学运算，需要特殊语法</p><h4 id="使用-支持嵌套"><a href="#使用-支持嵌套" class="headerlink" title="使用 $(( )) 支持嵌套"></a>使用 <code>$(( ))</code> 支持嵌套</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line"><span class="built_in">sum</span>=$((a + b))</span><br></pre></td></tr></table></figure><h4 id="使用-let-命令"><a href="#使用-let-命令" class="headerlink" title="使用 let 命令"></a>使用 <code>let</code> 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> c=<span class="variable">$a</span>+<span class="variable">$byg</span></span><br></pre></td></tr></table></figure><h4 id="小数运算bc"><a href="#小数运算bc" class="headerlink" title="小数运算bc"></a>小数运算<code>bc</code></h4><ul><li>基础用法-管道调用</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简单的浮点运算</span></span><br><span class="line">result=$(<span class="built_in">echo</span> <span class="string">&quot;1.5 + 2.2&quot;</span> | bc)</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$result</span>  <span class="comment"># 输出 3.7</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 复杂的乘除法</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;10 / 3&quot;</span> | bc        <span class="comment"># 输出 3（默认不保留小数）</span></span><br></pre></td></tr></table></figure><ul><li><code>scale</code>保留小数</li><li><code>bc</code> 默认的 <code>scale</code>（小数精度）为 0。如果你需要保留小数，必须显式设置 <code>scale</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 保留 2 位小数</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;scale=2; 10 / 3&quot;</span> | bc    <span class="comment"># 输出 3.33</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 结合变量使用</span></span><br><span class="line">num1=10</span><br><span class="line">num2=3</span><br><span class="line">res=$(<span class="built_in">echo</span> <span class="string">&quot;scale=4; <span class="variable">$num1</span> / <span class="variable">$num2</span>&quot;</span> | bc)</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$res</span>  <span class="comment"># 输出 3.3333</span></span><br></pre></td></tr></table></figure><ul><li>进制转换</li><li><code>bc</code> 是处理二进制、八进制、十六进制转换的最强工具。它有两个关键变量<ul><li><strong><code>ibase</code></strong>：输入进制 (input base)</li><li><strong><code>obase</code></strong>：输出进制 (output base)</li></ul></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 十进制转二进制</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;obase=2; 12&quot;</span> | bc      <span class="comment"># 输出 1100</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 十六进制转十进制</span></span><br><span class="line"><span class="comment"># 注意：十六进制的字母必须大写</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ibase=16; AF&quot;</span> | bc     <span class="comment"># 输出 175</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二进制转十六进制</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ibase=2; obase=10000; 1101&quot;</span> | bc  <span class="comment"># 输出 D (obase 10000 即 16)</span></span><br></pre></td></tr></table></figure><h1 id="变量-运算-比较"><a href="#变量-运算-比较" class="headerlink" title="变量-运算&amp;比较"></a>变量-运算&amp;比较</h1><h3 id="——-数学运算与数值比较"><a href="#——-数学运算与数值比较" class="headerlink" title="(( )) —— 数学运算与数值比较"></a><code>(( ))</code> —— 数学运算与数值比较</h3><ul><li><strong>支持复杂的算术运算符</strong>：<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>**</code>（幂）。</li><li><strong>变量引用可以省略 <code>$</code></strong>：在括号内部，你可以直接写变量名。</li><li><strong>支持自增&#x2F;自减</strong>：如 <code>i++</code> 或 <code>++i</code>。</li><li><strong>比较符号更符合直觉</strong>：可以直接使用 <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>。</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 算术赋值</span></span><br><span class="line">(( sum = <span class="number">10</span> + <span class="number">5</span> ))</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$sum</span>  <span class="comment"># 输出 15</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 变量自增</span></span><br><span class="line">count=0</span><br><span class="line">(( count++ ))</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$count</span>  <span class="comment"># 输出 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 在 if 语句中使用数值比较</span></span><br><span class="line">age=18</span><br><span class="line"><span class="keyword">if</span> (( age &gt;= <span class="number">18</span> )); <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;已成年&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure><h3 id="——-逻辑测试与条件判断"><a href="#——-逻辑测试与条件判断" class="headerlink" title="[[ ]] —— 逻辑测试与条件判断"></a><code>[[ ]]</code> —— 逻辑测试与条件判断</h3><p><code>[[ ]]</code> 是传统 <code>[ ]</code>（test 命令）的增强版，主要用于判断文件属性、字符串比较和复杂的逻辑组合。</p><ul><li><strong>防止路径展开和单词分割</strong>：内部变量不需要加双引号（即使变量有空格）。</li><li><strong>支持模式匹配和正则</strong>：可以使用 <code>==</code> 进行通配符匹配，或使用 <code>=~</code> 进行正则表达式匹配。</li><li><strong>逻辑运算符更简洁</strong>：支持 <code>&amp;&amp;</code> (与) 和 <code>||</code> (或)，而不需要用传统的 <code>-a</code> 或 <code>-o</code>。</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 字符串匹配（支持通配符）</span></span><br><span class="line">filename=<span class="string">&quot;backup_2026.log&quot;</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$filename</span> == *.<span class="built_in">log</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;这是一个日志文件&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 正则表达式匹配</span></span><br><span class="line">phone=<span class="string">&quot;13812345678&quot;</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$phone</span> =~ ^1[3-9][0-9]&#123;9&#125;$ ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;有效的手机号&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 组合判断</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$name</span> == <span class="string">&quot;admin&quot;</span> &amp;&amp; <span class="variable">$password</span> == <span class="string">&quot;123456&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;登录成功&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure><h3 id="和-对比"><a href="#和-对比" class="headerlink" title="[[ ]]和(())对比"></a><code>[[ ]]</code>和<code>(())</code>对比</h3><table><thead><tr><th><strong>特性</strong></th><th><strong>(( ))</strong></th><th><strong>[[ ]]</strong></th></tr></thead><tbody><tr><td><strong>主要用途</strong></td><td><strong>整数</strong>数学运算</td><td><strong>逻辑</strong>条件测试</td></tr><tr><td><strong>比较符号</strong></td><td><code>&gt;</code>, <code>&lt;</code>, <code>==</code>, <code>!=</code></td><td><code>-eq</code>, <code>-ne</code>, <code>==</code>, <code>!=</code>, <code>=~</code></td></tr><tr><td><strong>逻辑运算</strong></td><td><code>&amp;&amp;</code>, &#96;</td><td></td></tr><tr><td><strong>变量引用</strong></td><td><code>$a</code> 或 <code>a</code> (可省略 <code>$</code>)</td><td>必须使用 <code>$a</code></td></tr><tr><td><strong>适用类型</strong></td><td>仅限整数</td><td>字符串、文件、整数（需用-eq等）</td></tr></tbody></table>]]></content>
-      
-      
-      <categories>
-          
-          <category> shell </category>
-          
-          <category> 编程语言 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习笔记 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SHELL基础_概念</title>
-      <link href="/2026/04/02/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/SHELL/SHELL%E5%9F%BA%E7%A1%80_%E6%A6%82%E5%BF%B5/"/>
-      <url>/2026/04/02/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/SHELL/SHELL%E5%9F%BA%E7%A1%80_%E6%A6%82%E5%BF%B5/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p>Shell 脚本（Shell Script）本质上是一个包含了一系列命令的文本文件。它由 Shell 解释器（如 Bash、Zsh）逐行读取并执行，是自动化运维、系统管理和重复性任务处理的核心工具。</p></blockquote><h1 id="什么是shell"><a href="#什么是shell" class="headerlink" title="什么是shell"></a>什么是shell</h1><p>Shell 是用户与 Linux 内核之间的<strong>接口</strong>（解释器）。</p><ul><li><strong>内核 (Kernel)</strong>：负责管理硬件。</li><li><strong>Shell</strong>：接收你的指令并传达给内核。</li><li><strong>Bash (Bourne Again Shell)</strong>：目前 Linux 发行版中最通用的标准 Shell。</li></ul><h1 id="脚本的基本结构"><a href="#脚本的基本结构" class="headerlink" title="脚本的基本结构"></a>脚本的基本结构</h1><p>一个标准的 Shell 脚本通常包含三个部分：</p><ol><li><strong>Shebang (<code>#!</code>)</strong>：指定脚本使用的解释器。</li><li><strong>注释</strong>：以 <code>#</code> 开头，解释代码逻辑。</li><li><strong>可执行命令</strong>：具体的逻辑代码。</li></ol>]]></content>
+        <content type="html"><![CDATA[<ul><li><p>闭包：在闭包情况下，局部变量不会随着函数调用结束而释放</p></li><li><p>如何形成闭包</p><ul><li>要有内外函数</li><li>内函数要引用外函数的变量</li><li>内函数返回外函数</li></ul></li><li><p>装饰器：</p><ul><li>在不改变函数或类的源代码的基础上，为其添加额外功能</li><li>装饰器的本质是闭包函数，接受一个callable对象传入</li></ul></li></ul><hr><blockquote><p><strong>装饰器（Decorator）</strong> 是 Python 中一种极其强大且符合“开闭原则”（对扩展开放，对修改关闭）的设计模式。<br>从逻辑上讲，装饰器本质上是一个<strong>闭包（Closure）</strong>，它允许你在不修改原函数代码的前提下，动态地为函数添加额外的功能（如日志记录、性能测试、权限校验等）。</p></blockquote><h1 id="装饰器的核心逻辑-函数即对象"><a href="#装饰器的核心逻辑-函数即对象" class="headerlink" title="装饰器的核心逻辑-函数即对象"></a>装饰器的核心逻辑-函数即对象</h1><ul><li>函数可以作为变量赋值</li><li>函数可以作为参数传递</li><li>函数可以作为另一个函数的返回值</li></ul><p>装饰器的本质：接收一个函数，包装他，最后返回一个新的函数。</p>]]></content>
       
       
       <categories>
           
-          <category> shell </category>
+          <category> Python </category>
           
           <category> 编程语言 </category>
           
@@ -1513,6 +1459,60 @@
           <category> Linux </category>
           
           <category> 操作系统 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SHELL基础_变量</title>
+      <link href="/2026/04/02/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/SHELL/SHELL%E5%9F%BA%E7%A1%80_%E5%8F%98%E9%87%8F/"/>
+      <url>/2026/04/02/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/SHELL/SHELL%E5%9F%BA%E7%A1%80_%E5%8F%98%E9%87%8F/</url>
+      
+        <content type="html"><![CDATA[<ul><li>双引号内的变量可以引用</li><li>单引号-所见即所得</li></ul><h1 id="变量-类型"><a href="#变量-类型" class="headerlink" title="变量-类型"></a>变量-类型</h1><ul><li>局部变量 &#x2F; 全局变量</li><li>自定义变量 &#x2F; 预定义变量</li><li>位置参数变量<ul><li><code>$0</code>      当前执行的脚本文件名</li><li><code>$1-9</code>   第一个到第九个参数</li><li><code>${10}</code> 第十个以及后面的参数必须加花括号</li><li><code>$*</code>      所有参数(视为整体字符串)</li><li><code>$@</code>      所有参数(视为独立的多个字符串)</li></ul></li><li>预定义特殊变量<ul><li><code>$$</code>      当前终端的进程号</li><li><code>$?</code>      上一条命令的退出状态码</li><li><code>$#</code>      传递给脚本或函数的参数总个数</li></ul></li></ul><h1 id="变量-定义"><a href="#变量-定义" class="headerlink" title="变量-定义"></a>变量-定义</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">variable_name=<span class="string">&quot;value&quot;</span></span><br></pre></td></tr></table></figure><ul><li>变量可以不定义直接使用，值为空</li><li>等号两边不能有空格</li><li>命名规则：由字母、数字和下划线组成，不能以数字开头。</li><li>习惯上，环境变量用大写，局部变量用小写。</li></ul><h1 id="变量-引用"><a href="#变量-引用" class="headerlink" title="变量-引用"></a>变量-引用</h1><ul><li>单引号-强引用，所及及所得</li><li>双引号-弱引用，内部可以引用变量</li></ul><h1 id="变量-操作"><a href="#变量-操作" class="headerlink" title="变量-操作"></a>变量-操作</h1><h4 id="只读变量"><a href="#只读变量" class="headerlink" title="只读变量"></a>只读变量</h4><p>使用 <code>readonly</code> 命令，变量的值将无法被修改或删除。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url=<span class="string">&quot;https://google.com&quot;</span></span><br><span class="line"><span class="built_in">readonly</span> url</span><br><span class="line"><span class="comment"># url=&quot;test&quot; # 这里会报错：readonly variable</span></span><br></pre></td></tr></table></figure><h4 id="删除变量"><a href="#删除变量" class="headerlink" title="删除变量"></a>删除变量</h4><p>使用 <code>unset</code> 命令。注意：无法删除只读变量。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">my_var=<span class="string">&quot;data&quot;</span></span><br><span class="line"><span class="built_in">unset</span> my_var</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$my_var</span> <span class="comment"># 输出为空</span></span><br></pre></td></tr></table></figure><h4 id="命令结果赋值"><a href="#命令结果赋值" class="headerlink" title="命令结果赋值"></a>命令结果赋值</h4><p>将命令的输出结果保存到变量中，有两种写法</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推荐（支持嵌套）</span></span><br><span class="line">current_dir=$(<span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 旧（使用反引号）</span></span><br><span class="line">files=`<span class="built_in">ls</span>`</span><br></pre></td></tr></table></figure><h1 id="变量-数学运算"><a href="#变量-数学运算" class="headerlink" title="变量-数学运算"></a>变量-数学运算</h1><p>由于变量默认是字符串，直接相加会变成字符串拼接。若要进行数学运算，需要特殊语法</p><h4 id="使用-支持嵌套"><a href="#使用-支持嵌套" class="headerlink" title="使用 $(( )) 支持嵌套"></a>使用 <code>$(( ))</code> 支持嵌套</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line"><span class="built_in">sum</span>=$((a + b))</span><br></pre></td></tr></table></figure><h4 id="使用-let-命令"><a href="#使用-let-命令" class="headerlink" title="使用 let 命令"></a>使用 <code>let</code> 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> c=<span class="variable">$a</span>+<span class="variable">$byg</span></span><br></pre></td></tr></table></figure><h4 id="小数运算bc"><a href="#小数运算bc" class="headerlink" title="小数运算bc"></a>小数运算<code>bc</code></h4><ul><li>基础用法-管道调用</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简单的浮点运算</span></span><br><span class="line">result=$(<span class="built_in">echo</span> <span class="string">&quot;1.5 + 2.2&quot;</span> | bc)</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$result</span>  <span class="comment"># 输出 3.7</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 复杂的乘除法</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;10 / 3&quot;</span> | bc        <span class="comment"># 输出 3（默认不保留小数）</span></span><br></pre></td></tr></table></figure><ul><li><code>scale</code>保留小数</li><li><code>bc</code> 默认的 <code>scale</code>（小数精度）为 0。如果你需要保留小数，必须显式设置 <code>scale</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 保留 2 位小数</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;scale=2; 10 / 3&quot;</span> | bc    <span class="comment"># 输出 3.33</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 结合变量使用</span></span><br><span class="line">num1=10</span><br><span class="line">num2=3</span><br><span class="line">res=$(<span class="built_in">echo</span> <span class="string">&quot;scale=4; <span class="variable">$num1</span> / <span class="variable">$num2</span>&quot;</span> | bc)</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$res</span>  <span class="comment"># 输出 3.3333</span></span><br></pre></td></tr></table></figure><ul><li>进制转换</li><li><code>bc</code> 是处理二进制、八进制、十六进制转换的最强工具。它有两个关键变量<ul><li><strong><code>ibase</code></strong>：输入进制 (input base)</li><li><strong><code>obase</code></strong>：输出进制 (output base)</li></ul></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 十进制转二进制</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;obase=2; 12&quot;</span> | bc      <span class="comment"># 输出 1100</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 十六进制转十进制</span></span><br><span class="line"><span class="comment"># 注意：十六进制的字母必须大写</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ibase=16; AF&quot;</span> | bc     <span class="comment"># 输出 175</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二进制转十六进制</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ibase=2; obase=10000; 1101&quot;</span> | bc  <span class="comment"># 输出 D (obase 10000 即 16)</span></span><br></pre></td></tr></table></figure><h1 id="变量-运算-比较"><a href="#变量-运算-比较" class="headerlink" title="变量-运算&amp;比较"></a>变量-运算&amp;比较</h1><h3 id="——-数学运算与数值比较"><a href="#——-数学运算与数值比较" class="headerlink" title="(( )) —— 数学运算与数值比较"></a><code>(( ))</code> —— 数学运算与数值比较</h3><ul><li><strong>支持复杂的算术运算符</strong>：<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>**</code>（幂）。</li><li><strong>变量引用可以省略 <code>$</code></strong>：在括号内部，你可以直接写变量名。</li><li><strong>支持自增&#x2F;自减</strong>：如 <code>i++</code> 或 <code>++i</code>。</li><li><strong>比较符号更符合直觉</strong>：可以直接使用 <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>。</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 算术赋值</span></span><br><span class="line">(( sum = <span class="number">10</span> + <span class="number">5</span> ))</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$sum</span>  <span class="comment"># 输出 15</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 变量自增</span></span><br><span class="line">count=0</span><br><span class="line">(( count++ ))</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$count</span>  <span class="comment"># 输出 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 在 if 语句中使用数值比较</span></span><br><span class="line">age=18</span><br><span class="line"><span class="keyword">if</span> (( age &gt;= <span class="number">18</span> )); <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;已成年&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure><h3 id="——-逻辑测试与条件判断"><a href="#——-逻辑测试与条件判断" class="headerlink" title="[[ ]] —— 逻辑测试与条件判断"></a><code>[[ ]]</code> —— 逻辑测试与条件判断</h3><p><code>[[ ]]</code> 是传统 <code>[ ]</code>（test 命令）的增强版，主要用于判断文件属性、字符串比较和复杂的逻辑组合。</p><ul><li><strong>防止路径展开和单词分割</strong>：内部变量不需要加双引号（即使变量有空格）。</li><li><strong>支持模式匹配和正则</strong>：可以使用 <code>==</code> 进行通配符匹配，或使用 <code>=~</code> 进行正则表达式匹配。</li><li><strong>逻辑运算符更简洁</strong>：支持 <code>&amp;&amp;</code> (与) 和 <code>||</code> (或)，而不需要用传统的 <code>-a</code> 或 <code>-o</code>。</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 字符串匹配（支持通配符）</span></span><br><span class="line">filename=<span class="string">&quot;backup_2026.log&quot;</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$filename</span> == *.<span class="built_in">log</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;这是一个日志文件&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 正则表达式匹配</span></span><br><span class="line">phone=<span class="string">&quot;13812345678&quot;</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$phone</span> =~ ^1[3-9][0-9]&#123;9&#125;$ ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;有效的手机号&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 组合判断</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$name</span> == <span class="string">&quot;admin&quot;</span> &amp;&amp; <span class="variable">$password</span> == <span class="string">&quot;123456&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;登录成功&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure><h3 id="和-对比"><a href="#和-对比" class="headerlink" title="[[ ]]和(())对比"></a><code>[[ ]]</code>和<code>(())</code>对比</h3><table><thead><tr><th><strong>特性</strong></th><th><strong>(( ))</strong></th><th><strong>[[ ]]</strong></th></tr></thead><tbody><tr><td><strong>主要用途</strong></td><td><strong>整数</strong>数学运算</td><td><strong>逻辑</strong>条件测试</td></tr><tr><td><strong>比较符号</strong></td><td><code>&gt;</code>, <code>&lt;</code>, <code>==</code>, <code>!=</code></td><td><code>-eq</code>, <code>-ne</code>, <code>==</code>, <code>!=</code>, <code>=~</code></td></tr><tr><td><strong>逻辑运算</strong></td><td><code>&amp;&amp;</code>, &#96;</td><td></td></tr><tr><td><strong>变量引用</strong></td><td><code>$a</code> 或 <code>a</code> (可省略 <code>$</code>)</td><td>必须使用 <code>$a</code></td></tr><tr><td><strong>适用类型</strong></td><td>仅限整数</td><td>字符串、文件、整数（需用-eq等）</td></tr></tbody></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> shell </category>
+          
+          <category> 编程语言 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SHELL基础_概念</title>
+      <link href="/2026/04/02/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/SHELL/SHELL%E5%9F%BA%E7%A1%80_%E6%A6%82%E5%BF%B5/"/>
+      <url>/2026/04/02/%E5%AD%A6%E4%B9%A0_%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/SHELL/SHELL%E5%9F%BA%E7%A1%80_%E6%A6%82%E5%BF%B5/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>Shell 脚本（Shell Script）本质上是一个包含了一系列命令的文本文件。它由 Shell 解释器（如 Bash、Zsh）逐行读取并执行，是自动化运维、系统管理和重复性任务处理的核心工具。</p></blockquote><h1 id="什么是shell"><a href="#什么是shell" class="headerlink" title="什么是shell"></a>什么是shell</h1><p>Shell 是用户与 Linux 内核之间的<strong>接口</strong>（解释器）。</p><ul><li><strong>内核 (Kernel)</strong>：负责管理硬件。</li><li><strong>Shell</strong>：接收你的指令并传达给内核。</li><li><strong>Bash (Bourne Again Shell)</strong>：目前 Linux 发行版中最通用的标准 Shell。</li></ul><h1 id="脚本的基本结构"><a href="#脚本的基本结构" class="headerlink" title="脚本的基本结构"></a>脚本的基本结构</h1><p>一个标准的 Shell 脚本通常包含三个部分：</p><ol><li><strong>Shebang (<code>#!</code>)</strong>：指定脚本使用的解释器。</li><li><strong>注释</strong>：以 <code>#</code> 开头，解释代码逻辑。</li><li><strong>可执行命令</strong>：具体的逻辑代码。</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> shell </category>
+          
+          <category> 编程语言 </category>
           
       </categories>
       
